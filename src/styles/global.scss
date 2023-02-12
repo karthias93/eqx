@@ -1,0 +1,71 @@
+body {
+    background-color: #121212;
+    overflow-x: hidden;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+    width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #0000;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #b40090bf;
+    border-radius: 15px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #b40090fe;
+}
+
+
+
+.logo {
+    img {
+        height: 50px;
+    }
+}
+
+footer {
+    bottom: 0;
+}
+
+.grad-text {
+    background: -webkit-linear-gradient(116deg, #c9d2ff, #008dfd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.mainhead {
+    line-height: 70px;
+    font-family: 'Russo One', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+
+.welcome-card {
+    backdrop-filter: blur(200px);
+    background: #0000;
+}
+
+.grad-btn {
+    background: linear-gradient(45deg, #d412a3, #057dd3);
+}
+
+.menu-height {
+    height: calc(100vh - 115px);
+    overflow: auto;
+}
+
+.net-bg-opacity {
+    background: #ffffff1f;
+}
