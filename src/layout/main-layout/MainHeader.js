@@ -29,7 +29,7 @@ function MainHeader(props) {
                             
                         </div>
                     </div>
-                    <div>
+                    <div className='self-center'>
                         {/* <Button type="primary" className='grad-btn font-bold'>Off Chain</Button> */}
                         <Accountmodal />
                     </div>

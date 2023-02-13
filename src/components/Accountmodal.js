@@ -336,34 +336,55 @@ const AccountModal = (props) => {
           </label>
         </div>
       ) : (
-        <div className="button-switch desktop">
-          <label className="switch">
-            <input
-              type="checkbox"
-              id="switch-blue"
-              className="switch-input"
-              checked={
-                window.sessionStorage.getItem("selected_account") !== null
-                  ? true
-                  : false
-              }
-              // defaultChecked
-              onChange={() => {
-                window.sessionStorage.getItem("selected_account")
-                  ? onDisconnect()
-                  : onConnect();
-              }}
-            />
-            <span
-              className="switch-label"
-              data-on="ONCHAIN"
-              data-off="OFFCHAIN"
-            ></span>
-            <span className="switch-handle"></span>
-          </label>
+        // <div className="button-switch desktop">
+        //   <label className="switch">
+        //     <input
+        //       type="checkbox"
+        //       id="switch-blue"
+        //       className="switch-input"
+        //       checked={
+        //         window.sessionStorage.getItem("selected_account") !== null
+        //           ? true
+        //           : false
+        //       }
+        //       // defaultChecked
+        //       onChange={() => {
+        //         window.sessionStorage.getItem("selected_account")
+        //           ? onDisconnect()
+        //           : onConnect();
+        //       }}
+        //     />
+        //     <span
+        //       className="switch-label"
+        //       data-on="ONCHAIN"
+        //       data-off="OFFCHAIN"
+        //     ></span>
+        //     <span className="switch-handle"></span>
+        //   </label>
+        // </div>
+
+        <div class="switch">
+          <input id="enableWeb2" class="switch__handle switch__handle-round-flat" type="checkbox"
+            checked={
+              window.sessionStorage.getItem("selected_account") !== null
+                ? true
+                : false
+            }
+            // defaultChecked
+            onChange={() => {
+              window.sessionStorage.getItem("selected_account")
+                ? onDisconnect()
+                : onConnect();
+            }}
+          />
+          <label for="enableWeb2"><div class="switch__handle__text"></div></label>
         </div>
       )}
       <NetworkError open={wrongNetwork} setOpen={setWrongNetwork} />
+
+
+
+
     </>
   );
 };

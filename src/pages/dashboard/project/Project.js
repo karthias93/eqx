@@ -54,7 +54,9 @@ function Project(props) {
                     </p>
                     <div className='flex flex-wrap gap-6'>
                         <div>
-                            <Button type="primary" className='grad-btn border-0'>CREATE/MANAGE SUBSCRIPTION</Button>
+                            <Link to='./create-subscription'>
+                                <Button type="primary" className='grad-btn border-0'>CREATE/MANAGE SUBSCRIPTION</Button>
+                            </Link>
                         </div>
                         <div>
                             <Button type="primary" className='grad-btn border-0'>CREATE IDO</Button>
