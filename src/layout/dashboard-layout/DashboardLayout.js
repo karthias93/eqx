@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu } from 'antd';
 import { useState } from 'react';
 import DashboardRoutes from '../../routes/DashboardRoutes';
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ function DashboardLayout(props) {
     const [collapsed, setCollapsed] = useState(false);
     return (
         <div className='flex'>
-            <Sider collapsible onCollapse={(value) => setCollapsed(value)}>
+            <Sider collapsible onCollapse={(value) => {setCollapsed(value);console.log(collapsed)}}>
                 <div className='flex flex-col justify-between menu-height'>
                     <div>
                         <Menu theme="dark" defaultSelectedKeys={['dashboard']} mode="inline" items={menuitems}

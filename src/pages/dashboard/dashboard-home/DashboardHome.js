@@ -8,7 +8,7 @@ function DashboardHome(props) {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            render: (text) => <a>{text}</a>,
+            render: (text) => <a href={()=>{}}>{text}</a>,
         },
         {
             title: 'Age',
@@ -45,8 +45,8 @@ function DashboardHome(props) {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a>Invite {record.name}</a>
-                    <a>Delete</a>
+                    <a href={()=>{}}>Invite {record.name}</a>
+                    <a href={()=>{}}>Delete</a>
                 </Space>
             ),
         },
@@ -79,7 +79,7 @@ function DashboardHome(props) {
             <div className='mb-4 text-white'>
                 <Breadcrumb>
                     <Breadcrumb.Item>
-                        <a href="">Home</a>
+                        <a href={()=>{}}>Home</a>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item className='font-bold text-yellow-400'>Dashboard</Breadcrumb.Item>
                 </Breadcrumb>

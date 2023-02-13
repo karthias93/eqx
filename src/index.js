@@ -5,12 +5,16 @@ import './styles/antd-overwrite.scss';
 import './styles/global.scss';
 import App from './App';
 import { BrowserRouter } from "react-router-dom";
+import store from "./redux/store/index";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
