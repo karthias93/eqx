@@ -6,7 +6,7 @@ function Home(props) {
             <div className='container mx-auto px-4 py-20'>
                 <div className=' mb-12'>
                     <h1 className='text-6xl text-white font-bold mb-4'>
-                        Welcome to the <span className='text-yellow-400'>EQN</span>
+                        Welcome to the <span className='text-yellow-400'>TREASURY</span>
                     </h1>
                     <p className='text-base text-gray-300'>
                         The most trusted decentralized custody protocol and collective asset management platform.
@@ -22,12 +22,12 @@ function Home(props) {
                             </svg>
                         </div>
                         <h3 className='text-3xl font-bold mb-3'>
-                            Create EQN
+                            Create TREASURY
                         </h3>
                         <p className='text-base mb-6'>
-                            A new EQN that is controlled by one or multiple owners.
+                            A new TREASURY that is controlled by one or multiple owners.
                         </p>
-                        <button className='rounded-lg font-bold px-6 py-3 grad-btn'>Create new EQN</button>
+                        <button className='rounded-lg font-bold px-6 py-3 grad-btn'>Create new TREASURY</button>
                     </div>
                     <div className='p-6 welcome-card border border-gray-600 rounded-lg text-white'>
                         <div className='mb-3 text-yellow-400'>
@@ -38,12 +38,12 @@ function Home(props) {
                             </svg>
                         </div>
                         <h3 className='text-3xl font-bold mb-3'>
-                            Add existing EQN
+                            Add existing TREASURY
                         </h3>
                         <p className='text-base mb-6'>
-                            Already have a EQN? Add your Safe using your Safe address.
+                            Already have a TREASURY? Add your Safe using your Safe address.
                         </p>
-                        <button className=' border border-gray-200 rounded-lg font-bold px-6 py-3 '>Add existing EQN</button>
+                        <button className=' border border-gray-200 rounded-lg font-bold px-6 py-3 '>Add existing TREASURY</button>
                     </div>
                 </div>
             </div>
