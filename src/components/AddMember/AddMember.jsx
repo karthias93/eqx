@@ -1,10 +1,9 @@
 import axios from "axios";
 import React from "react";
 import toast from "react-hot-toast";
-import WithFormField from "../WithFormField";
 import "./AddMember.scss";
 
-const AddMember: React.FC<any> = (props) => {
+const AddMember = (props) => {
   const {
     index,
     memberErrors,
@@ -18,7 +17,7 @@ const AddMember: React.FC<any> = (props) => {
     setValidWallet,
     setValidEmail,
   } = props;
-  const verifyEmail = async (e: any) => {
+  const verifyEmail = async (e) => {
     const { value } = e.target;
     setFieldTouched(`members.${index}.email`);
     try {
@@ -86,7 +85,7 @@ const AddMember: React.FC<any> = (props) => {
         setValidEmail(true);
       });
   };
-  const verifyWallet = async (e: any) => {
+  const verifyWallet = async (e) => {
     const { value } = e.target;
     setFieldTouched(`members.${index}.wallet`);
     try {
@@ -139,10 +138,10 @@ const AddMember: React.FC<any> = (props) => {
         setValidWallet(true);
       });
   };
-  const verifyOtp = (e: any) => {
+  const verifyOtp = (e) => {
     const { value } = e.target;
     setFieldTouched(`members.${index}.otp`);
-    const formData: any = new FormData();
+    const formData = new FormData();
     formData.append("email", memberValues.email);
     formData.append("otp", value);
     axios
@@ -159,33 +158,33 @@ const AddMember: React.FC<any> = (props) => {
   return (
     <div className="AddMember row" data-testid="AddMember">
       <div className="col-md-5">
-        <WithFormField
+        {/* <WithFormField
           label={`Wallet ${index + 1}`}
           name={`members.${index}.wallet`}
           error={memberErrors.wallet && memberTouched.wallet}
           disabled={disabled}
           onBlur={verifyWallet}
-        />
+        /> */}
       </div>
       <div className="col-md-2">
-        <WithFormField
+        {/* <WithFormField
           label="Member name"
           name={`members.${index}.name`}
           error={memberErrors.name && memberTouched.name}
           disabled={disabled}
-        />
+        /> */}
       </div>
       <div className="col-md-3">
-        <WithFormField
+        {/* <WithFormField
           label="Email ID"
           name={`members.${index}.email`}
           error={memberErrors.email && memberTouched.email}
           onBlur={verifyEmail}
           disabled={disabled}
-        />
+        /> */}
       </div>
       <div className="col-md-2 d-flex">
-        <WithFormField
+        {/* <WithFormField
           label="OTP"
           name={`members.${index}.otp`}
           error={memberErrors.otp && memberTouched.otp}
@@ -193,7 +192,7 @@ const AddMember: React.FC<any> = (props) => {
           info={true}
           tooltip="you should receive otp to your entered email"
           disabled={disabled}
-        />
+        /> */}
         {index > 2 && (
           <i
             className="fa fa-remove ps-2 m-auto cursor-pointer"

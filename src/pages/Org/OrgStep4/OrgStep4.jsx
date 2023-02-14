@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { getWeb3 } from "../../../helpers/currentWalletHelper";
 import MultiSig from "../../../Config/abis/EquinoxMain.json";
 import GToken from "../../../Config/abis/GToken.json";
@@ -34,20 +34,20 @@ const OrgStep4 = (props) => {
   const [validWallet, setValidWallet] = useState(true);
   const [validEmail, setValidEmail] = useState(true);
 
-  const OrgStep4Schema = Yup.object().shape({
-    members: Yup.array()
-      .min(3)
-      .of(
-        Yup.object().shape({
-          wallet: Yup.string().required("Wallet is required"),
-          name: Yup.string().required("Name is required"),
-          email: Yup.string()
-            .email("Email is invalid")
-            .required("Email is required"),
-          otp: Yup.string().required("Otp is required"),
-        })
-      ),
-  });
+  // const OrgStep4Schema = Yup.object().shape({
+  //   members: Yup.array()
+  //     .min(3)
+  //     .of(
+  //       Yup.object().shape({
+  //         wallet: Yup.string().required("Wallet is required"),
+  //         name: Yup.string().required("Name is required"),
+  //         email: Yup.string()
+  //           .email("Email is invalid")
+  //           .required("Email is required"),
+  //         otp: Yup.string().required("Otp is required"),
+  //       })
+  //     ),
+  // });
 
   const initialValues = {
     members: [
@@ -236,7 +236,7 @@ const OrgStep4 = (props) => {
               </div>
             </div>
             <div className="row">
-              <Formik
+              {/* <Formik
                 enableReinitialize={true}
                 initialValues={initialValues}
                 validationSchema={OrgStep4Schema}
@@ -333,7 +333,7 @@ const OrgStep4 = (props) => {
                     </div>
                   </Form>
                 )}
-              </Formik>
+              </Formik> */}
             </div>
           </div>
         </div>
