@@ -3,33 +3,7 @@ import { connect } from "react-redux";
 import { addOrgFormData } from "../../../redux/actions";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-
-const OrgStep2Schema = Yup.object().shape({
-  // phone: Yup.string()
-  // .required("Required")
-  // .matches(
-  //   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/,
-  //   "Phone number is not valid"
-  // ),
-  email: Yup.string().email("Invalid email").required("Required"),
-  kyc: Yup.string().required("Required"),
-  passport: Yup.string().when("kyc", {
-    is: "passport",
-    then: Yup.string().required("Field is required"),
-  }),
-  pan: Yup.string().when("kyc", {
-    is: "pan",
-    then: Yup.string().required("Field is required"),
-  }),
-  linkedin_link: Yup.string()
-    .required("Required")
-    .matches(
-      /(https?:\/\/(www.)|(www.))?linkedin.com\/(mwlite\/|m\/)?in\/[a-zA-Z0-9_.-]+\/?/,
-      "Not a valid linkedin"
-    ),
-  //otp: Yup.string().required("Required"),
-  // mobile_otp: Yup.string().required("Required"),
-});
+import { Form, Input, Select } from "antd";
 
 const OrgStep2 = (props) => {
   const [validPan, setValidPan] = useState(true);
@@ -40,6 +14,23 @@ const OrgStep2 = (props) => {
   const [mailOtpNote, setMailOtpNote] = useState(false);
   const [validPassport, setValidPassport] = useState(false);
   const [tandc, setTandc] = useState(false);
+
+  const onFinish = async (values) => {
+    console.log(values);
+    await new Promise((r) => setTimeout(r, 500));
+    console.log(values);
+    props.dispatch(addOrgFormData(values));
+    console.log("calling");
+    props.nextStep();
+  }
+
+  const onFinishFailed = () => {
+
+  }
+
+  const handleChange = () => {
+
+  }
 
   const verifyPan = (values, setFieldTouched, setFieldError) => {
     axios
@@ -196,153 +187,92 @@ const OrgStep2 = (props) => {
             <div className="row">
               <div className="col-md-4"></div>
               <div className="col-md-4">
-                <Formik
-                  enableReinitialize={true}
-                  initialValues={{
-                    // phone: "",
-                    email: "",
-                    passport: "",
-                    pan: "",
-                    linkedin_link: "",
-                    otp: "",
-                    //mobile_otp: "",
-                  }}
-                  validationSchema={OrgStep2Schema}
-                  validate={(values) => {
-                    let errors = {};
-
-                    if (values.kyc === "pan" && !validPan) {
-                      errors.pan = "not a valid pan";
-                    }
-                    if (!validEmail) {
-                      errors.otp = "not a valid otp";
-                    }
-                    // if (!validPhone) {
-                    //   errors.mobile_otp = "not  a valid otp";
-                    // }
-                    if (values.kyc === "passport" && !validPassport) {
-                      errors.passport = "Not a valid passport";
-                    }
-                    console.log(errors);
-                    return errors;
-                  }}
-                  onSubmit={async (values) => {
-                    console.log(values);
-                    await new Promise((r) => setTimeout(r, 500));
-                    console.log(values);
-                    props.dispatch(addOrgFormData(values));
-                    console.log("calling");
-                    props.nextStep();
-                  }}
+              <Form
+                    name="basic"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                    layout='vertical'
+                    initialValues={{
+                      // phone: "",
+                      email: "",
+                      passport: "",
+                      pan: "",
+                      linkedin_link: "",
+                      otp: "",
+                      //mobile_otp: "",
+                    }}
+                    // validate={(values) => {
+                    //   let errors = {};
+  
+                    //   if (values.kyc === "pan" && !validPan) {
+                    //     errors.pan = "not a valid pan";
+                    //   }
+                    //   if (!validEmail) {
+                    //     errors.otp = "not a valid otp";
+                    //   }
+                    //   // if (!validPhone) {
+                    //   //   errors.mobile_otp = "not  a valid otp";
+                    //   // }
+                    //   if (values.kyc === "passport" && !validPassport) {
+                    //     errors.passport = "Not a valid passport";
+                    //   }
+                    //   console.log(errors);
+                    //   return errors;
+                    // }}
                 >
-                  {({
-                    isValid,
-                    errors,
-                    touched,
-                    values,
-                    setFieldTouched,
-                    setFieldValue,
-                    setFieldError,
-                  }) => {
-                    // console.log(errors);
-                    return (
-                      <Form>
-                        <div
-                          className="with-form-field col-9 d-inline-block"
-                          data-testid="WithFormField"
-                        >
-                          {/* <div className="text-start">
-                            <label
-                              htmlFor="phone"
-                              className="form-label"
-                              title="Phone"
-                            >
-                              Phone(add your country code)
-                            </label>
-                          </div>
-                          <Field
-                            id="phone"
-                            name="phone"
-                            type="text"
-                            className={
-                              errors.phone && touched.phone
-                                ? "form-input invalid"
-                                : "form-input"
-                            }
-                          /> */}
-                        </div>
-
-                        {/* <button
-                          type="button"
-                          className="btn btn-primary mb-3 col-3"
-                          onClick={(e) =>
-                            verifyPhone(
-                              values.phone,
-                              errors.phone,
-                              setFieldTouched
-                            )
-                          }
-                        > */}
-                        {/* Send OTP
-                        </button>
-                        {captchaNote && (
-                          <div className="form-note">
-                            Click on captcha to receive OTP.
-                          </div>
-                        )} */}
-                        {/* <div id="recaptcha-container" className="mb-3"></div>
-                        <WithFormField
-                          label="Mobile OTP"
-                          name="mobile_otp"
-                          error={errors.mobile_otp && touched.mobile_otp}
-                          onBlur={(e) =>
-                            verifyPhoneOtp(
-                              e,
-                              setFieldTouched,
-                              values.phone,
-                              setFieldValue
-                            )
-                          }
-                          info={true}
-                          tooltip="you should receive otp to your entered phone"
-                        /> */}
-                        <WithFormField
-                          label="Email ID"
-                          name="email"
-                          type="email"
-                          error={errors.email && touched.email}
-                          onBlur={(e) =>
-                            verifyEmail(e, errors.email, setFieldTouched)
-                          }
-                        />
-                        {mailOtpNote && (
+                    <Form.Item
+                        label="Email ID"
+                        name="email"
+                        rules={[
+                            {
+                                type: 'email',
+                                required: true,
+                                message: 'Please input your email address!',
+                            },
+                        ]}
+                        
+                    >
+                        <Input onBlur={(e) => {}
+                          // verifyEmail(e, errors.email, setFieldTouched)
+                        } />
+                    </Form.Item>
+                    {mailOtpNote && (
                           <div className="form-note">
                             OTP has been sent to your email.
                           </div>
-                        )}
-                        <WithFormField
-                          label="Email OTP"
-                          name="otp"
-                          error={errors.otp && touched.otp}
-                          onBlur={(e) =>
-                            verifyOtp(
-                              e,
-                              setFieldTouched,
-                              values.email,
-                              setFieldValue
-                            )
-                          }
-                          info={true}
-                          tooltip="you should receive otp to your entered email"
-                        />
-                        <WithFormField
-                          label="KYC"
-                          name="kyc"
-                          type="select"
+                    )}
+                    <Form.Item
+                        label="Email OTP"
+                        name="otp"
+                        onBlur={(e) => {}
+                          // verifyOtp(
+                          //   e,
+                          //   setFieldTouched,
+                          //   values.email,
+                          //   setFieldValue
+                          // )
+                        }
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="KYC"
+                        name="kyc"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please select your kyc!',
+                            },
+                        ]}
+                    >
+                        <Select
+                          onChange={handleChange}
                           options={kycOptions}
                         />
-                        {values.kyc === "passport" && (
-                          <>
+                    </Form.Item>
+                    {/* {values.kyc === "passport" && ( */}
+                        <>
                             <div className="with-form-field">
                               <div className="text-start">
                                 <label
@@ -358,25 +288,20 @@ const OrgStep2 = (props) => {
                                 name="passport"
                                 type="file"
                                 onChange={(event) => {
-                                  setFieldValue(
-                                    "passport",
-                                    event.currentTarget.files
-                                      ? event.currentTarget.files[0]
-                                      : ""
-                                  );
+                                  // setFieldValue(
+                                  //   "passport",
+                                  //   event.currentTarget.files
+                                  //     ? event.currentTarget.files[0]
+                                  //     : ""
+                                  // );
                                 }}
-                                onBlur={(e) =>
-                                  verifyPassport(
-                                    e,
-                                    values,
-                                    setFieldTouched,
-                                    setFieldValue
-                                  )
-                                }
-                                className={
-                                  errors.passport && touched.passport
-                                    ? " form-input invalid "
-                                    : " form-input bg-white "
+                                onBlur={(e) => {}
+                                  // verifyPassport(
+                                  //   e,
+                                  //   values,
+                                  //   setFieldTouched,
+                                  //   setFieldValue
+                                  // )
                                 }
                               />
                             </div>
@@ -385,39 +310,56 @@ const OrgStep2 = (props) => {
                               name="passport_no"
                               error={errors.passport_no && touched.passport_no}
                             /> */}
-                          </>
-                        )}
-                        {values.kyc === "pan" && (
-                          <WithFormField
+                        </>
+                    {/* )} */}
+                    {/* {values.kyc === "pan" && ( */}
+                        <Form.Item
                             label="Pan Card"
                             name="pan"
-                            error={errors.pan && touched.pan}
-                            onBlur={() =>
-                              verifyPan(values, setFieldTouched, setFieldError)
+                            onBlur={() => {}
+                              // verifyPan(values, setFieldTouched, setFieldError)
                             }
-                          />
-                        )}
-                        <WithFormField
-                          label="LinkdIn profile link"
-                          name="linkedin_link"
-                          error={errors.linkedin_link && touched.linkedin_link}
-                        />
-                        <div
-                          style={{
+                        >
+                            <Input />
+                        </Form.Item>
+                    {/* )} */}
+                    <Form.Item
+                      label="LinkdIn profile link"
+                      name="linkedin_link"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'please enter your linkedin'
+                        },
+                        {
+                          validator: (_, value) => {
+                            if (/(https?:\/\/(www.)|(www.))?linkedin.com\/(mwlite\/|m\/)?in\/[a-zA-Z0-9_.-]+\/?/.test(value)) {
+                              return Promise.resolve();
+                            } else {
+                              return Promise.reject('Some message here');
+                            }
+                          }
+                        }
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <div
+                        style={{
                             display: "flex",
                             alignItems: "center",
                             textAlign: "left",
                             marginBottom: "20px",
-                          }}
-                        >
-                          <input
-                            type="checkbox"
-                            name="checkbox"
-                            id="tandc"
-                            onChange={() => setTandc((p) => !p)}
-                            value={tandc}
-                          />
-                          <label style={{ marginLeft: "10px" }} for="tandc">
+                        }}
+                    >
+                        <input
+                          type="checkbox"
+                          name="checkbox"
+                          id="tandc"
+                          onChange={() => setTandc((p) => !p)}
+                          value={tandc}
+                        />
+                        <label style={{ marginLeft: "10px" }} for="tandc">
                             By clicking Next, you agree to our
                             <span>
                               <a
@@ -429,34 +371,27 @@ const OrgStep2 = (props) => {
                             </span>
                             You may receive Email notifications from us and can
                             opt out at any time.
-                          </label>
-                        </div>
-                        <div className="float-start">
-                          <button
+                        </label>
+                    </div>
+                    <div className="float-start">
+                        <button
                             className="next_btn"
                             type="button"
                             onClick={() => props.previousStep()}
-                          >
+                        >
                             Previuos
-                          </button>
-                        </div>
-                        <div className="float-end ">
-                          <button
+                        </button>
+                    </div>
+                    <div className="float-end ">
+                        <button
                             className="next_btn"
                             type="submit"
                             disabled={!tandc}
-                          >
+                        >
                             NEXT{" "}
-                            <i
-                              className="fa fa-sign-in ps-2"
-                              aria-hidden="true"
-                            ></i>
-                          </button>
-                        </div>
-                      </Form>
-                    );
-                  }}
-                </Formik>
+                        </button>
+                    </div>
+                </Form>
               </div>
             </div>
           </div>
