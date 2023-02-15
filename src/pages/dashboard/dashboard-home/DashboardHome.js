@@ -88,7 +88,7 @@ function DashboardHome(props) {
                 <div className="grid grid-cols-2 max-lg:grid-cols-2 gap-6 max-lg:text-center">
                     <div className='p-6 welcome-card border border-gray-600 rounded-lg text-white'>
                         <h1 className='font-bold text-yellow-400 text-xl mb-2'>
-                            Treasury
+                            EQ Vault
                         </h1>
                         <p className='mb-6'>
                             0xE0c1603aa4A370b551492e89139c0408b87C374c
@@ -98,7 +98,7 @@ function DashboardHome(props) {
                             <div className='font-bold'>Binance SmartChain(BEP20)</div>
                         </div>
                         <div className='text-sm text-gray-400'>
-                            ( Note: Always use BEP20 network to send and receive assets on Treasury)
+                            ( Note: Always use BEP20 network to send and receive assets on EQ Vault)
                         </div>
                     </div>
                     <div className='p-6 welcome-card border border-gray-600 rounded-lg text-white'>

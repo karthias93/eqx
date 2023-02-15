@@ -34,7 +34,7 @@ const AddMember = (props) => {
           `members.${index}.email`,
           "All ready exist in another org"
         );
-        toast.error("Allready exist in another treasury");
+        toast.error("Allready exist in another EQ Vault");
         return;
       }
     } catch (error) {
@@ -54,7 +54,7 @@ const AddMember = (props) => {
           `members.${index}.email`,
           "All ready exist in another org"
         );
-        toast.error("Allready exist in another treasury");
+        toast.error("Allready exist in another EQ Vault");
         return;
       }
     } catch (error) {
@@ -102,7 +102,7 @@ const AddMember = (props) => {
           `members.${index}.wallet`,
           "All ready exist in another org"
         );
-        toast.error("Allready exist in another treasury");
+        toast.error("Allready exist in another EQ Vault");
         return;
       }
     } catch (error) {
@@ -122,7 +122,7 @@ const AddMember = (props) => {
           `members.${index}.wallet`,
           "All ready exist in another org"
         );
-        toast.error("Allready exist in another treasury");
+        toast.error("Allready exist in another EQ Vault");
         return;
       }
     } catch (error) {

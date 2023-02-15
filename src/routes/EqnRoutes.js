@@ -12,7 +12,6 @@ function EqnRoutes(props) {
                 <Route path="/"  element={<Home />}/>
                 <Route path="/treasury"  element={<Treasury />}/>
                 <Route path="/dashboard/*"  element={<Dashboard />}/>
-                {/* <Route path="/treasury"  element={<Org />}/> */}
             </Routes>
         </>
     );

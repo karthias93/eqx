@@ -24,10 +24,10 @@ function AddMembers(props) {
             </div>
             <div>
                 <h1 className='font-bold text-xl mb-2'>
-                    Treasury member
+                    EQ Vault member
                 </h1>
                 <p className='mb-6 w-3/5 lg:width-full'>
-                    Treasury Members are core team members and weild equal rights for it's operations and in decision making. Member's may inititate the addition and removal instance. It needs appraval of more than 50% members for its success.
+                    EQ Vault Members are core team members and weild equal rights for it's operations and in decision making. Member's may inititate the addition and removal instance. It needs appraval of more than 50% members for its success.
                 </p>
             </div>
             <div className='form w-1/2 lg:width-full welcome-card border border-gray-600 rounded-lg text-white p-6'>
@@ -107,7 +107,7 @@ function AddMembers(props) {
                     <Form.Item className=''>
                         <div className='text-center'>
                             <Button type="primary" className='flex gap-1 mx-auto grad-btn border-0 ' htmlType="submit">
-                                Add <svg xmlns="http://www.w3.org/2000/svg" class="self-center icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                Add <svg xmlns="http://www.w3.org/2000/svg" className="self-center icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                     <path d="M5 12l14 0"></path>
                                     <path d="M15 16l4 -4"></path>

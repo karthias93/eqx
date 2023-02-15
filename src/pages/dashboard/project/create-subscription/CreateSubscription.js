@@ -49,7 +49,7 @@ function CreateSubscription(props) {
                 <div className='mt-6 text-center flex gap-3'>
                     {current < steps.length - 1 && (
                         <Button onClick={() => next()} type="primary" className='ml-0 flex gap-1 mx-auto grad-btn border-0 '>
-                            Next <svg xmlns="http://www.w3.org/2000/svg" class="self-center icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            Next <svg xmlns="http://www.w3.org/2000/svg" className="self-center icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M5 12l14 0"></path>
                                 <path d="M15 16l4 -4"></path>
@@ -63,7 +63,7 @@ function CreateSubscription(props) {
                             className='mx-0 flex gap-1 mx-auto bordered border-gray-400 text-gray-400' type="primary"
                             onClick={() => prev()}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M5 12l14 0"></path>
                                 <path d="M5 12l4 4"></path>

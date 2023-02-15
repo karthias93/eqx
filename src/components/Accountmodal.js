@@ -363,8 +363,8 @@ const AccountModal = (props) => {
         //   </label>
         // </div>
 
-        <div class="switch">
-          <input id="enableWeb2" class="switch__handle switch__handle-round-flat" type="checkbox"
+        <div className="switch">
+          <input id="enableWeb2" className="switch__handle switch__handle-round-flat" type="checkbox"
             checked={
               window.sessionStorage.getItem("selected_account") !== null
                 ? true
@@ -377,7 +377,7 @@ const AccountModal = (props) => {
                 : onConnect();
             }}
           />
-          <label for="enableWeb2"><div class="switch__handle__text"></div></label>
+          <label htmlFor  ="enableWeb2"><div className="switch__handle__text"></div></label>
         </div>
       )}
       <NetworkError open={wrongNetwork} setOpen={setWrongNetwork} />

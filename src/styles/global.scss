@@ -92,7 +92,7 @@ footer {
 
 .switch__handle-round-flat+label {
     padding: 2px;
-    width: 96px;
+    width: 100px;
     height: 30px;
     background-color: #666666;
     border-radius: 30px;
@@ -157,7 +157,7 @@ footer {
 }
 
 .switch__handle-round-flat:checked+label:after {
-    margin-left: 66px;
+    margin-left: 72px;
     background-color: white;
 }
 
@@ -174,7 +174,7 @@ footer {
 }
 
 .switch__handle__text:before {
-    content: 'Off Chain';
+    content: 'CONNECT';
     position: absolute;
     top: 50%;
     right: 9px;
@@ -192,7 +192,7 @@ footer {
 }
 
 .switch__handle-round-flat:checked+label>.switch__handle__text:before {
-    content: 'On Chain';
+    content: 'CONNECTED';
     color: white;
     left: 10px;
     right: auto;

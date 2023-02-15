@@ -30,7 +30,7 @@ const ContinuePay = ({ open, setOpen, title = "Continue to send 100 EQX" }) => {
             </div>
             <h1 className="font-semibold text-dark mb-2">{title}</h1>
             <p className="text-lg text-black md:mx-20  font-medium">
-              You must hold 100EQX in your Treasury wallet to access dashboard(currently disabledx)
+              You must hold 100EQX in your EQ Vault wallet to access dashboard(currently disabledx)
             </p>
             <p className="text-black text-sm font-normal my-4 font-12">
               ( Do not close the tab or refresh the page )

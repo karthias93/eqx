@@ -16,7 +16,7 @@ function CsStepFirst(props) {
                     Create Project Subscription
                 </h1>
                 <p className='mb-6 w-3/5 lg:width-full'>
-                    Subscription stands for Initial Coin Offering which allow DAO to offer their Governance token holders to community at some price in BNB value. The BNB collected will be credited to DAO Treasury wallet and can be managed jointly by Team behind DAO
+                    Subscription stands for Initial Coin Offering which allow DAO to offer their Governance token holders to community at some price in BNB value. The BNB collected will be credited to DAO EQ Vault wallet and can be managed jointly by Team behind DAO
                 </p>
             </div>
             <div className='form w-1/2 lg:width-full welcome-card border border-gray-600 rounded-lg text-white p-6'>
