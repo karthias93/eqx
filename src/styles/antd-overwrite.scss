@@ -155,6 +155,9 @@
         flex-direction: row-reverse;
         gap: 7px;
         color: #fff !important;
+        &.ant-checkbox-wrapper{
+            flex-direction: inherit;
+        }
     }
 
     input {
