@@ -19,7 +19,7 @@ function CsStepFirst(props) {
                     Subscription stands for Initial Coin Offering which allow DAO to offer their Governance token holders to community at some price in BNB value. The BNB collected will be credited to DAO EQ Vault wallet and can be managed jointly by Team behind DAO
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card border border-gray-600 rounded-lg text-white p-6'>
+            <div className='form w-1/2 lg:width-full welcome-card rounded-lg  p-6'>
                 <Form
                     name="basic"
                     onFinish={onFinish}

@@ -30,7 +30,7 @@ function RemoveMembers(props) {
                     EQ Vault Members are core team members and weild equal rights for it's operations and in decision making. Member's may inititate the addition and removal instance. It needs appraval of more than 50% members for its success.
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card border border-gray-600 rounded-lg text-white p-6'>
+            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6'>
                 <Form
                     name="basic"
                     onFinish={onFinish}

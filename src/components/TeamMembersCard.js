@@ -4,7 +4,7 @@ import propTypes from "prop-types";
 function TeamMembersCard({membername}) {
     return (
         <div>
-            <div className='p-6 welcome-card border border-gray-600 rounded-lg text-white'>
+            <div className='p-6 welcome-card rounded-lg'>
                     <h1 className='font-bold text-xl mb-3 truncate'>
                        {membername}
                     </h1>
