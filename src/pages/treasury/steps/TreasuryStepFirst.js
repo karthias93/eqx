@@ -23,16 +23,16 @@ function TreasuryStepFirst(props) {
     return (
         <div>
             <div className=' mb-12'>
-                <h1 className='text-2xl text-white font-bold mb-4'>
+                <h1 className='text-2xl font-bold mb-4'>
                     CREATE EQ Vault
                 </h1>
-                <p className='text-base text-gray-300'>
+                <p className='text-base text-gray-800'>
                     You must hold 100 EQX to deploy and access EQ Vault (currently disabled). Read <a href="https://docs.equinox.business/">
                     <span className="text-[#0EA5E9] font-bold">Docs</span>
                   </a> for requirements.
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card border border-gray-600 rounded-lg text-white p-6'>
+            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6'>
                 <Form
                     name="basic"
                     onFinish={onFinish}

@@ -11,7 +11,7 @@ function TreasuryStepSecond(props) {
     };
     return (
         <div>
-            <div className='form w-1/2 lg:width-full welcome-card border border-gray-600 rounded-lg text-white p-6'>
+            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6'>
                 <Form
                     name="basic"
                     onFinish={onFinish}

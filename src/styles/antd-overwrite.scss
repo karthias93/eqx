@@ -1,6 +1,7 @@
 .ant-layout {
     min-height: 100vh;
-    background-image: radial-gradient(#df12ac, #121212, #121212);
+    // background-image: radial-gradient(#df12ac, #121212, #121212);
+    background: #f5f9fc;
     padding-top: 60px;
 
     .ant-layout-content {
@@ -9,13 +10,13 @@
 
     .ant-layout-header,
     .ant-layout-footer {
-        background: #0000;
+        background: #fff;
         // color: #fff;
         backdrop-filter: blur(20px);
     }
 
     .ant-layout-header {
-        border-bottom: 1px solid #131729;
+        box-shadow: 0px 0px 20px #cbdbe8;
         position: fixed;
         top: 0;
         width: 100%;
@@ -26,10 +27,8 @@
     .ant-layout-footer {
         padding: 0.75rem;
         backdrop-filter: blur(20px);
-        background: #0000;
-        border-top: 1px solid #131729;
         font-size: 12px;
-        color: #bfbfbf;
+        color: #7a7a7a;
     }
 }
 
@@ -42,10 +41,10 @@
     height: calc(100vh - 60px);
     padding: 10px !important;
     backdrop-filter: blur(20px);
-    background: #0000 !important;
-    border-right: 1px solid #131729;
+    background: #fff !important;
     position: sticky !important;
     top: 60px;
+    box-shadow: 0px 0px 20px #cbdbe8;
 }
 
 .ant-menu-dark {
@@ -57,16 +56,16 @@
 }
 
 .ant-breadcrumb a {
-    color: #fff;
+    color: #000;
 }
 
 .ant-breadcrumb .ant-breadcrumb-separator {
-    color: #b5b5b5;
+    color: #000;
 }
 
 .ant-table {
-    background: #0000 !important;
-    border: 1px solid #454545;
+    background: #fff !important;
+    border: 1px solid #dddddd;
     border-radius: 8px !important;
 
     th,
@@ -74,7 +73,7 @@
     table,
     thead {
         backdrop-filter: blur(200px);
-        color: #fff !important;
+        color: #000 !important;
     }
 
     table {
@@ -84,21 +83,22 @@
 
 .ant-table-wrapper .ant-table-thead>tr>th,
 .ant-table-wrapper .ant-table-thead>tr>td {
-    background: #ffffff26;
+    background: #fff;
 }
 
 .ant-table-wrapper .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before,
 .ant-table-wrapper .ant-table-thead>tr>td:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
-    background: #454545;
+    background: #fff;
 }
 
 .ant-table-wrapper .ant-table:not(.ant-table-bordered) .ant-table-tbody>tr>td {
-    border-top: 1px solid #454545;
+    border-bottom: 1px solid #cdcdcd;
 }
 
 .ant-table-wrapper .ant-table-thead>tr>th,
 .ant-table-wrapper .ant-table-thead>tr>td {
-    border-bottom: 1px solid #454545;
+    border-bottom: 1px solid #cdcdcd;
+    background: #fff;
 }
 
 .ant-table-wrapper .ant-table:not(.ant-table-bordered) .ant-table-tbody>tr:last-child>td {
@@ -154,19 +154,11 @@
     label {
         flex-direction: row-reverse;
         gap: 7px;
-        color: #fff !important;
-    }
-
-    input {
-        background: #2b2b2b61;
-        color: #fff !important;
+        color: #000 !important;
     }
     .ant-input-password{
-        background: #2b2b2b61;
-        color: #fff;
         padding: 0 11px 0 0 ;
         input{
-            background: #0000;
             padding: 4px 11px;
             border-radius: 6px;
         }

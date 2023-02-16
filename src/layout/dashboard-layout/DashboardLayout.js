@@ -24,18 +24,18 @@ function DashboardLayout(props) {
             <Sider collapsible onCollapse={(value) => {setCollapsed(value);console.log(collapsed)}}>
                 <div className='flex flex-col justify-between menu-height'>
                     <div>
-                        <Menu theme="dark" defaultSelectedKeys={['dashboard']} mode="inline" items={menuitems}
+                        <Menu theme="light" defaultSelectedKeys={['dashboard']} mode="inline" items={menuitems}
                             onClick={({ key }) => navigate(`/dashboard/${key}`)}
                         />
                     </div>
                     <div>
-                        <hr className='border-gray-800' />
-                        <Menu theme="dark" defaultSelectedKeys={['dashboard']} mode="inline" items={menufooteritems} />
+                        <hr className='border-gray-300' />
+                        <Menu theme="light" defaultSelectedKeys={['dashboard']} mode="inline" items={menufooteritems} />
                     </div>
                 </div>
             </Sider>
             <Content className='overflow-auto'>
-                <div className='text-white px-4 p-3 pb-12'>
+                <div className='px-4 p-3 pb-12'>
                     <DashboardRoutes />
                 </div>
             </Content>

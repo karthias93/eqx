@@ -11,16 +11,16 @@ function Home(props) {
         <div className='main-sec'>
             <div className='container mx-auto px-4 py-20'>
                 <div className=' mb-12'>
-                    <h1 className='text-6xl text-white font-bold mb-4'>
-                        Welcome to the <span className='text-yellow-400'>EQ Vault</span>
+                    <h1 className='text-6xl font-bold mb-4'>
+                        Welcome to the <span className='text-pink-500'>EQ Vault</span>
                     </h1>
-                    <p className='text-base text-gray-300'>
+                    <p className='text-base text-gray-800'>
                         The most trusted decentralized custody protocol and collective asset management platform.
                     </p>
                 </div>
                 <div className="grid grid-cols-3 max-lg:grid-cols-2 gap-6 max-lg:text-center">
-                    <div className='p-6 welcome-card border border-gray-600 rounded-lg text-white'>
-                        <div className='mb-3 text-yellow-400'>
+                    <div className='p-6 welcome-card rounded-lg '>
+                        <div className='mb-3 text-pink-500'>
                             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-plus" width="40" height="40" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M12 5l0 14"></path>
@@ -33,10 +33,10 @@ function Home(props) {
                         <p className='text-base mb-6'>
                             A new EQ Vault that is controlled by one or multiple owners.
                         </p>
-                        <button className='rounded-lg font-bold px-6 py-3 grad-btn' onClick={routeChange}>Create new EQ Vault</button>
+                        <button className='rounded-lg font-bold px-6 py-3 grad-btn text-white' onClick={routeChange}>Create new EQ Vault</button>
                     </div>
-                    <div className='p-6 welcome-card border border-gray-600 rounded-lg text-white'>
-                        <div className='mb-3 text-yellow-400'>
+                    <div className='p-6 welcome-card rounded-lg '>
+                        <div className='mb-3 text-pink-500'>
                             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-curve-right" width="40" height="40" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M10 7l4 -4l4 4"></path>
