@@ -9,6 +9,7 @@ import TreasuryStepSecond from './steps/TreasuryStepSecond';
 import Spinner from "../../components/Spinner/Spinner";
 import { useNavigate } from "react-router-dom";
 import StepWizard from "react-step-wizard";
+import TreasuryStepThird from './steps/TreasuryStepThird';
 
 function Treasury(props) {
     const { token } = theme.useToken();
@@ -60,17 +61,8 @@ function Treasury(props) {
             <div className='container mx-auto p-4'>
                 <StepWizard>
                     <TreasuryStepFirst walletInfo={{ wallet: wallet, eqxBln: eqxBalance }} />
-                    <TreasuryStepSecond />
-                    {/* <div className='mt-6 text-center flex gap-3'>
-                        {current > 0 && (
-                            
-                        )}
-                        {current === steps.length - 1 && (
-                            <Button type="primary" className='grad-btn border-0' onClick={() => message.success('Processing complete!')}>
-                                Deploy
-                            </Button>
-                        )}
-                    </div> */}
+                    <TreasuryStepSecond walletInfo={{ wallet: wallet, eqxBln: eqxBalance }} />
+                    <TreasuryStepThird />
                 </StepWizard>
             </div>
             {spinner && <Spinner />}
