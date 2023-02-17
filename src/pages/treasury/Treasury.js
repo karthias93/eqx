@@ -10,6 +10,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { useNavigate } from "react-router-dom";
 import StepWizard from "react-step-wizard";
 import TreasuryStepThird from './steps/TreasuryStepThird';
+import TreasuryStepFour from './steps/TreasuryStepFour';
 
 function Treasury(props) {
     const { token } = theme.useToken();
@@ -62,7 +63,8 @@ function Treasury(props) {
                 <StepWizard>
                     <TreasuryStepFirst walletInfo={{ wallet: wallet, eqxBln: eqxBalance }} />
                     <TreasuryStepSecond walletInfo={{ wallet: wallet, eqxBln: eqxBalance }} />
-                    <TreasuryStepThird />
+                    <TreasuryStepThird walletInfo={{ wallet: wallet, eqxBln: eqxBalance }} />
+                    <TreasuryStepFour />
                 </StepWizard>
             </div>
             {spinner && <Spinner />}
