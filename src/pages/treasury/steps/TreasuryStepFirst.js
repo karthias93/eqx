@@ -27,7 +27,7 @@ function TreasuryStepFirst(props) {
                     CREATE EQ Vault
                 </h1>
                 <p className='text-base text-gray-800'>
-                    You must hold 100 EQX to deploy and access EQ Vault (currently disabled). Read <a href="https://docs.equinox.business/">
+                    Read <a href="https://docs.equinox.business/">
                     <span className="text-[#0EA5E9] font-bold">Docs</span>
                   </a> for requirements.
                 </p>

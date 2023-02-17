@@ -52,14 +52,14 @@ function TreasuryStepSecond(props) {
           // multisig contract address against user wallet address should be saved to databas at this step
           // because user has deposited his 100eqx at multisig
     
-          const amountToPay = Web3.utils.toWei(`${CREATE_DAO}`, "ether");
-          const tnx = await web3.eth.sendTransaction({
-            from: accounts[0],
-            to: process.env.REACT_APP_OWNER_ADDRESS,
-            value: amountToPay,
-          });
-          if (!tnx) return;
-          console.log(tnx);
+        //   const amountToPay = Web3.utils.toWei(`${CREATE_DAO}`, "ether");
+        //   const tnx = await web3.eth.sendTransaction({
+        //     from: accounts[0],
+        //     to: process.env.REACT_APP_OWNER_ADDRESS,
+        //     value: amountToPay,
+        //   });
+        //   if (!tnx) return;
+        //   console.log(tnx);
     
           await contract
             .deploy({
