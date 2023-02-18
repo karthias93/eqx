@@ -25,7 +25,7 @@ function DashboardRoutes(props) {
     }, []);
     useEffect(() => {
         if (!account || !authenticated) {
-            return navigate("/");
+            // return navigate("/");
         }
     }, [account, authenticated])
     return (

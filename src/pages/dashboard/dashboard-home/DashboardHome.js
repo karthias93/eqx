@@ -1,79 +1,155 @@
 import { Breadcrumb, Space, Table, Tag } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+// import AddLiquidity from "../../../components/AddLiquidity/AddLiquidity";
+import { getOrg } from "../../../services/dashboard";
+// import { withRouter } from "react-router";
+import axios from "axios";
 
 function DashboardHome(props) {
-
-    const columns = [
+    const { org, auth, history } = props;
+    useEffect(() => {
+        // getIcos();
+        if (auth && auth.org_id) getOrg(auth.org_id);
+    }, [auth]);
+    const createProjectHandler = async (e) => {
+        e.preventDefault();
+    
+        if (auth && auth.org_id) {
+          const {
+            data: { response: orgData },
+          } = await axios.get(
+            `${process.env.REACT_APP_API_URL}/get_org/${auth.org_id}`
+          );
+          console.log(orgData);
+          if (orgData) {
+            if (orgData?.project && orgData.project.length) {
+              alert(
+                "Project allready launched please refresh the page to see details of project"
+              );
+            } else {
+              // alert("You can create Project");
+              history.push("/dashboard/project/new");
+            }
+            // console.log(org?.project && org.project.length);
+          }
+        }
+    };
+    const transCol = [
         {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            render: (text) => <a href={() => { }}>{text}</a>,
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
         },
         {
-            title: 'Age',
-            dataIndex: 'age',
-            key: 'age',
+            title: 'Recivers',
+            dataIndex: 'to_wallet',
+            key: 'to_wallet',
         },
         {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
         },
         {
-            title: 'Tags',
-            key: 'tags',
-            dataIndex: 'tags',
-            render: (_, { tags }) => (
-                <>
-                    {tags.map((tag) => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'loser') {
-                            color = 'volcano';
-                        }
-                        return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
+            title: 'Amount',
+            key: 'amount',
+            dataIndex: 'amount',
+            // render: (_, { tags }) => (
+            //     <>
+            //         {tags.map((tag) => {
+            //             let color = tag.length > 5 ? 'geekblue' : 'green';
+            //             if (tag === 'loser') {
+            //                 color = 'volcano';
+            //             }
+            //             return (
+            //                 <Tag color={color} key={tag}>
+            //                     {tag.toUpperCase()}
+            //                 </Tag>
+            //             );
+            //         })}
+            //     </>
+            // ),
+        },
+        {
+            title: 'Start Date',
+            key: 'proposed_date',
+            render: (text) => text?.substring(0, 10),
+        },
+        {
+            title: 'End Date',
+            key: 'finished_date',
+            render: (text) => text?.substring(0, 10),
+        },
+        {
+            title: 'Status',
+            key: 'status',
+            render: (val, record) => (
+                <p className="font-medium text-xs mb-0  text-center">
+                    {val == 0 ? (
+                        <span className="bg-yellow-400 py-1 px-2 text-white font-bold rounded-md">
+                        In Progress
+                        </span>
+                    ) : val == 1 ? (
+                        <span className="bg-green-400 py-1 px-2 text-white font-bold rounded-md">
+                        Completed
+                        </span>
+                    ) : (
+                        <span className="bg-red-400 py-1 px-2 text-white font-bold rounded-md">
+                        Failed
+                        </span>
+                    )}
+                </p>
             ),
+        }
+    ];
+    const transData = org?.fund_transfer ? org.fund_transfer : [];
+    const govCol = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
         },
         {
-            title: 'Action',
-            key: 'action',
-            render: (_, record) => (
-                <Space size="middle">
-                    <a href={() => { }}>Invite {record.name}</a>
-                    <a href={() => { }}>Delete</a>
-                </Space>
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
+        },
+        {
+            title: 'Start Date',
+            key: 'start_date',
+            render: (text) => text?.substring(0, 10),
+        },
+        {
+            title: 'End Date',
+            key: 'end_date',
+            render: (text) => text?.substring(0, 10),
+        },
+        {
+            title: 'Status',
+            key: 'status',
+            render: (val, record) => (
+                <p className="font-medium text-xs mb-0  text-center">
+                    {val === "Initialized" ||
+                    val === "Expired" ? (
+                        <span className="bg-yellow-400 py-1 px-2 text-white font-bold rounded-md">
+                        In Progress
+                        </span>
+                    ) : val === "Approved" ? (
+                        <span className="bg-green-400 py-1 px-2 text-white font-bold rounded-md">
+                        Completed
+                        </span>
+                    ) : (
+                        <span className="bg-red-400 py-1 px-2 text-white font-bold rounded-md">
+                        Failed
+                        </span>
+                    )}
+                </p>
             ),
-        },
+        }
     ];
-    const data = [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-            tags: ['nice', 'developer'],
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-            tags: ['loser'],
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sydney No. 1 Lake Park',
-            tags: ['cool', 'teacher'],
-        },
-    ];
+    const govData = org?.proposal ? org.proposal.slice(0, 5) : [];
     return (
         <>
             <div className='mb-4'>
@@ -338,10 +414,6 @@ function DashboardHome(props) {
             </div>
 
 
-
-
-
-
             <div className='mb-6'>
                 <div className="grid grid-cols-2 max-lg:grid-cols-2 gap-6 max-lg:text-center">
                     <div className='p-6 welcome-card rounded-lg'>
@@ -377,7 +449,7 @@ function DashboardHome(props) {
                     Recent Transaction requests
                 </div>
                 <div>
-                    <Table pagination={false} columns={columns} dataSource={data} />
+                    <Table pagination={false} columns={transCol} dataSource={transData} />
                 </div>
             </div>
             <div>
@@ -385,11 +457,18 @@ function DashboardHome(props) {
                     Governance proposals
                 </div>
                 <div>
-                    <Table pagination={false} columns={columns} dataSource={data} />
+                    <Table pagination={false} columns={govCol} dataSource={govData} />
                 </div>
             </div>
         </>
     );
 }
 
-export default DashboardHome;
+const mapStateToProps = (state) => {
+    return {
+      org: state.org,
+      auth: state.auth,
+    };
+  };
+  
+  export default connect(mapStateToProps)(DashboardHome);
