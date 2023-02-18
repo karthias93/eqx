@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { getOrg } from "../../../services/dashboard";
 // import { withRouter } from "react-router";
 import axios from "axios";
+import { shortAddress } from '../../../helpers';
 
 function DashboardHome(props) {
     const { org, auth, history } = props;
@@ -149,7 +150,7 @@ function DashboardHome(props) {
             ),
         }
     ];
-    const govData = org?.proposal ? org.proposal.slice(0, 5) : [];
+    const govData = org?.proposal && org.proposal.length ? org.proposal.slice(0, 5) : [];
     return (
         <>
             <div className='mb-4'>
@@ -167,10 +168,10 @@ function DashboardHome(props) {
                             USER PROFILE
                         </div>
                         <div className='text-2xl font-bold'>
-                            Jhone deo (You)
+                            {auth?.member_name} (You)
                         </div>
                         <div className='text-sm flex'>
-                            0xE0c1603aa...c0408b87C374c
+                            {auth?.wallet_address ? shortAddress(auth.wallet_address) : ''}
                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 icon icon-tabler icon-tabler-copy" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
@@ -178,7 +179,7 @@ function DashboardHome(props) {
                             </svg>
                         </div>
                         <div className='text-sm'>
-                            example@gamil.com
+                            {auth?.email}
                         </div>
                     </div>
                 </div>
