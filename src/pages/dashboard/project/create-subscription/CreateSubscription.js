@@ -41,7 +41,7 @@ function CreateSubscription(props) {
                         <Link to='/dashboard'>Home</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item className=''>  <Link to='/dashboard/project'>Project</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item className='font-bold text-yellow-400'>Create Subscription</Breadcrumb.Item>
+                    <Breadcrumb.Item className='font-bold text-pink-500'>Create Subscription</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
             <div className=''>

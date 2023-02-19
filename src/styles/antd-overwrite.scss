@@ -111,12 +111,12 @@
 }
 
 .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: #fff;
+    color: #eb4a9b;
     // font-weight: bold;
 }
 
 .ant-tabs .ant-tabs-ink-bar {
-    background: #ffcc00;
+    background: #eb4a9b;
 }
 
 .ant-tabs {
@@ -131,11 +131,11 @@
 }
 
 .ant-tabs .ant-tabs-tab:hover {
-    color: #ffcc00;
+    color: #eb4a9b;
 }
 
 .ant-tabs .ant-tabs-tab {
-    color: #bababa;
+    color: #888;
 }
 
 .ant-tabs-nav-wrap {
@@ -143,7 +143,7 @@
 }
 
 .ant-breadcrumb a:hover {
-    color: #fff;
+    color: #888;
 }
 
 .ant-message-top {
@@ -197,4 +197,8 @@
     button{
         background: linear-gradient(45deg, #d412a3, #057dd3);
     }
+}
+
+.ant-tabs >.ant-tabs-nav .ant-tabs-nav-more, .ant-tabs >div>.ant-tabs-nav .ant-tabs-nav-more{
+    color: #000;
 }

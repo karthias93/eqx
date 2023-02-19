@@ -33,12 +33,12 @@ function Members(props) {
     ];
     return (
         <div>
-            <div className='mb-4 text-white'>
+            <div className='mb-4 '>
                 <Breadcrumb>
                     <Breadcrumb.Item>
                         <Link to='/dashboard/home'>Home</Link>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item className='text-yellow-400 font-bold'>Members</Breadcrumb.Item>
+                    <Breadcrumb.Item className='text-pink-500 font-bold'>Members</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
             <div className='mb-4'>

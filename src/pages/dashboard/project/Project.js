@@ -18,7 +18,7 @@ function Project(props) {
                     <Breadcrumb.Item>
                         <Link to='/dashboard/home'>Home</Link>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item className='font-bold text-yellow-400'>Project</Breadcrumb.Item>
+                    <Breadcrumb.Item className='font-bold text-pink-500'>Project</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
             {project && <>
@@ -59,7 +59,7 @@ function Project(props) {
             </div>
             <div>
                 <div className='p-6 welcome-card rounded-lg'>
-                    <h1 className='font-bold text-yellow-400 text-xl mb-2'>
+                    <h1 className='font-bold text-pink-500 text-xl mb-2'>
                         Total Supply
                     </h1>
                     <p className='mb-6 text-4xl font-bold'>

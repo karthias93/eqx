@@ -19,7 +19,7 @@ function AddMembers(props) {
                         <Link to='/dashboard'>Home</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item className=''>  <Link to='/dashboard/members'>Members</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item className='font-bold text-yellow-400'>Add</Breadcrumb.Item>
+                    <Breadcrumb.Item className='font-bold text-pink-500'>Add</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
             <div>
