@@ -11,23 +11,24 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
 import { getOrg } from '../services/dashboard';
 import { message } from 'antd';
+import PlaySubscription from '../pages/dashboard/play-subscription/PlaySubscription';
 
 function DashboardRoutes(props) {
     const { auth, spinner } = props;
-    const authenticated = localStorage.getItem("authenticated");
-    const account = sessionStorage.getItem("selected_account");
-    let navigate = useNavigate();
-    useEffect(() => {
-        if (auth && auth.org_id) getOrg(auth.org_id);
-    }, [auth]);
-    useEffect(() => {
-        message.info(`Do not add any new team member unless any of your proposals are finalized `);
-    }, []);
-    useEffect(() => {
-        if (!account || !authenticated) {
-            return navigate("/");
-        }
-    }, [account, authenticated])
+    // const authenticated = localStorage.getItem("authenticated");
+    // const account = sessionStorage.getItem("selected_account");
+    // let navigate = useNavigate();
+    // useEffect(() => {
+    //     if (auth && auth.org_id) getOrg(auth.org_id);
+    // }, [auth]);
+    // useEffect(() => {
+    //     message.info(`Do not add any new team member unless any of your proposals are finalized `);
+    // }, []);
+    // useEffect(() => {
+    //     if (!account || !authenticated) {
+    //         return navigate("/");
+    //     }
+    // }, [account, authenticated])
     return (
         <>
             <Routes>
@@ -37,6 +38,7 @@ function DashboardRoutes(props) {
                 <Route path="/members"  element={<Members />}/>
                 <Route path="/members/add"  element={<AddMembers />}/>
                 <Route path="/members/remove"  element={<RemoveMembers />}/>
+                <Route path="/play-subscription"  element={<PlaySubscription />}/>
             </Routes>
             {spinner && <Spinner />}
         </>

@@ -10,6 +10,7 @@ const menuitems = [
     { label: "Members", key: "members" },
     { label: "Assets", key: "assets" },
     { label: "Goverance", key: "goverance" },
+    { label: "Play Subscription", key: "play-subscription" },
 ];
 
 const menufooteritems = [
