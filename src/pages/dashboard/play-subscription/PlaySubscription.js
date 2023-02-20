@@ -52,7 +52,7 @@ function PlaySubscription(props) {
                     layout='vertical'
                 >
                     <Form.Item
-                        name="username"
+                        name="value"
                         rules={[
                             {
                                 required: true,
@@ -63,7 +63,7 @@ function PlaySubscription(props) {
                       <Input addonAfter={selectAfter} defaultValue="0" />
                     </Form.Item>
                     <Form.Item
-                        name="username"
+                        name="value1"
                         rules={[
                             {
                                 required: true,

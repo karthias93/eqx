@@ -211,3 +211,26 @@ footer {
 .row-minus{
     margin: 0px -10px 0px -10px;
 }
+
+
+@media only screen and (max-width: 767px) {
+    .ant-layout-sider{
+        flex: 0 0 0 !important;
+        max-width: 0 !important;
+        min-width: 0 !important;
+        width: 0 !important;
+        padding: 0 !important;
+    }
+    .mv-block{
+        display: block !important;
+    }
+    .sidebar-open{
+        .ant-layout-sider{
+            flex: 0 0 200px !important;
+            max-width: 200px !important;
+            min-width: 200px !important;
+            width: 200px !important;
+            padding: 15px !important;
+        } 
+    }
+}
