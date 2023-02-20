@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate, Link } from "react-router-dom"; 
 
 function Home(props) {
     let navigate = useNavigate(); 
@@ -49,7 +49,7 @@ function Home(props) {
                         <p className='text-base mb-6'>
                             Already have a EQ Vault? Add your Safe using your Safe address.
                         </p>
-                        <button className=' border border-gray-200 rounded-lg font-bold px-6 py-3 '>Add existing EQ Vault</button>
+                        <Link to='/dashboard/home'><button className=' border border-gray-200 rounded-lg font-bold px-6 py-3 '>Add existing EQ Vault</button></Link>
                     </div>
                 </div>
             </div>

@@ -32,6 +32,7 @@ function DashboardRoutes(props) {
     return (
         <>
             <Routes>
+                <Route path="/"  element={<DashboardHome />}/>
                 <Route path="/home"  element={<DashboardHome />}/>
                 <Route path="/project"  element={<Project />}/>
                 <Route path="/project/create-subscription"  element={<CreateSubscription />}/>

@@ -1,16 +1,40 @@
 import { Breadcrumb, Button } from 'antd';
+import axios from 'axios';
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { getProjects } from '../../../services/dashboard';
 
 function Project(props) {
     const { org, project = {}, auth } = props;
-
+    const navigate = useNavigate();
     useEffect(() => {
         if (org && org.project && org.project.length && org.project[0].id) {
             getProjects(org.project[0].id);
         }
     }, [org, auth]);
+    const createProjectHandler = async (e) => {
+        e.preventDefault();
+        if (auth && auth.org_id) {
+          const {
+            data: { response: orgData },
+          } = await axios.get(
+            `${process.env.REACT_APP_API_URL}/get_org/${auth.org_id}`
+          );
+          console.log(orgData);
+          if (orgData) {
+            if (orgData?.project && orgData.project.length) {
+              alert(
+                "Project allready launched please refresh the page to see details of project"
+              );
+            } else {
+              // alert("You can create Project");
+              navigate("/dashboard/project/new");
+            }
+            // console.log(org?.project && org.project.length);
+          }
+        }
+    };
     return (
         <div>
             <div className='mb-4 text-white'>
@@ -21,7 +45,7 @@ function Project(props) {
                     <Breadcrumb.Item className='font-bold text-pink-500'>Project</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
-            {project && <>
+            {org?.project && org.project.length && <>
             <div className='mb-8'>
                 <div className='text-base font-bold mb-3'>
                     {project.project_name}<br></br>
@@ -59,6 +83,9 @@ function Project(props) {
             </div>
             <div>
                 <div className='p-6 welcome-card rounded-lg'>
+                    <p className="font14 mb-1 text-truncate">
+                      {project.deployer_wallet_address_id}
+                    </p>
                     <h1 className='font-bold text-pink-500 text-xl mb-2'>
                         Total Supply
                     </h1>
@@ -67,7 +94,12 @@ function Project(props) {
                     </p>
                     <div className='flex flex-wrap gap-6'>
                         <div>
-                            <Link to={"/dashboard/assets/createico"}>
+                            <Link to={"/dashboard/assets/createico"} className={
+                            org?.ico &&
+                            org.ico[org.ico.length - 1]?.reached === 0
+                              ? "pointer-events-none"
+                              : ""
+                          }>
                                 <Button type="primary" className='grad-btn border-0'>CREATE/MANAGE SUBSCRIPTION</Button>
                             </Link>
                         </div>
@@ -81,8 +113,18 @@ function Project(props) {
                 </div>
             </div>
             </>}
+            {!(org?.project && org.project.length) && (<div className='p-6 welcome-card rounded-lg text-center'>
+                <button className='rounded-lg font-bold px-6 py-3 grad-btn text-white' onClick={createProjectHandler}>LAUNCH PROJECT</button>
+            </div>)}
         </div>
     );
 }
-
-export default Project;
+const mapStateToProps = (state) => {
+    return {
+      org: state.org,
+      project: state.project,
+      auth: state.auth,
+    };
+  };
+  
+  export default connect(mapStateToProps)(Project);

@@ -1,5 +1,5 @@
-import { Breadcrumb, Space, Table, Tag } from 'antd';
-import React, { useEffect } from 'react';
+import { Breadcrumb, Space, Table, Tag, Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // import AddLiquidity from "../../../components/AddLiquidity/AddLiquidity";
@@ -7,9 +7,25 @@ import { getOrg } from "../../../services/dashboard";
 // import { withRouter } from "react-router";
 import axios from "axios";
 import { shortAddress } from '../../../helpers';
+import MultiSig from "../../../Config/abis/EquinoxMain.json";
+import { getWeb3 } from '../../../helpers/currentWalletHelper';
 
 function DashboardHome(props) {
     const { org, auth, history } = props;
+    const [eqVaultBalance, setEqVaultBalance] = useState(0);
+    const getBalance = async (address) => {
+        let web3 = await getWeb3();
+        let contract = new web3.eth.Contract(MultiSig.abi);
+        let balance = await contract.methods
+          .balanceOf(address)
+          .call();
+        setEqVaultBalance(balance);
+    }
+    useEffect(()=>{
+        if (org?.org?.multisig_address) {
+            getBalance(org.org.multisig_address)
+        }
+    },[org?.org?.multisig_address])
     useEffect(() => {
         // getIcos();
         if (auth && auth.org_id) getOrg(auth.org_id);
@@ -171,12 +187,12 @@ function DashboardHome(props) {
                             {auth?.member_name} (You)
                         </div>
                         <div className='text-sm flex'>
-                            {auth?.wallet_address ? shortAddress(auth.wallet_address) : ''}
-                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 icon icon-tabler icon-tabler-copy" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <Typography.Text copyable={{icon: <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 icon icon-tabler icon-tabler-copy" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
                                 <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
-                            </svg>
+                            </svg>}} className="flex items-center">{auth?.wallet_address ? shortAddress(auth.wallet_address) : ''}</Typography.Text>
+                            
                         </div>
                         <div className='text-sm'>
                             {auth?.email}
@@ -198,20 +214,19 @@ function DashboardHome(props) {
                                     BNB Chain
                                 </div>
                                 <div className='text-sm flex'>
-                                    0xE0c...c7C374c
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 icon icon-tabler icon-tabler-copy" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
-                                        <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
-                                    </svg>
+                                <Typography.Text copyable={{icon: <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 icon icon-tabler icon-tabler-copy" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
+                                <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
+                                </svg>}} className="flex items-center">{org?.org?.multisig_address ? shortAddress(org.org.multisig_address) : ''}</Typography.Text>
                                 </div>
                             </div>
                             <div>
                                 <div className='text-xl font-bold text-green-500'>
-                                    $6000.78
+                                    {eqVaultBalance}
                                 </div>
                                 <div className='text-sm text-gray-400'>
-                                    20 BNB value
+                                    0 BNB value
                                 </div>
                                 <div className='text-sm'>
                                     total value
@@ -263,7 +278,7 @@ function DashboardHome(props) {
                         <div className="flex gap-3 max-lg:text-center row-minus mb-3">
                             <div className='w-3/5 px-3  mb-6'>
                                 <div className='text-2xl font-bold'>
-                                    0xE0c...c7C374c
+                                    {org?.org?.multisig_address ? shortAddress(org.org.multisig_address) : ''}
                                 </div>
                                 <div className='text-sm text-gray-400'>
                                     BNB Chain
@@ -274,7 +289,7 @@ function DashboardHome(props) {
                             </div>
                             <div className='w-2/5 px-3 mb-6'>
                                 <div className='font-bold'>
-                                    100 million
+                                    0
                                 </div>
                                 <div className='text-sm text-gray-400'>
                                     Fixed
@@ -386,7 +401,7 @@ function DashboardHome(props) {
                                     Members <br/>Overview
                                 </div>
                                 <div className='text-2xl font-bold text-yellow-500'>
-                                    6
+                                    {org?.members ? org.members.length : 0}
                                 </div>
                                 <div className='text-sm text-gray-400'>
                                     Active
@@ -400,14 +415,14 @@ function DashboardHome(props) {
                                     Recent<br/> Notification
                                 </div>
                                 <div className='text-2xl font-bold text-blue-700'>
-                                    14
+                                    0
                                 </div>
-                                <div className='text-sm text-gray-400'>
+                                {/* <div className='text-sm text-gray-400'>
                                     Active
                                 </div>
                                 <div className='text-sm'>
                                     Total Members
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -415,7 +430,7 @@ function DashboardHome(props) {
             </div>
 
 
-            <div className='mb-6'>
+            {/* <div className='mb-6'>
                 <div className="grid grid-cols-2 max-lg:grid-cols-2 gap-6 max-lg:text-center">
                     <div className='p-6 welcome-card rounded-lg'>
                         <h1 className='font-bold text-pink-500 text-xl mb-2'>
@@ -444,7 +459,7 @@ function DashboardHome(props) {
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className='mb-8'>
                 <div className='text-base font-bold mb-3'>
                     Recent Transaction requests
