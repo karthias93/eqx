@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Layout } from 'antd';
+import { Layout, Menu } from 'antd';
 import Accountmodal from '../../components/Accountmodal';
+import { useLocation } from 'react-router-dom';
 
 const { Header } = Layout;
 
@@ -8,16 +9,43 @@ const { Header } = Layout;
 
 
 function MainHeader(props) {
-    // const [current, setCurrent] = useState('home');
-    // const onClick = (e) => {
-    //     console.log('click ', e);
-    //     setCurrent(e.key);
-    // };
+    const [current, setCurrent] = useState('home');
+    const onClick = (e) => {
+        console.log('click ', e);
+        setCurrent(e.key);
+    };
 
-    // const { pathname } = useLocation();
+    const { pathname } = useLocation();
     const handleClick = () => {
         document.body.classList.toggle('sidebar-open');
     };
+
+    const items = [
+        {
+            label: 'Home',
+            key: 'home',
+        },
+        {
+            label: 'Play Subscription',
+            key: 'play-subscription',
+        },
+        // {
+        //     label: 'Create Treasury',
+        //     key: 'create-treasury',
+        // },
+        // {
+        //     label: 'Projects',
+        //     key: 'projects',
+        // },
+        // {
+        //     label: 'Subscribe',
+        //     key: 'subscribe',
+        // },
+        // {
+        //     label: 'Main website',
+        //     key: 'main-website',
+        // },
+    ];
     return (
         <div>
             <Header>
@@ -34,7 +62,7 @@ function MainHeader(props) {
 
                         </div>
                         <div className='flex-auto'>
-
+                        <Menu selectedKeys={[current]} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
                         </div>
                     </div>
                     <div className='self-center'>
