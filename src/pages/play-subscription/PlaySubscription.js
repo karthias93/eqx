@@ -26,15 +26,15 @@ function PlaySubscription(props) {
 
     return (
         <div>
-            <div className='mb-8 text-white'>
+            {/* <div className='mb-8 text-white'>
                 <Breadcrumb>
                     <Breadcrumb.Item>
                         <Link to='/dashboard'>Home</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item className='font-bold text-pink-500'>Play Subscription</Breadcrumb.Item>
                 </Breadcrumb>
-            </div>
-            <div className=' mb-4 text-center'>
+            </div> */}
+            <div className='my-20 mb-4 text-center'>
                 <h1 className='text-2xl font-bold mb-2'>
                     Subscribe to Earn
                 </h1>
@@ -43,7 +43,7 @@ function PlaySubscription(props) {
                     <small>subscribe to projects by acquring project tokens if project subscription offer tails you will get yours funds back </small>
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6 pb-3 mx-auto'>
+            <div className='form w-96 lg:width-full welcome-card rounded-lg p-6 pb-3 mx-auto'>
                 <Form
                     name="basic"
                     onFinish={onFinish}

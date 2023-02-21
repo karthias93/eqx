@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
 import { getOrg } from '../services/dashboard';
 import { message } from 'antd';
-import PlaySubscription from '../pages/dashboard/play-subscription/PlaySubscription';
 
 function DashboardRoutes(props) {
     const { auth, spinner } = props;
@@ -39,7 +38,6 @@ function DashboardRoutes(props) {
                 <Route path="/members"  element={<Members />}/>
                 <Route path="/members/add"  element={<AddMembers />}/>
                 <Route path="/members/remove"  element={<RemoveMembers />}/>
-                <Route path="/play-subscription"  element={<PlaySubscription />}/>
             </Routes>
             {spinner && <Spinner />}
         </>
