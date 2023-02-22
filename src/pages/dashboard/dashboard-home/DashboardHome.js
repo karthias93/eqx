@@ -177,16 +177,16 @@ function DashboardHome(props) {
                     <Breadcrumb.Item className='font-bold text-pink-500'>Dashboard</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
-            <div className="flex flex-wrap max-lg:text-center row-minus">
-                <div className='flex-none w-5/12 px-3'>
+            <div className="flex flex-wrap row-minus">
+                <div className='flex-none w-5/12 max-lg:w-full px-3'>
                     <div className='welcome-card rounded-lg p-6 mb-6'>
                         <div className='text-sm text-gray-400 mb-3'>
                             USER PROFILE
                         </div>
-                        <div className='text-2xl font-bold'>
+                        <div className='text-2xl font-bold truncate'>
                             {auth?.member_name} (You)
                         </div>
-                        <div className='text-sm flex'>
+                        <div className='text-sm flex '>
                             <Typography.Text copyable={{icon: <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 icon icon-tabler icon-tabler-copy" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
@@ -194,18 +194,18 @@ function DashboardHome(props) {
                             </svg>}} className="flex items-center">{auth?.wallet_address ? shortAddress(auth.wallet_address) : ''}</Typography.Text>
                             
                         </div>
-                        <div className='text-sm'>
+                        <div className='text-sm truncate'>
                             {auth?.email}
                         </div>
                     </div>
                 </div>
-                <div className='flex-none  w-7/12 px-3'>
+                <div className='flex-none  max-lg:w-full w-7/12  px-3'>
                     <div className='welcome-card rounded-lg p-6  mb-6'>
                         <div className='text-sm text-gray-400 mb-3'>
                             VAULT OVERVIEW
                         </div>
 
-                        <div className="grid grid-cols-3 max-lg:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-3 max-sm:grid-cols-1 gap-6">
                             <div>
                                 <div className='text-2xl font-bold'>
                                     EQ Vault
@@ -246,12 +246,12 @@ function DashboardHome(props) {
                         </div>
                     </div>
                 </div>
-                <div className='flex-none w-5/12 px-3'>
+                <div className='flex-none max-lg:w-full w-5/12 px-3'>
                     <div className='welcome-card rounded-lg p-6 mb-6'>
                         <div className='text-sm text-gray-400 mb-3'>
                             VAULT OVERVIEW
                         </div>
-                        <div className="flex gap-3 max-lg:text-center row-minus mb-6">
+                        <div className="flex gap-3 row-minus mb-6">
                             <div className='w-3/5 px-3  mb-6'>
                                 <div className='text-2xl font-bold'>
                                     EQ Vault
@@ -275,7 +275,7 @@ function DashboardHome(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex gap-3 max-lg:text-center row-minus mb-3">
+                        <div className="flex gap-3 row-minus mb-3">
                             <div className='w-3/5 px-3  mb-6'>
                                 <div className='text-2xl font-bold'>
                                     {org?.org?.multisig_address ? shortAddress(org.org.multisig_address) : ''}
@@ -299,7 +299,7 @@ function DashboardHome(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex gap-3 max-lg:text-center row-minus mb-6">
+                        <div className="flex gap-3 row-minus mb-6">
                             <div className='w-3/5 px-3  mb-6'>
                                 <div className='text-2xl font-bold'>
                                     Send
@@ -314,14 +314,14 @@ function DashboardHome(props) {
                         </div>
                     </div>
                 </div>
-                <div className='flex-none w-7/12 px-3'>
+                <div className='flex-none max-lg:w-full w-7/12 px-3'>
                     <div className='flex flex-wrap row-minus'>
-                        <div className='w-3/5 px-3  mb-6'>
+                        <div className='w-3/5 px-3 max-sm:w-full mb-6'>
                             <div className='welcome-card rounded-lg p-6 mb-6'>
                                 <div className='text-sm text-gray-400 mb-3'>
                                     VAULT OVERVIEW
                                 </div>
-                                <div className="flex gap-3 max-lg:text-center row-minus mb-6">
+                                <div className="flex gap-3 row-minus mb-6">
                                     <div className='w-3/5 px-3  mb-6'>
                                         <div className='text-2xl font-bold'>
                                             EQ Vault
@@ -345,9 +345,9 @@ function DashboardHome(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex gap-3 max-lg:text-center row-minus mb-3">
+                                <div className="flex gap-3 row-minus mb-3">
                                     <div className='w-3/5 px-3  mb-6'>
-                                        <div className='text-2xl font-bold'>
+                                        <div className='text-2xl font-bold truncate'>
                                             0xE0c...c7C374c
                                         </div>
                                         <div className='text-sm text-gray-400'>
@@ -369,7 +369,7 @@ function DashboardHome(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex gap-3 max-lg:text-center row-minus mb-6">
+                                <div className="flex gap-3 row-minus mb-6">
                                     <div className='w-3/5 px-3  mb-6'>
                                         <div className='text-2xl font-bold'>
                                             Send
@@ -395,7 +395,7 @@ function DashboardHome(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className='w-2/5 px-3  mb-6'>
+                        <div className='w-2/5 max-sm:w-full px-3  mb-6'>
                             <div className='welcome-card rounded-lg p-6 mb-8'>
                                 <div className='text-sm text-gray-400'>
                                     Members <br/>Overview
@@ -431,7 +431,7 @@ function DashboardHome(props) {
 
 
             {/* <div className='mb-6'>
-                <div className="grid grid-cols-2 max-lg:grid-cols-2 gap-6 max-lg:text-center">
+                <div className="grid grid-cols-2 max-lg:grid-cols-2 gap-6">
                     <div className='p-6 welcome-card rounded-lg'>
                         <h1 className='font-bold text-pink-500 text-xl mb-2'>
                             EQ Vault

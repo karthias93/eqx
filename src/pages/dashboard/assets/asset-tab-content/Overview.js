@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Overview(props) {
     return (
         <div>
-            <div className="grid grid-cols-2 max-lg:grid-cols-3 max-md:grid-cols-2 gap-6 max-lg:text-center">
+            <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-6">
                 <div>
                     <div className='welcome-card rounded-lg p-6 mb-6'>
                         <div className='text-sm text-gray-400 mb-3'>

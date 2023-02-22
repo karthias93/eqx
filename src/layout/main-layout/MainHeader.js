@@ -51,7 +51,7 @@ function MainHeader(props) {
             <Header>
                 <div className='flex justify-between'>
                     <div className='flex flex-auto'>
-                        <div className="logo self-center mr-16 flex gap-3" >
+                        <div className="flex-none logo self-center mr-16 flex gap-3" >
                             <svg onClick={handleClick} xmlns="http://www.w3.org/2000/svg" class="hidden mv-block self-center icon icon-tabler icon-tabler-align-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M4 6l16 0"></path>

@@ -21,7 +21,7 @@
         position: fixed;
         top: 0;
         width: 100%;
-        z-index: 9999;
+        z-index: 999;
         padding: 7px 30px;
     }
 
@@ -153,7 +153,7 @@
 
 .ant-tabs {
     color: #fff;
-    padding: 20px;
+    // padding: 20px;
     backdrop-filter: blur(200px);
     background: #0000;
     border-radius: 15px;
@@ -249,4 +249,10 @@
 .ant-menu-light .ant-menu-item-selected {
     background-color: #eb4d9c1a;
     color: #eb4b9b !important;
+}
+.ant-form-item{
+margin-bottom: 16px;
+}
+.ant-form-item .ant-form-item-explain-error{
+    font-size: 12px;
 }

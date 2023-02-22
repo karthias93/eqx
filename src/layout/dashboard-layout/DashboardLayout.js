@@ -36,7 +36,7 @@ function DashboardLayout(props) {
                 </div>
             </Sider>
             <Content className='overflow-auto'>
-                <div className='px-4 p-3 pb-12'>
+                <div className='px-4 p-4 pb-12'>
                     <DashboardRoutes />
                 </div>
             </Content>
