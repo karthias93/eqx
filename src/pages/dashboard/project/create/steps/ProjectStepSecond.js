@@ -1,39 +1,14 @@
-import React, { useState } from 'react';
-import { Button, Form, Input, message, Select, Upload, Checkbox } from 'antd';
-import { addOrgFormData } from '../../../../../redux/actions';
-import axios from 'axios';
-import { getWeb3 } from "../../../../../helpers/currentWalletHelper";
-import MultiSig from "../../../../../Config/abis/EquinoxMain.json";
-import GToken from "../../../../../Config/abis/GToken.json";
-import Eq from "../../../../../Config/abis/EquinoxToken.json";
-import { CREATE_DAO } from "../../../../../utils";
-import { getMe } from '../../../../../services/dashboard';
-import Web3 from "web3";
-import {
-    AwaitingApproval,
-    MultiSignature,
-    ContinuePay,
-    GasError,
-    DuplicateError,
-} from "../../../../../components/modals";
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { Button, Form, Input, message } from 'antd';
+import { addProjectFormData } from '../../../../../redux/actions';
+import { connect } from "react-redux";
 
-function TreasuryStepSecond(props) {
-    const [mailOtpNote, setMailOtpNote] = useState(false);
-    const [awaiting, setAwaiting] = useState(false);
-    const [multiSign, setMultiSign] = useState(false);
-    const [pay, setPay] = useState(false);
-    const [gasError, setGasError] = useState(false);
-    const [duplicate, setDuplicate] = useState(false);
-    const eqxAdd = "0x54040960e09fb9f1dd533d4465505ba558693ad6"; // fetch this address (in this file and in org.jsx file) form pages/Config/contracts.js
-    const [form] = Form.useForm();
-    const { Option } = Select;
+function ProjectStepSecond(props) {
+    const {projectFormdata} = props;
+    const { TextArea } = Input;
     const onFinish = async (values) => {
-        console.log(values);
         await new Promise((r) => setTimeout(r, 500));
-        console.log(values);
-        props.dispatch(addOrgFormData(values));
-        console.log("calling");
+        props.dispatch(addProjectFormData(values));
         props.nextStep();
     };
     
@@ -41,39 +16,22 @@ function TreasuryStepSecond(props) {
         console.log('Failed:', errorInfo);
         message.error('Submit Failed!');
     };
-    const verifyEmail = (_, value, cb) => {
-        axios.get(`${process.env.REACT_APP_API_URL}/check_email/${value}`)
-            .then((res) => {
-                if (res?.data?.data.length) {
-                    cb(`not a valid email`)
-                } else {
-                    axios.get(
-                        `${process.env.REACT_APP_API_URL}/send_activation_code/${value}`
-                    ).then((res) => {
-                        setMailOtpNote(true);
-                        cb()
-                    })
-                    .catch((er) => {
-                        console.log(er)
-                        cb()
-                    });
-                }
-            })
-            .catch((e) => {
-                cb()
-            });
-    }
+    const [form] = Form.useForm();
+    useEffect(() => {
+        form.resetFields();
+    }, [projectFormdata])
     return (
         <div>
-            <div className=' mb-12'>
+            <div className=' mb-12 text-center'>
+                <p>PROJECT LAUNCHER</p>
                 <h1 className='text-2xl font-bold mb-4'>
                     STEP 2
                 </h1>
                 <p className='text-base'>
-                    Deployer KYC
+                    Description
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6'>
+            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6 m-auto'>
                 <Form
                     name="basic"
                     onFinish={onFinish}
@@ -81,43 +39,31 @@ function TreasuryStepSecond(props) {
                     autoComplete="off"
                     layout='vertical'
                     initialValues={{
-                        email: "",
+                        project_description: projectFormdata?.project_description,
                     }}
                     form={form}
                 >
                     <Form.Item
-                        label="Email ID"
-                        name="email"
-                        validateTrigger="onBlur"
+                        label="Project's Description (Min 200 Words, Max 500 Words)"
+                        name="project_description"
                         rules={[
                             {
                                 required: true,
                                 message: 'Required',
                             },
                             {
-                                type: 'email',
-                                message: 'Invalid email'
-                            },
-                            {
-                                message: 'Not a valid email',
-                                validator: verifyEmail
+                                message: 'Must be exactly 5 characters',
+                                validator: (_, value, cb) => {
+                                    if (value && value.length >= 200 && value.length <= 500) {
+                                        cb()
+                                    } else {
+                                        cb('Min 200 Words, Max 500 Words')
+                                    }
+                                }
                             }
                         ]}
                     >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item label={``} name="tandc" valuePropName="checked">
-                        <Checkbox>By clicking Next, you agree to our
-                            <span>
-                              <a
-                                target="_blank"
-                                href="https://equinox.business"
-                              >
-                                <b>Terms of service.</b>
-                              </a>
-                            </span>
-                            You may receive Email notifications from us and can
-                            opt out at any time.</Checkbox>
+                        <TextArea rows={7} />
                     </Form.Item>
                     <div className='flex'>
                         <Button
@@ -140,24 +86,16 @@ function TreasuryStepSecond(props) {
                                 <path d="M15 8l4 4"></path>
                             </svg>
                         </Button>
-                        {/* <Button type="primary" htmlType="submit" className='ml-0 flex gap-1 mx-auto grad-btn border-0'>
-                                Deploy
-                        </Button> */}
                     </div>
                 </Form>
             </div>
-            <AwaitingApproval open={awaiting} setOpen={setAwaiting} />
-            <GasError open={gasError} setOpen={setGasError} />
-            <ContinuePay open={pay} setOpen={setPay} />
-            <MultiSignature open={multiSign} setOpen={setMultiSign} />
-            <DuplicateError open={duplicate} setOpen={setDuplicate} />
         </div>
     );
 }
 const mapStateToProps = (state) => {
     return {
-      orgFormdata: state.orgFormdata,
+        projectFormdata: state.projectFormdata
     };
   };
   
-  export default connect(mapStateToProps)(TreasuryStepSecond);
+  export default connect(mapStateToProps)(ProjectStepSecond);

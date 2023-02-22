@@ -26,17 +26,15 @@ function ProjectStepFirst(props) {
     return (
         <div>
             <div className=' mb-12'>
-                <p className='text-base text-gray-800'>
+                <p className='text-base text-gray-800 text-center'>
                     PROJECT LAUNCHER
                 </p>
-                <h2>CREATE PROJECT</h2>
+                <h2 className='font-bold  text-center'>CREATE PROJECT</h2>
                 <p className='text-base text-gray-800'>
-                    Read <a href="https://docs.equinox.business/">
-                    <span className="text-[#0EA5E9] font-bold">Docs</span>
-                  </a> for requirements.
+                    Projects are Business units with teams, governance token and Management plans. Governance tokens may be listed on Enterprise DEX for public trading or may solely be used for Organizational Governance..
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6'>
+            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6 m-auto'>
                 <Form
                     name="basic"
                     onFinish={onFinish}
@@ -73,7 +71,13 @@ function ProjectStepFirst(props) {
                             },
                         ]}
                     >
-                        <Select options={props.category ? props.category : []} />
+                        <Select>
+                            {(props.category ? props.category : []).map(item => (
+                                <Select.Option key={item.id} value={item.id} label={item.id}>
+                                    {item.name}
+                                </Select.Option>
+                            ))} 
+                        </Select>
                     </Form.Item>
                     <Form.Item
                         label="Project's Website"
@@ -121,7 +125,7 @@ function ProjectStepFirst(props) {
         </div>
     );
 }
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state) => {
     return {
       category: state.category,
       projectFormdata: state.projectFormdata

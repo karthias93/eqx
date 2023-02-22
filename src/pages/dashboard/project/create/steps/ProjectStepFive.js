@@ -1,20 +1,243 @@
-import React from 'react';
-import { connect } from "react-redux";
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Button, Form, Input, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons'
+import { addProjectFormData } from '../../../../../redux/actions';
+import axios from 'axios';
+import { getWeb3 } from "../../../../../helpers/currentWalletHelper";
+import MultiSig from "../../../../../Config/abis/EquinoxMain.json";
+import GToken from "../../../../../Config/abis/GToken.json";
+import Eq from "../../../../../Config/abis/EquinoxToken.json";
+import { CREATE_PROJECT } from "../../../../../utils";
+import { getOrg, getProjects } from '../../../../../services/dashboard';
+import Web3 from "web3";
+import {
+    AwaitingApproval,
+    GToken as GTokenModel,
+    ContinuePay,
+    GasError,
+} from "../../../../../components/modals";
+import { connect } from 'react-redux';
 
 function ProjectStepFive(props) {
+    const [decimal, setDecimal] = useState(18);
+    const [fileList, setFileList] = useState([]);
+    const [amount, setAmount] = useState("100000000000000000000");
+    const eqxAdd = "0x54040960e09fb9f1dd533d4465505ba558693ad6";
+    const [awaiting, setAwaiting] = useState(false);
+    const [gTokenModel, setGTokenModel] = useState(false);
+    const [pay, setPay] = useState(false);
+    const [gasError, setGasError] = useState(false);
+
+    const toFixed = (x) => {
+        if (Math.abs(x) < 1.0) {
+            var e = parseInt(x.toString().split("e-")[1]);
+            if (e) {
+                x *= Math.pow(10, e - 1);
+                x = "0." + new Array(e).join("0") + x.toString().substring(2);
+            }
+        } else {
+            var e = parseInt(x.toString().split("+")[1]);
+            if (e > 20) {
+                e -= 20;
+                x /= Math.pow(10, e);
+                x += new Array(e + 1).join("0");
+            }
+        }
+        return x;
+    };
+
+    const deploy = async (values) => {
+        setAwaiting(true);
+        let web3 = await getWeb3();
+
+        let contract = new web3.eth.Contract(GToken.abi, eqxAdd);
+        let accounts = await web3.eth.getAccounts();
+        let multiSig = localStorage.getItem(accounts[0]);
+
+        const amountToPay = Web3.utils.toWei(`${CREATE_PROJECT}`, "ether");
+        const tnx = await web3.eth.sendTransaction({
+            from: accounts[0],
+            to: process.env.REACT_APP_OWNER_ADDRESS,
+            value: amountToPay,
+        });
+        console.log(tnx);
+        if (!tnx) return;
+
+        await contract
+            .deploy({
+                data: GToken.bytecode,
+                arguments: [
+                    props.projectFormdata?.token_name,
+                    props.projectFormdata?.token_ticker,
+                    decimal,
+                    toFixed(
+                        props.projectFormdata?.fixed_supply * 1000000000 * 1000000000
+                    ).toLocaleString("fullwide", { useGrouping: false }),
+                    accounts[0],
+                    props.org.org.multisig_address,
+                ],
+            })
+            .send({ from: accounts[0] })
+            .on("error", (err) => {
+                console.log(err);
+                setAwaiting(false);
+                setGasError(true);
+            })
+            .then(async (receipt) => {
+                localStorage.setItem(`${accounts[0]}-gtokne`, receipt._address);
+                let GTokenIns = new web3.eth.Contract(GToken.abi, receipt._address);
+                let balance = await GTokenIns.methods.balanceOf(accounts[0]).call();
+                setAwaiting(false);
+                setPay(true);
+
+                await GTokenIns.methods
+                    .transfer(props.org.org.multisig_address, balance)
+                    .send({ from: accounts[0] })
+                    .on("error", (err) => {
+                        setPay(false);
+                        setGasError(true);
+                        if (props.auth && props.auth.org_id) getOrg(props.auth.org_id);
+                    })
+                    .then((receipt) => {
+                        setPay(false);
+                        setGTokenModel(true);
+                        console.log(receipt); // send to next step
+                        addProject(values);
+                    });
+            });
+    };
+
+    const uploadProps = {
+        onRemove: (file) => {
+          const index = fileList.indexOf(file);
+          const newFileList = fileList.slice();
+          newFileList.splice(index, 1);
+          setFileList(newFileList);
+        },
+        beforeUpload: (file) => {
+          setFileList([...fileList, file]);
+          return false;
+        },
+        fileList,
+    };
+
+    const addProject = async (values) => {
+        if (props.auth && props.auth.org_id) {
+            const skipFields = [];
+            const formData = new FormData();
+            formData.append("org_id", props.auth.org_id);
+            formData.append("whitepaper", values.whitepaper);
+            formData.append("incorporation", values.incorporation);
+            formData.append("other_doc", values.other_doc);
+            formData.append("token_logo", values.token_logo);
+            for (const [key, value] of Object.entries(props.projectFormdata)) {
+                if (!skipFields.includes(key)) {
+                    formData.append(key, value);
+                }
+            }
+            let web3 = await getWeb3();
+            let accounts = await web3.eth.getAccounts();
+            const gTokenAddr = localStorage.getItem(`${accounts[0]}-gtokne`);
+            formData.append("gtoken_address", gTokenAddr);
+
+            axios
+                .post(`${process.env.REACT_APP_API_URL}/add_project`, formData)
+                .then((res) => {
+                    getProjects(res.data.project_id);
+                    props.nextStep();
+                });
+        }
+    };
+    const [form] = Form.useForm();
+    const onFinish = async (values) => {
+        await new Promise((r) => setTimeout(r, 500));
+        props.dispatch(addProjectFormData(values));
+        deploy(values);
+    };
     return (
-        <div className='flex items-center justify-center min-h-[80vh]'>
-            <div className='text-center mb-12'>
+        <div>
+            <div className=' mb-12'>
+                <p>PROJECT LAUNCHER</p>
                 <h1 className='text-2xl font-bold mb-4'>
-                    DAO DEPLOYED !
+                    STEP 5
                 </h1>
                 <p className='text-base'>
-                    <Link className="photo_cap_btn" to="/dashboard">ACCESS DASHBOARD</Link>
+                    Upload Docs
                 </p>
             </div>
+            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6'>
+                <Form
+                    name="dynamic_form_nest_item"
+                    onFinish={onFinish}
+                    autoComplete="off"
+                    layout='vertical'
+                    initialValues={{
+                        token_logo: "",
+                        whitepaper: "",
+                        incorporation: "",
+                        other_doc: "",
+                    }}
+                    form={form}
+                >
+                    <Form.Item
+                        label="Token Logo"
+                        name="token_logo"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Required',
+                            },
+                        ]}
+                    >
+                        <Upload {...uploadProps}>
+                            <Button icon={<UploadOutlined />}>Select File</Button>
+                        </Upload>
+                    </Form.Item>
+                    <div className='flex'>
+                        <Button
+                            className='mx-0 flex gap-1 mx-auto bordered border-gray-400 text-gray-400' type="primary"
+                            onClick={() => props.previousStep()}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M5 12l14 0"></path>
+                                <path d="M5 12l4 4"></path>
+                                <path d="M5 12l4 -4"></path>
+                            </svg>
+                            Previous
+                        </Button>
+                        {/* <Button type="primary" htmlType="submit" className='ml-0 flex gap-1 mx-auto grad-btn border-0 '>
+                            Next <svg xmlns="http://www.w3.org/2000/svg" className="self-center icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M5 12l14 0"></path>
+                                <path d="M15 16l4 -4"></path>
+                                <path d="M15 8l4 4"></path>
+                            </svg>
+                        </Button> */}
+                        <Button type="primary" htmlType="submit" className='ml-0 flex gap-1 mx-auto grad-btn border-0'>
+                                Deploy
+                        </Button>
+                    </div>
+                </Form>
+            </div>
+            <AwaitingApproval open={awaiting} setOpen={setAwaiting} />
+            <GasError open={gasError} setOpen={setGasError} />
+            <ContinuePay
+                open={pay}
+                setOpen={setPay}
+                title="Continue to transfer gTokens to your Treasury Wallet"
+            />
+            <GTokenModel open={gTokenModel} setOpen={setGTokenModel} />
         </div>
     );
 }
-
-export default connect()(ProjectStepFive);
+const mapStateToProps = (state) => {
+    return {
+        account: state.account,
+        projectFormdata: state.projectFormdata,
+        auth: state.auth,
+        org: state.org,
+    };
+  };
+  
+  export default connect(mapStateToProps)(ProjectStepFive);

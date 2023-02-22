@@ -14,7 +14,7 @@ const getMe = (wallet_address) => {
 }
 
 const getCategory = () => {
-  axios.get(`${process.env.REACT_APP_API_URL}/get_project_category`)
+  axios.get(`${process.env.REACT_APP_API_URL}/get_category`)
     .then((res) => {
       console.log(res.data.response)
       store.dispatch(loadCategory(res.data.response));
