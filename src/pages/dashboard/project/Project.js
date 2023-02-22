@@ -29,7 +29,7 @@ function Project(props) {
               );
             } else {
               // alert("You can create Project");
-              navigate("/dashboard/project/new");
+              navigate("/dashboard/project/create");
             }
             // console.log(org?.project && org.project.length);
           }
@@ -45,7 +45,7 @@ function Project(props) {
                     <Breadcrumb.Item className='font-bold text-pink-500'>Project</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
-            {org?.project && org.project.length && <>
+            {org?.project && org.project.length > 0 && <>
             <div className='mb-8'>
                 <div className='text-base font-bold mb-3'>
                     {project.project_name}<br></br>

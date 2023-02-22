@@ -4,8 +4,8 @@ import {Route, Routes} from 'react-router-dom';
 import DashboardHome from '../pages/dashboard/dashboard-home/DashboardHome';
 import AddMembers from '../pages/dashboard/members/add-members/AddMembers';
 import Members from '../pages/dashboard/members/Members';
+import CreateProject from '../pages/dashboard/project/create';
 import RemoveMembers from '../pages/dashboard/members/remove-members/RemoveMembers';
-import CreateSubscription from '../pages/dashboard/project/create-subscription/CreateSubscription';
 import Project from '../pages/dashboard/project/Project';
 import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
@@ -36,7 +36,7 @@ function DashboardRoutes(props) {
                 <Route path="/"  element={<DashboardHome />}/>
                 <Route path="/home"  element={<DashboardHome />}/>
                 <Route path="/project"  element={<Project />}/>
-                <Route path="/project/create-subscription"  element={<CreateSubscription />}/>
+                <Route path="/project/create"  element={<CreateProject />}/>
                 <Route path="/members"  element={<Members />}/>
                 <Route path="/members/add"  element={<AddMembers />}/>
                 <Route path="/members/remove"  element={<RemoveMembers />}/>
