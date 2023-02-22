@@ -1,33 +1,38 @@
 import { Breadcrumb, Button, Tabs } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import TeamMembers from './members-tab-content/TeamMembers';
+import Overview from './asset-tab-content/Overview';
 
-function Members(props) {
+function Assets(props) {
     const items = [
         {
             key: '1',
-            label: `Team Members`,
-            children: <TeamMembers />,
+            label: `Overview`,
+            children: <Overview />,
         },
         {
             key: '2',
-            label: `Add Member Requests`,
+            label: `Subscription Completed Request`,
             children: `Content of Tab Pane 2`,
         },
         {
             key: '3',
-            label: `Add Member Failed`,
+            label: `Subscription Pending Request`,
             children: `Content of Tab Pane 3`,
         },
         {
             key: '4',
-            label: `Remove Member Requests`,
+            label: `Completed Request`,
             children: `Content of Tab Pane 3`,
         },
         {
             key: '5',
-            label: `Remove Member Failed`,
+            label: `Pending Request`,
+            children: `Content of Tab Pane 3`,
+        },
+        {
+            key: '5',
+            label: `Failed Request`,
             children: `Content of Tab Pane 3`,
         },
     ];
@@ -38,7 +43,7 @@ function Members(props) {
                     <Breadcrumb.Item>
                         <Link to='/dashboard/home'>Home</Link>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item className='text-pink-500 font-bold'>Members</Breadcrumb.Item>
+                    <Breadcrumb.Item className='text-pink-500 font-bold'>Assets</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
             <div className='mb-4'>
@@ -46,14 +51,13 @@ function Members(props) {
             </div>
             <div className='flex gap-3'>
                 <div>
-                   <Link to='/dashboard/members/add'> <Button type='primary' className='grad-btn border-0'>Add members</Button></Link>
+                   <Link to='/dashboard/members/add'> <Button type='primary' className='grad-btn border-0'>Create New Request</Button></Link>
                 </div>
                 <div>
-                <Link to='/dashboard/members/remove'><Button type='primary' className='grad-btn border-0'>Remove members</Button></Link>
                 </div>
             </div>
         </div>
     );
 }
 
-export default Members;
+export default Assets;
