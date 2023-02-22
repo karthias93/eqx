@@ -5,6 +5,7 @@ import DashboardHome from '../pages/dashboard/dashboard-home/DashboardHome';
 import AddMembers from '../pages/dashboard/members/add-members/AddMembers';
 import Members from '../pages/dashboard/members/Members';
 import CreateProject from '../pages/dashboard/project/create';
+import CreateProposal from '../pages/dashboard/goverance/proposal';
 import RemoveMembers from '../pages/dashboard/members/remove-members/RemoveMembers';
 import Project from '../pages/dashboard/project/Project';
 import { useNavigate } from "react-router-dom";
@@ -16,20 +17,20 @@ import Goverance from '../pages/dashboard/goverance/Goverance';
 
 function DashboardRoutes(props) {
     const { auth, spinner } = props;
-    // const authenticated = localStorage.getItem("authenticated");
-    // const account = sessionStorage.getItem("selected_account");
-    // let navigate = useNavigate();
-    // useEffect(() => {
-    //     if (auth && auth.org_id) getOrg(auth.org_id);
-    // }, [auth]);
-    // useEffect(() => {
-    //     message.info(`Do not add any new team member unless any of your proposals are finalized `);
-    // }, []);
-    // useEffect(() => {
-    //     if (!account || !authenticated) {
-    //         return navigate("/");
-    //     }
-    // }, [account, authenticated])
+    const authenticated = localStorage.getItem("authenticated");
+    const account = sessionStorage.getItem("selected_account");
+    let navigate = useNavigate();
+    useEffect(() => {
+        if (auth && auth.org_id) getOrg(auth.org_id);
+    }, [auth]);
+    useEffect(() => {
+        message.info(`Do not add any new team member unless any of your proposals are finalized `);
+    }, []);
+    useEffect(() => {
+        if (!account || !authenticated) {
+            return navigate("/");
+        }
+    }, [account, authenticated])
     return (
         <>
             <Routes>
@@ -42,6 +43,7 @@ function DashboardRoutes(props) {
                 <Route path="/members/remove"  element={<RemoveMembers />}/>
                 <Route path="/assets"  element={<Assets />}/>
                 <Route path="/goverance"  element={<Goverance/>}/>
+                <Route path="/goverance/proposal"  element={<CreateProposal/>}/>
             </Routes>
             {spinner && <Spinner />}
         </>

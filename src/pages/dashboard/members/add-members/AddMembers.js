@@ -1,16 +1,149 @@
 import { Breadcrumb, Button, Form, Input, message } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import store from "../../../../redux/store";
+import { updateSpinner } from "../../../../redux/actions";
+import { getWeb3 } from "../../../../helpers/currentWalletHelper";
+import { useNavigate  } from 'react-router-dom';
+import MultiSig from "../../../../Config/abis/EquinoxMain.json";
+import {
+    //CREATE_ADD_MEMBER,
+    CREATE_PROPOSAL_PAYABLE_VALUE,
+  } from "../../../../utils";
+import { connect } from 'react-redux';
 
 function AddMembers(props) {
-    const onFinish = (values) => {
-        message.success('Submit success!');
-        console.log('Success:', values);
+    const { org } = props;
+    const navigate = useNavigate();
+    const onFinish = async (values) => {
+        await new Promise((r) => setTimeout(r, 500));
+        addMember(values);
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-        message.error('Submit success!');
+        message.error('Submit Failed!');
     };
+    const addMember = async (values) => {
+        console.log(values)
+        store.dispatch(updateSpinner(true));
+        const formData = values;
+        formData.org_id = org?.org?.id;
+        const web3 = await getWeb3();
+        const accounts = await web3.eth.getAccounts();
+        const multiSigAddr = org?.org?.multisig_address;
+        const account = accounts[0];
+        const contract = await new web3.eth.Contract(MultiSig.abi, multiSigAddr);
+        console.log(org?.members);
+    
+        const isAlreadyAdded = org?.members.filter(
+          (val) => val.wallet_address === values.member_wallet_address
+        );
+        console.log(isAlreadyAdded);
+    
+        if (isAlreadyAdded.length > 0) {
+          message.error('Duplicate entry');
+          store.dispatch(updateSpinner(false));
+          return;
+        }
+        // const amountToPay = web3.utils.toWei(`${CREATE_ADD_MEMBER}`, "ether");
+        // const tnx = await web3.eth.sendTransaction({
+        //   from: accounts[0],
+        //   to: process.env.REACT_APP_OWNER_ADDRESS,
+        //   value: amountToPay,
+        // });
+        // console.log(tnx);
+        // if (!tnx) return;
+        await contract.methods
+          .addMemberProposal(values.member_wallet_address)
+          .send({
+            from: account,
+            value: web3.utils.toWei(CREATE_PROPOSAL_PAYABLE_VALUE, "ether"),
+          })
+          .on("error", (error) => {
+            store.dispatch(updateSpinner(false));
+            console.log(error);
+          })
+          .then(() => {
+            axios
+              .post(`${process.env.REACT_APP_API_URL}/add_member`, formData)
+              .then(async (res) => {
+                const response = await axios
+                  .post(`${process.env.REACT_APP_API_URL}/add_index/`, {
+                    org_id: props.org?.org?.id,
+                    type: "add_member",
+                    data: values.member_wallet_address,
+                  })
+                  .then(() => {})
+                  .catch((e) => {
+                    console.log(e);
+                    store.dispatch(updateSpinner(false));
+                  });
+                console.log("INDEX UPDATED", response);
+                store.dispatch(updateSpinner(false));
+                message.success('Member added successfully')
+                navigate("/dashboard/members");
+              })
+              .catch((err) => {
+                message.error(err.message);
+                store.dispatch(updateSpinner(false));
+              });
+          });
+    };
+    const checkAddress = async (_, value, cb) => {
+        try {
+          const { data } = await axios.post(
+            `${process.env.REACT_APP_API_URL}/check_org`,
+            {
+              wallet_address: value,
+            }
+          );
+          console.log(data.data);
+          if (data.data.length) {
+            cb("Allready exist ");
+          }
+        } catch (error) {
+          cb(error.message);
+        }
+        try {
+          const { data } = await axios.post(
+            `${process.env.REACT_APP_API_URL}/check_member`,
+            {
+              wallet_address: value,
+            }
+          );
+          console.log(data.data);
+          if (data.data.length) {
+            cb("Allready exist ");
+            return;
+          } else {
+            cb()
+          }
+        } catch (error) {
+          cb(error.message);
+        }
+    };
+    const verifyEmail = (_, value, cb) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/check_email/${value}`)
+            .then((res) => {
+                if (res?.data?.data.length) {
+                    cb(`not a valid email`)
+                } else {
+                    // axios.get(
+                    //     `${process.env.REACT_APP_API_URL}/send_activation_code/${value}`
+                    // ).then((res) => {
+                        cb()
+                    // })
+                    // .catch((er) => {
+                    //     console.log(er)
+                    //     cb()
+                    // });
+                }
+            })
+            .catch((e) => {
+                cb()
+            });
+    }
     return (
         <div>
             <div className='mb-4 text-white'>
@@ -35,24 +168,35 @@ function AddMembers(props) {
                     name="basic"
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
+                    initialValues={{
+                        member_name: "",
+                        member_wallet_address: "",
+                        member_email: "",
+                        // otp: "",
+                    }}
                     autoComplete="off"
                     layout='vertical'
                 >
                     <Form.Item
                         label="Wallet"
-                        name="wallet"
+                        name="member_wallet_address"
+                        validateTrigger="onBlur"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your username!',
+                                message: 'Required',
                             },
+                            {
+                                message: 'Allready exist',
+                                validator: checkAddress
+                            }
                         ]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Full Name"
-                        name="full-name"
+                        name="member_name"
                         rules={[
                             {
                                 required: true,
@@ -64,18 +208,23 @@ function AddMembers(props) {
                     </Form.Item>
                     <Form.Item
                         label="Email Address"
-                        name="email"
+                        name="member_email"
+                        validateTrigger="onBlur"
                         rules={[
                             {
                                 type: 'email',
                                 required: true,
-                                message: 'Please input your username!',
+                                message: 'Please input your emailaddress!',
                             },
+                            {
+                                message: 'Allready exist',
+                                validator: verifyEmail
+                            }
                         ]}
                     >
                         <Input />
                     </Form.Item>
-                    <div className='flex gap-3'>
+                    {/* <div className='flex gap-3'>
                         <div className='w-5/6'>
                             <Form.Item
                                 label="OTP"
@@ -96,10 +245,10 @@ function AddMembers(props) {
                                 Submit
                             </Button>
                         </div>
-                    </div>
+                    </div> */}
 
                     <Form.Item >
-                        <p className='text-white text-center mt-3'>
+                        <p className='text-center mt-3'>
                             New Member will get an email link for updating further profile
                         </p>
                     </Form.Item>
@@ -121,5 +270,10 @@ function AddMembers(props) {
         </div>
     );
 }
+const mapStateToProps = (state) => {
+    return {
+      org: state.org,
+    };
+};
 
-export default AddMembers;
+export default connect(mapStateToProps)(AddMembers);

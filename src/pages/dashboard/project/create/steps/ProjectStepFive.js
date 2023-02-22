@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Upload } from 'antd';
+import { Button, Form, Input, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons'
 import { addProjectFormData } from '../../../../../redux/actions';
 import axios from 'axios';
@@ -20,7 +20,6 @@ import { connect } from 'react-redux';
 
 function ProjectStepFive(props) {
     const [decimal, setDecimal] = useState(18);
-    const [fileList, setFileList] = useState([]);
     const [amount, setAmount] = useState("100000000000000000000");
     const eqxAdd = "0x54040960e09fb9f1dd533d4465505ba558693ad6";
     const [awaiting, setAwaiting] = useState(false);
@@ -107,20 +106,6 @@ function ProjectStepFive(props) {
             });
     };
 
-    const uploadProps = {
-        onRemove: (file) => {
-          const index = fileList.indexOf(file);
-          const newFileList = fileList.slice();
-          newFileList.splice(index, 1);
-          setFileList(newFileList);
-        },
-        beforeUpload: (file) => {
-          setFileList([...fileList, file]);
-          return false;
-        },
-        fileList,
-    };
-
     const addProject = async (values) => {
         if (props.auth && props.auth.org_id) {
             const skipFields = [];
@@ -189,7 +174,77 @@ function ProjectStepFive(props) {
                             },
                         ]}
                     >
-                        <Upload {...uploadProps}>
+                        <Upload {...{
+                            onRemove: (file) => {
+                                form.setFieldValue('token_logo', '')
+                            },
+                            beforeUpload: (file) => {
+                                if (file.size>100*1024){
+                                    message.error("File size should not exceed 100kb. You might lose your funds if you proceed with improper file size.")
+                                    return false;
+                                }
+                                form.setFieldValue('token_logo', file)
+                                return false;
+                            },
+                        }}>
+                            <Button icon={<UploadOutlined />}>Select File</Button>
+                        </Upload>
+                    </Form.Item>
+                    <Form.Item
+                        label="Whitepaper (Less than 150 KB, In PDF format)"
+                        name="whitepaper"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Required',
+                            },
+                        ]}
+                    >
+                        <Upload {...{
+                            onRemove: (file) => {
+                                form.setFieldValue('whitepaper', '')
+                            },
+                            beforeUpload: (file) => {
+                                if (file.size>150*1024){
+                                    message.error("File size should not exceed 150kb.You might lose your funds if you proceed with improper file size.")
+                                    return false;
+                                }
+                                form.setFieldValue('whitepaper', file)
+                                return false;
+                            },
+                        }}>
+                            <Button icon={<UploadOutlined />}>Select File</Button>
+                        </Upload>
+                    </Form.Item>
+                    <Form.Item
+                        label="Incorporation Certificate (If Applicable)"
+                        name="incorporation"
+                    >
+                        <Upload {...{
+                            onRemove: (file) => {
+                                form.setFieldValue('incorporation', '')
+                            },
+                            beforeUpload: (file) => {
+                                form.setFieldValue('incorporation', file)
+                                return false;
+                            },
+                        }}>
+                            <Button icon={<UploadOutlined />}>Select File</Button>
+                        </Upload>
+                    </Form.Item>
+                    <Form.Item
+                        label="Other Doc (If any)"
+                        name="other_doc"
+                    >
+                        <Upload {...{
+                            onRemove: (file) => {
+                                form.setFieldValue('other_doc', '')
+                            },
+                            beforeUpload: (file) => {
+                                form.setFieldValue('other_doc', file)
+                                return false;
+                            },
+                        }}>
                             <Button icon={<UploadOutlined />}>Select File</Button>
                         </Upload>
                     </Form.Item>

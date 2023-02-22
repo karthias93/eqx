@@ -46,7 +46,7 @@ function Goverance(props) {
             </div>
             <div className='flex gap-3'>
                 <div>
-                   <Link to='/dashboard/members/add'> <Button type='primary' className='grad-btn border-0'>Create New</Button></Link>
+                   <Link to='/dashboard/goverance/proposal'> <Button type='primary' className='grad-btn border-0'>Create New</Button></Link>
                 </div>
                 <div>
                 </div>

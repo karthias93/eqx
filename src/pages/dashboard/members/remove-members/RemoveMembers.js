@@ -1,16 +1,131 @@
-import { Breadcrumb, Button, Form, Input, message } from 'antd';
+import { Breadcrumb, Button, Form, Input, message, Select } from 'antd';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { connect } from "react-redux";
+import axios from "axios";
+import { getWeb3 } from "../../../../helpers/currentWalletHelper";
+import MultiSig from "../../../../Config/abis/EquinoxMain.json";
+import { updateSpinner } from "../../../../redux/actions";
+import store from "../../../../redux/store";
+import {
+  CREATE_PROPOSAL_PAYABLE_VALUE,
+  //CREATE_REMOVE_MEMBER,
+} from "../../../../utils";
 
 function RemoveMembers(props) {
-    const onFinish = (values) => {
-        message.success('Submit success!');
-        console.log('Success:', values);
+    const { org } = props;
+    const { Option } = Select;
+    const navigate = useNavigate();
+    const onFinish = async (values) => {
+        await new Promise((r) => setTimeout(r, 500));
+        removeMember(values);
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
         message.error('Submit success!');
     };
+    const [form] = Form.useForm();
+    const removeMember = async (values) => {
+        if (org && org.members && org.members.length <= 3) {
+          message.error(
+            "Cant process this proposal if only 3 members are present in treasury"
+          );
+          return;
+        }
+    
+        store.dispatch(updateSpinner(true));
+        const web3 = await getWeb3();
+        const multiSigAddr = org?.org?.multisig_address;
+        const accounts = await web3.eth.getAccounts();
+        const account = accounts[0];
+        const contract = await new web3.eth.Contract(MultiSig.abi, multiSigAddr);
+        console.log("WORKING ON REMOVE MEMBERS");
+        console.log(values);
+        const formData = values;
+        formData.org_id = org?.org?.id;
+        // const postRemovemember = await axios
+        //   .post(`${process.env.REACT_APP_API_URL}/add_remove_member`, formData)
+        //   .then((data) => {
+        //     console.log(data);
+        //     console.log(postRemovemember);
+        //   })
+        //   .catch((error) => console.log(error));'
+        // const amountToPay = web3.utils.toWei(`${CREATE_REMOVE_MEMBER}`, "ether");
+        // const tnx = await web3.eth.sendTransaction({
+        //   from: accounts[0],
+        //   to: process.env.REACT_APP_OWNER_ADDRESS,
+        //   value: amountToPay,
+        // });
+        // console.log(tnx);
+        // if (!tnx) return;
+        await contract.methods
+          .removeMemberProposal(values.member_wallet_address)
+          .send({
+            from: account,
+            value: web3.utils.toWei(CREATE_PROPOSAL_PAYABLE_VALUE, "ether"),
+          })
+          .on("error", (error) => console.log(error))
+          .then((result) => {
+            axios
+              .post(`${process.env.REACT_APP_API_URL}/add_remove_member`, formData)
+              .then(async (data) => {
+                console.log(data);
+    
+                if (data) {
+                  const response = await axios.post(
+                    `${process.env.REACT_APP_API_URL}/add_index/`,
+                    {
+                      org_id: props.org?.org?.id,
+                      type: "remove_member",
+                      data: data.data.member_id,
+                    }
+                  );
+                  console.log(response);
+                }
+              })
+              .catch((error) => console.log(error));
+    
+            store.dispatch(updateSpinner(false));
+    
+            message.success('Remove Member Proposal Initialised')
+            setTimeout(() => {
+              navigate("/dashboard/members");
+            }, 1000);
+        });
+    };
+    const handleChange = (e) => {
+        form.setFieldValue("member_wallet_address", e.target.value);
+        if (org && org.members && org.members.length) {
+          const index = org.members.findIndex(
+            (mem) => mem.wallet_address === e.target.value
+          );
+          if (index >= 0) {
+            form.setFieldValue("member_name", org.members[index].member_name);
+            form.setFieldValue("member_email", org.members[index].email);
+          }
+        }
+    };
+    const verifyEmail = (_, value, cb) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/check_email/${value}`)
+            .then((res) => {
+                if (res?.data?.data.length) {
+                    cb(`not a valid email`)
+                } else {
+                    // axios.get(
+                    //     `${process.env.REACT_APP_API_URL}/send_activation_code/${value}`
+                    // ).then((res) => {
+                        cb()
+                    // })
+                    // .catch((er) => {
+                    //     console.log(er)
+                    //     cb()
+                    // });
+                }
+            })
+            .catch((e) => {
+                cb()
+            });
+    }
     return (
         <div>
             <div className='mb-4 text-white'>
@@ -35,24 +150,39 @@ function RemoveMembers(props) {
                     name="basic"
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
+                    initialValues={{
+                        member_name: "",
+                        member_wallet_address: "",
+                        member_email: "",
+                    }}
                     autoComplete="off"
                     layout='vertical'
+                    form={form}
                 >
                     <Form.Item
                         label="Wallet"
-                        name="wallet"
+                        name="member_wallet_address"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your username!',
+                                message: 'Please input your wallet address!',
                             },
                         ]}
                     >
-                        <Input />
+                        <Select onChange={(e) => handleChange(e)}>
+                            {(org?.members
+                              ? org.members.filter(
+                                  (val) => val.is_active === 1
+                                )
+                              : []).map((member) => {
+                                {console.log(member)}
+                                <Option key={member.wallet_address} value={member.wallet_address}>{member.wallet_address}</Option>
+                              })}
+                        </Select>
                     </Form.Item>
                     <Form.Item
                         label="Full Name"
-                        name="full-name"
+                        name="member_name"
                         rules={[
                             {
                                 required: true,
@@ -64,13 +194,17 @@ function RemoveMembers(props) {
                     </Form.Item>
                     <Form.Item
                         label="Email Address"
-                        name="email"
+                        name="member_email"
                         rules={[
                             {
                                 type: 'email',
                                 required: true,
                                 message: 'Please input your username!',
                             },
+                            {
+                                message: 'Allready exist',
+                                validator: verifyEmail
+                            }
                         ]}
                     >
                         <Input />
@@ -78,7 +212,7 @@ function RemoveMembers(props) {
                     
 
                     <Form.Item >
-                        <p className='text-white text-center mt-3'>
+                        <p className='text-center mt-3'>
                             New Member will be removed once all the existing members approve the removal instance witin 7 days
                         </p>
                     </Form.Item>
@@ -101,4 +235,10 @@ function RemoveMembers(props) {
     );
 }
 
-export default RemoveMembers;
+const mapStateToProps = (state) => {
+    return {
+      org: state.org,
+    };
+  };
+  
+  export default connect(mapStateToProps)(RemoveMembers);
