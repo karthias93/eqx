@@ -29,7 +29,7 @@ function Project(props) {
               );
             } else {
               // alert("You can create Project");
-              navigate("/dashboard/project/new");
+              navigate("/dashboard/project/create");
             }
             // console.log(org?.project && org.project.length);
           }

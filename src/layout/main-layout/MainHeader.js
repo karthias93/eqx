@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Menu } from 'antd';
 import Accountmodal from '../../components/Accountmodal';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const { Header } = Layout;
 
@@ -13,10 +13,16 @@ function MainHeader(props) {
     const onClick = (e) => {
         console.log('click ', e);
         setCurrent(e.key);
+        const { target } = items.find(item => item.key === e.key) || {};
+        console.log(target, '-----t-----')
+        if (target) {
+            navigate(target);
+        }
     };
 
     const { pathname } = useLocation();
-    const handleClick = () => {
+    const navigate = useNavigate();
+    const handleClick = ({ key }) => {
         document.body.classList.toggle('sidebar-open');
     };
 
@@ -24,10 +30,12 @@ function MainHeader(props) {
         {
             label: 'Home',
             key: 'home',
+            target: '/'
         },
         {
-            label: 'Play Subscription',
+            label: 'Subscription',
             key: 'play-subscription',
+            target: '/play-subscription'
         },
         // {
         //     label: 'Create Treasury',
@@ -61,9 +69,9 @@ function MainHeader(props) {
                             <img src={require('../../images/eqn-logo.png')} alt="" />
 
                         </div>
-                        <div className='flex-auto'>
-                        <Menu selectedKeys={[current]} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
-                        </div>
+                        {!pathname.includes('dashboard') && <div className='flex-auto'>
+                            <Menu selectedKeys={[current]} onClick={onClick} mode="horizontal" items={items} />
+                        </div>}
                     </div>
                     <div className='self-center'>
                         {/* <Button type="primary" className='grad-btn font-bold'>Off Chain</Button> */}

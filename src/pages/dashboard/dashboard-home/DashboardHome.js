@@ -47,7 +47,7 @@ function DashboardHome(props) {
               );
             } else {
               // alert("You can create Project");
-              history.push("/dashboard/project/new");
+              history.push("/dashboard/project/create");
             }
             // console.log(org?.project && org.project.length);
           }

@@ -191,7 +191,7 @@ function TreasuryStepThird(props) {
                 initialValues={{
                     members: [
                         {
-                            wallet: props.walletInfo.wallet,
+                            wallet: '',
                             name: props.orgFormdata?.deployer_name,
                             email: props.orgFormdata?.email,
                         },

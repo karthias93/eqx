@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
-import { Button, Form, Input, message } from 'antd';
-import { addOrgFormData } from "../../../../../redux/actions";
+import { Button, Form, Input, message, Select } from 'antd';
+import { addProjectFormData } from "../../../../../redux/actions";
 import { connect } from "react-redux";
+import { getCategory } from '../../../../../services/dashboard';
 
 function ProjectStepFirst(props) {
-    const { nextStep } = props;
+    const { nextStep, projectFormdata } = props;
+    useEffect(()=>{
+        getCategory();
+    },[])
     const onFinish = async (values) => {
-        console.log('Success:', values);
         await new Promise((r) => setTimeout(r, 500));
-        props.dispatch(addOrgFormData(values));
+        props.dispatch(addProjectFormData(values));
         nextStep();
     };
     const onFinishFailed = (errorInfo) => {
@@ -18,14 +21,15 @@ function ProjectStepFirst(props) {
     const [form] = Form.useForm();
     useEffect(() => {
         form.resetFields();
-    }, [props.walletInfo?.wallet])
+    }, [projectFormdata])
 
     return (
         <div>
             <div className=' mb-12'>
-                <h1 className='text-2xl font-bold mb-4'>
-                    CREATE EQ Vault
-                </h1>
+                <p className='text-base text-gray-800'>
+                    PROJECT LAUNCHER
+                </p>
+                <h2>CREATE PROJECT</h2>
                 <p className='text-base text-gray-800'>
                     Read <a href="https://docs.equinox.business/">
                     <span className="text-[#0EA5E9] font-bold">Docs</span>
@@ -40,15 +44,16 @@ function ProjectStepFirst(props) {
                     autoComplete="off"
                     layout='vertical'
                     initialValues={{
-                        wallet: props.walletInfo?.wallet,
-                        eqxBln: props.walletInfo?.eqxBln,
-                        deployer_name: "",
+                        project_name: projectFormdata?.project_name,
+                        cat_id: projectFormdata?.cat_id,
+                        project_site: projectFormdata?.project_site,
+                        project_email: projectFormdata?.project_email
                     }}
                     form={form}
                 >
                     <Form.Item
-                        label="Wallet"
-                        name="wallet"
+                        label="Project Name"
+                        name="project_name"
                         rules={[
                             {
                                 required: true,
@@ -56,11 +61,11 @@ function ProjectStepFirst(props) {
                             },
                         ]}
                     >
-                        <Input disabled={true} />
+                        <Input />
                     </Form.Item>
                     <Form.Item
-                        label="EQX Balance"
-                        name="eqxBln"
+                        label="Category"
+                        name="cat_id"
                         rules={[
                             {
                                 required: true,
@@ -68,12 +73,32 @@ function ProjectStepFirst(props) {
                             },
                         ]}
                     >
-                        <Input disabled={true} />
+                        <Select options={props.category ? props.category : []} />
                     </Form.Item>
                     <Form.Item
-                        label="Deployer's Full Name (You)"
-                        name="deployer_name"
+                        label="Project's Website"
+                        name="project_site"
                         rules={[
+                            {
+                                required: true,
+                                message: 'Required',
+                            },
+                            {
+                                pattern: /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+                                message: 'Enter correct url!',
+                            }
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Project's Email Address"
+                        name="project_email"
+                        rules={[
+                            {
+                                type: 'email',
+                                message: 'Enter a valid email'
+                            },
                             {
                                 required: true,
                                 message: 'Required',
@@ -96,5 +121,11 @@ function ProjectStepFirst(props) {
         </div>
     );
 }
-
-export default connect()(ProjectStepFirst);
+const mapStateToProps = (state: any) => {
+    return {
+      category: state.category,
+      projectFormdata: state.projectFormdata
+    };
+};
+  
+export default connect(mapStateToProps)(ProjectStepFirst);

@@ -1,70 +1,49 @@
-import { Breadcrumb, Button, message, theme } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
-import { getWeb3 } from "../../../../helpers/currentWalletHelper";
-import bep20Abi from "../../../../Config/abis/bep20Abi.json";
-import { getMe } from "../../../../services/dashboard";
+import { getMe, getProjects } from "../../../../services/dashboard";
 import ProjectStepFirst from './steps/ProjectStepFirst';
 import ProjectStepSecond from './steps/ProjectStepSecond';
-import Spinner from "../../../../components/Spinner/Spinner";
-import { useNavigate } from "react-router-dom";
-import StepWizard from "react-step-wizard";
 import ProjectStepThird from './steps/ProjectStepThird';
 import ProjectStepFour from './steps/ProjectStepFour';
+import ProjectStepFive from './steps/ProjectStepFive';
+import ProjectStepSix from './steps/ProjectStepSix';
+import Spinner from "../../../../components/Spinner/Spinner";
+import StepWizard from "react-step-wizard";
+
 
 function CreateProject(props) {
-    const { token } = theme.useToken();
-    const [current, setCurrent] = useState(0);
+    const { org, spinner } = props;
     const [wallet, setWallet] = useState("");
-    const [eqxBalance, setEqxBalance] = useState(0);
-    let navigate = useNavigate();
-    const { auth, spinner } = props;
-
-    const getBalance = async () => {
-        try {
-            if (props.account && props.account.account) {
-                let web3 = await getWeb3();
-                let contract = await new web3.eth.Contract(
-                    bep20Abi,
-                    "0x54040960e09fb9f1dd533d4465505ba558693ad6"
-                ); // this is test eqx address fetch this address from pages/Config/contracts.js
-                const decimal = await contract.methods.decimals().call();
-                await contract.methods
-                    .balanceOf(props.account.account)
-                    .call()
-                    .then((balance) => {
-                        balance = balance / 10 ** decimal;
-                        setEqxBalance(balance);
-                    });
-            }
-        } catch (error) {
-            console.log("error", error);
-        }
-    };
 
     useEffect(() => {
         if (props.account && props.account.account) {
-            setWallet(props.account.account);
-            getBalance();
+          setWallet(props.account.account);
         }
+    }, [props.account]);
+
+    useEffect(() => {
         const account = sessionStorage.getItem("selected_account");
         if (account) {
-            getMe(account);
+          getMe(account);
         }
-    }, [props.account?.account]);
+    }, []);
+    
     useEffect(() => {
-        if (auth?.id) {
-          return navigate("/dashboard");
-        }
-      }, [auth?.id])
+        console.log(org);
+        if (org && org?.project && org.project.length && org.project[0].id)
+          getProjects(org.project[0].id);
+    }, [org]);
+
     return (
         <div className='main-sec'>
             <div className='container mx-auto p-4'>
                 <StepWizard>
-                    <ProjectStepFirst walletInfo={{ wallet: wallet, eqxBln: eqxBalance }} />
-                    <ProjectStepSecond walletInfo={{ wallet: wallet, eqxBln: eqxBalance }} />
-                    <ProjectStepThird walletInfo={{ wallet: wallet, eqxBln: eqxBalance }} />
+                    <ProjectStepFirst/>
+                    <ProjectStepSecond/>
+                    <ProjectStepThird />
                     <ProjectStepFour />
+                    <ProjectStepFive walletInfo={{ wallet: wallet }} />
+                    <ProjectStepSix />
                 </StepWizard>
             </div>
             {spinner && <Spinner />}
@@ -75,7 +54,7 @@ function CreateProject(props) {
 const mapStateToProps = (state) => {
     return {
         account: state.account,
-        auth: state.auth,
+        org: state.org,
         spinner: state.spinner,
     };
 };
