@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
 import { getOrg } from '../services/dashboard';
 import { message } from 'antd';
+import Assets from '../pages/dashboard/assets/Assets';
+import Goverance from '../pages/dashboard/goverance/Goverance';
 
 function DashboardRoutes(props) {
     const { auth, spinner } = props;
@@ -38,6 +40,8 @@ function DashboardRoutes(props) {
                 <Route path="/members"  element={<Members />}/>
                 <Route path="/members/add"  element={<AddMembers />}/>
                 <Route path="/members/remove"  element={<RemoveMembers />}/>
+                <Route path="/assets"  element={<Assets />}/>
+                <Route path="/goverance"  element={<Goverance/>}/>
             </Routes>
             {spinner && <Spinner />}
         </>
