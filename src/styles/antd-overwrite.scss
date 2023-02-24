@@ -106,6 +106,7 @@
     thead {
         backdrop-filter: blur(200px);
         color: #000 !important;
+        white-space: nowrap;
     }
 
     table {
@@ -140,6 +141,9 @@
 .ant-table-wrapper .ant-table-tbody>tr.ant-table-row:hover>td,
 .ant-table-wrapper .ant-table-tbody>tr>td.ant-table-cell-row-hover {
     background: #ffffff1f;
+}
+.ant-table-content{
+    overflow-x: auto;
 }
 
 .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
@@ -255,4 +259,10 @@ margin-bottom: 16px;
 }
 .ant-form-item .ant-form-item-explain-error{
     font-size: 12px;
+}
+.ant-drawer-content-wrapper{
+    width: 300px !important;
+}
+.ant-drawer .ant-drawer-body{
+    padding: 0;
 }

@@ -25,7 +25,7 @@ function PlaySubscription(props) {
       );
 
     return (
-        <div>
+        <div className='p-4'>
             {/* <div className='mb-8 text-white'>
                 <Breadcrumb>
                     <Breadcrumb.Item>
@@ -43,7 +43,7 @@ function PlaySubscription(props) {
                     <small>subscribe to projects by acquring project tokens if project subscription offer tails you will get yours funds back </small>
                 </p>
             </div>
-            <div className='form w-96 lg:width-full welcome-card rounded-lg p-6 pb-3 mx-auto'>
+            <div className='form w-96 max-sm:w-full welcome-card rounded-lg p-6 pb-3 mx-auto'>
                 <Form
                     name="basic"
                     onFinish={onFinish}

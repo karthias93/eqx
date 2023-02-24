@@ -17,30 +17,39 @@ const menufooteritems = [
     { label: "Documentation", key: "documentation" },
     { label: "Support", key: "support" },
 ];
+const handleClick = ({ key }) => {
+    document.body.classList.toggle('sidebar-open');
+};
 function DashboardLayout(props) {
     const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
     return (
-        <div className='flex'>
-            <Sider collapsible onCollapse={(value) => {setCollapsed(value);console.log(collapsed)}}>
-                <div className='flex flex-col justify-between menu-height'>
-                    <div>
-                        <Menu theme="light" defaultSelectedKeys={['dashboard']} mode="inline" items={menuitems}
-                            onClick={({ key }) => navigate(`/dashboard/${key}`)}
-                        />
+        <>
+            <div onClick={handleClick} className='overlay-div hidden'></div>
+
+            <div className='flex'>
+                <Sider collapsible onCollapse={(value) => { setCollapsed(value); console.log(collapsed) }}>
+
+                    <div className='flex flex-col justify-between menu-height'>
+                        <div>
+                            <Menu theme="light" defaultSelectedKeys={['dashboard']} mode="inline" items={menuitems}
+                                onClick={({ key }) => navigate(`/dashboard/${key}`)}
+                            />
+                        </div>
+                        <div>
+                            <hr className='border-gray-300' />
+                            <Menu theme="light" defaultSelectedKeys={['dashboard']} mode="inline" items={menufooteritems} />
+                        </div>
                     </div>
-                    <div>
-                        <hr className='border-gray-300' />
-                        <Menu theme="light" defaultSelectedKeys={['dashboard']} mode="inline" items={menufooteritems} />
+
+                </Sider>
+                <Content className='overflow-auto'>
+                    <div className='px-4 p-4 pb-12'>
+                        <DashboardRoutes />
                     </div>
-                </div>
-            </Sider>
-            <Content className='overflow-auto'>
-                <div className='px-4 p-4 pb-12'>
-                    <DashboardRoutes />
-                </div>
-            </Content>
-        </div>
+                </Content>
+            </div>
+        </>
     );
 }
 

@@ -145,7 +145,7 @@ function AddMembers(props) {
             });
     }
     return (
-        <div>
+        <div className='text-center'>
             <div className='mb-4 text-white'>
                 <Breadcrumb>
                     <Breadcrumb.Item>
@@ -159,11 +159,11 @@ function AddMembers(props) {
                 <h1 className='font-bold text-xl mb-2'>
                     EQ Vault member
                 </h1>
-                <p className='mb-6 w-3/5 lg:width-full'>
+                <p className='mb-6 w-3/5 mx-auto max-lg:w-full'>
                     EQ Vault Members are core team members and weild equal rights for it's operations and in decision making. Member's may inititate the addition and removal instance. It needs appraval of more than 50% members for its success.
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6'>
+            <div className='mx-auto form w-1/2 max-md:w-full max-lg:w-4/5 welcome-card rounded-lg p-6'>
                 <Form
                     name="basic"
                     onFinish={onFinish}
