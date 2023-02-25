@@ -42,7 +42,7 @@ function AddMembers(props) {
         console.log(isAlreadyAdded);
     
         if (isAlreadyAdded.length > 0) {
-          message.error('Duplicate entry');
+          message.error('Duplicate wallet address');
           store.dispatch(updateSpinner(false));
           return;
         }
@@ -90,38 +90,15 @@ function AddMembers(props) {
               });
           });
     };
-    const checkAddress = async (_, value, cb) => {
-        try {
-          const { data } = await axios.post(
-            `${process.env.REACT_APP_API_URL}/check_org`,
-            {
-              wallet_address: value,
-            }
-          );
-          console.log(data.data);
-          if (data.data.length) {
-            cb("Allready exist ");
-          }
-        } catch (error) {
-          cb(error.message);
-        }
-        try {
-          const { data } = await axios.post(
-            `${process.env.REACT_APP_API_URL}/check_member`,
-            {
-              wallet_address: value,
-            }
-          );
-          console.log(data.data);
-          if (data.data.length) {
-            cb("Allready exist ");
-            return;
-          } else {
-            cb()
-          }
-        } catch (error) {
-          cb(error.message);
-        }
+    const checkAddress = (_, value, cb) => {
+        axios
+        .get(`${process.env.REACT_APP_API_URL}/get_details/${value}`)
+        .then((res) => {
+          cb('Already exist');
+        })
+        .catch((e) => {
+          cb()
+        });
     };
     const verifyEmail = (_, value, cb) => {
         axios.get(`${process.env.REACT_APP_API_URL}/check_email/${value}`)

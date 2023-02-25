@@ -618,37 +618,27 @@ function PlaySubscription(props) {
                             },
                         ]}
                     >
-                        <Form.Item
-                            name="value"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your username!',
-                                },
-                            ]}
-                        >
-                            <Input addonAfter={selectAfter} defaultValue="0" />
-                        </Form.Item>
-                        <Form.Item
-                            name="value1"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your username!',
-                                },
-                            ]}
-                        >
-                            <Input addonAfter={selectAfter1} defaultValue="0.0" />
-                        </Form.Item>
+                        <Input addonAfter={selectAfter} defaultValue="0" />
+                    </Form.Item>
+                    <Form.Item
+                        name="value1"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your username!',
+                            },
+                        ]}
+                    >
+                        <Input addonAfter={selectAfter1} defaultValue="0.0" />
+                    </Form.Item>
 
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit" className='w-full font-bold mx-auto grad-btn border-0 '>
-                                Connect Wallet
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                </div>
-            </>}
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" className='w-full font-bold mx-auto grad-btn border-0 '>
+                            Connect Wallet
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </div>
         </div>
     );
 }

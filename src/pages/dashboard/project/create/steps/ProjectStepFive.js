@@ -108,13 +108,13 @@ function ProjectStepFive(props) {
 
     const addProject = async (values) => {
         if (props.auth && props.auth.org_id) {
-            const skipFields = [];
+            const skipFields = ['org_id', 'whitepaper', 'incorporation', 'other_doc', 'token_logo'];
             const formData = new FormData();
             formData.append("org_id", props.auth.org_id);
-            formData.append("whitepaper", values.whitepaper);
-            formData.append("incorporation", values.incorporation);
-            formData.append("other_doc", values.other_doc);
-            formData.append("token_logo", values.token_logo);
+            formData.append("whitepaper", values.whitepaper.file);
+            formData.append("incorporation", values.incorporation.file);
+            formData.append("other_doc", values.other_doc.file);
+            formData.append("token_logo", values.token_logo.file);
             for (const [key, value] of Object.entries(props.projectFormdata)) {
                 if (!skipFields.includes(key)) {
                     formData.append(key, value);
@@ -137,11 +137,12 @@ function ProjectStepFive(props) {
     const onFinish = async (values) => {
         await new Promise((r) => setTimeout(r, 500));
         props.dispatch(addProjectFormData(values));
-        deploy(values);
+        console.log(values, '------')
+        // deploy(values);
     };
     return (
         <div>
-            <div className=' mb-12'>
+            <div className=' mb-12 text-center'>
                 <p>PROJECT LAUNCHER</p>
                 <h1 className='text-2xl font-bold mb-4'>
                     STEP 5
@@ -150,7 +151,7 @@ function ProjectStepFive(props) {
                     Upload Docs
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6'>
+            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6 m-auto'>
                 <Form
                     name="dynamic_form_nest_item"
                     onFinish={onFinish}
@@ -181,9 +182,9 @@ function ProjectStepFive(props) {
                             beforeUpload: (file) => {
                                 if (file.size>100*1024){
                                     message.error("File size should not exceed 100kb. You might lose your funds if you proceed with improper file size.")
-                                    return false;
+                                    return Upload.LIST_IGNORE
                                 }
-                                form.setFieldValue('token_logo', file)
+                                form.setFieldValue('token_logo', file.file)
                                 return false;
                             },
                         }}>
@@ -207,7 +208,7 @@ function ProjectStepFive(props) {
                             beforeUpload: (file) => {
                                 if (file.size>150*1024){
                                     message.error("File size should not exceed 150kb.You might lose your funds if you proceed with improper file size.")
-                                    return false;
+                                    return Upload.LIST_IGNORE
                                 }
                                 form.setFieldValue('whitepaper', file)
                                 return false;
@@ -225,6 +226,10 @@ function ProjectStepFive(props) {
                                 form.setFieldValue('incorporation', '')
                             },
                             beforeUpload: (file) => {
+                                if (file.size>100*1024){
+                                    message.error("File size should not exceed 100kb. You might lose your funds if you proceed with improper file size.")
+                                    return Upload.LIST_IGNORE
+                                }
                                 form.setFieldValue('incorporation', file)
                                 return false;
                             },
@@ -241,6 +246,10 @@ function ProjectStepFive(props) {
                                 form.setFieldValue('other_doc', '')
                             },
                             beforeUpload: (file) => {
+                                if (file.size>100*1024){
+                                    message.error("File size should not exceed 100kb. You might lose your funds if you proceed with improper file size.")
+                                    return Upload.LIST_IGNORE
+                                }
                                 form.setFieldValue('other_doc', file)
                                 return false;
                             },

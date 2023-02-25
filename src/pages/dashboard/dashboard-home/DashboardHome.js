@@ -191,7 +191,7 @@ function DashboardHome(props) {
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
                                 <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
-                            </svg>}} className="flex items-center">{auth?.wallet_address ? shortAddress(auth.wallet_address) : ''}</Typography.Text>
+                            </svg>, text: auth?.wallet_address ? auth.wallet_address : ''}} className="flex items-center">{auth?.wallet_address ? shortAddress(auth.wallet_address) : ''}</Typography.Text>
                             
                         </div>
                         <div className='text-sm truncate'>
@@ -218,7 +218,7 @@ function DashboardHome(props) {
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
                                 <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
-                                </svg>}} className="flex items-center">{org?.org?.multisig_address ? shortAddress(org.org.multisig_address) : ''}</Typography.Text>
+                                </svg>, text: org?.org?.multisig_address ? org.org.multisig_address : ''}} className="flex items-center">{org?.org?.multisig_address ? shortAddress(org.org.multisig_address) : ''}</Typography.Text>
                                 </div>
                             </div>
                             <div>

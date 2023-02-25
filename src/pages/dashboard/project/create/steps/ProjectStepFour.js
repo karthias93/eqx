@@ -35,7 +35,7 @@ function ProjectStepFour(props) {
     }, [projectFormdata, account])
     return (
         <div>
-            <div className=' mb-12'>
+            <div className=' mb-12 text-center'>
                 <p>PROJECT LAUNCHER</p>
                 <h1 className='text-2xl font-bold mb-4'>
                   STEP 4
@@ -44,7 +44,7 @@ function ProjectStepFour(props) {
                     Create Governance Token
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6'>
+            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6 m-auto'>
                 <Form
                     name="basic"
                     onFinish={onFinish}
