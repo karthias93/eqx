@@ -14,7 +14,7 @@ import { getOrg } from '../services/dashboard';
 import { message } from 'antd';
 import Assets from '../pages/dashboard/assets/Assets';
 import Goverance from '../pages/dashboard/goverance/Goverance';
-
+import CreateIco from  '../pages/dashboard/assets/createico'
 function DashboardRoutes(props) {
     const { auth, spinner } = props;
     const authenticated = localStorage.getItem("authenticated");
@@ -42,6 +42,7 @@ function DashboardRoutes(props) {
                 <Route path="/members/add"  element={<AddMembers />}/>
                 <Route path="/members/remove"  element={<RemoveMembers />}/>
                 <Route path="/assets"  element={<Assets />}/>
+                <Route path="/assets/createico"  element={<CreateIco />}/>
                 <Route path="/goverance"  element={<Goverance/>}/>
                 <Route path="/goverance/proposal"  element={<CreateProposal/>}/>
             </Routes>

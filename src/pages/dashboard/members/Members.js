@@ -2,6 +2,10 @@ import { Breadcrumb, Button, Tabs } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import TeamMembers from './members-tab-content/TeamMembers';
+import AddMemberRequest from './members-tab-content/AddMemberRequest';
+import AddMemberFailed from './members-tab-content/AddMemberFailed';
+import RemoveMemberRequest from './members-tab-content/RemoveMemberRequest';
+import RemoveMemberFailed from './members-tab-content/RemoveMemberFailed';
 
 function Members(props) {
     const items = [
@@ -13,22 +17,22 @@ function Members(props) {
         {
             key: '2',
             label: `Add Member Requests`,
-            children: `Content of Tab Pane 2`,
+            children: <AddMemberRequest />,
         },
         {
             key: '3',
             label: `Add Member Failed`,
-            children: `Content of Tab Pane 3`,
+            children: <AddMemberFailed />,
         },
         {
             key: '4',
             label: `Remove Member Requests`,
-            children: `Content of Tab Pane 3`,
+            children: <RemoveMemberRequest />,
         },
         {
             key: '5',
             label: `Remove Member Failed`,
-            children: `Content of Tab Pane 3`,
+            children: <RemoveMemberFailed />,
         },
     ];
     return (

@@ -176,7 +176,7 @@ function RemoveMembers(props) {
                                 )
                               : []).map((member) => {
                                 {console.log(member)}
-                                <Option key={member.wallet_address} value={member.wallet_address}>{member.wallet_address}</Option>
+                                return <Option key={member.wallet_address} value={member.wallet_address}>{member.wallet_address}</Option>
                               })}
                         </Select>
                     </Form.Item>

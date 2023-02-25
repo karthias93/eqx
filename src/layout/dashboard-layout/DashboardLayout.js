@@ -14,8 +14,8 @@ const menuitems = [
 ];
 
 const menufooteritems = [
-    { label: "Documentation", key: "documentation" },
-    { label: "Support", key: "support" },
+    { label: "Documentation", key: 'https://docs.eqnetwork.io/' },
+    { label: "Support", key: 'https://t.me/eqxcommunity' },
 ];
 const handleClick = ({ key }) => {
     document.body.classList.toggle('sidebar-open');
@@ -38,7 +38,7 @@ function DashboardLayout(props) {
                         </div>
                         <div>
                             <hr className='border-gray-300' />
-                            <Menu theme="light" defaultSelectedKeys={['dashboard']} mode="inline" items={menufooteritems} />
+                            <Menu theme="light" defaultSelectedKeys={['dashboard']} mode="inline" items={menufooteritems} onClick={({key})=> window.open(key, '_blank')}/>
                         </div>
                     </div>
 

@@ -26,6 +26,6 @@ const mapStateToProps = (state) => {
     return {
       org: state.org,
     };
-  };
+};
   
-  export default connect(mapStateToProps)(TeamMembers);
+export default connect(mapStateToProps)(TeamMembers);
