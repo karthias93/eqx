@@ -171,7 +171,85 @@ function TreasuryStepThird(props) {
           setPay(false);
           setGasError(true);
         }
-      };
+    };
+    const verifyEmail = (_, value, cb) => {
+      // try {
+      //   axios.post(
+      //     `${process.env.REACT_APP_API_URL}/check_org`,
+      //     {
+      //       email: value,
+      //     }
+      //   );
+      //   if (data.data.length) {
+      //     cb("Allready exist in another treasury");
+      //   }
+      // } catch (error) {
+      //   console.log(error);
+      // }
+      // try {
+      //   const { data } = await axios.post(
+      //     `${process.env.REACT_APP_API_URL}/check_member`,
+      //     {
+      //       email: value,
+      //     }
+      //   );
+      //   if (data.data.length) {
+      //     cb("Allready exist in another treasury");
+      //   }
+      // } catch (error) {
+      //   console.log(error);
+      // }
+  
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/check_email/${value}`)
+        .then((res) => {
+          if (res?.data?.data.length) {
+            cb("Email already exist")
+          } else {
+            cb()
+          }
+        })
+        .catch((e) => {
+          cb()
+        });
+    };
+    const verifyWallet = (_, value, cb) => {
+      // try {
+      //   const { data } = await axios.post(
+      //     `${process.env.REACT_APP_API_URL}/check_org`,
+      //     {
+      //       wallet_address: value,
+      //     }
+      //   );
+      //   if (data.data.length) {
+      //     cb("Allready exist in another treasury");
+      //   }
+      // } catch (error) {
+      //   console.log(error);
+      // }
+      // try {
+      //   const { data } = await axios.post(
+      //     `${process.env.REACT_APP_API_URL}/check_member`,
+      //     {
+      //       wallet_address: value,
+      //     }
+      //   );
+      //   if (data.data.length) {
+      //     cb("Allready exist in another treasury");
+      //   }
+      // } catch (error) {
+      //   console.log(error);
+      // }
+  
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/get_details/${value}`)
+        .then((res) => {
+          cb('Already exist');
+        })
+        .catch((e) => {
+          cb()
+        });
+    };
     return (
         <div>
             <div className=' mb-12'>
@@ -217,7 +295,18 @@ function TreasuryStepThird(props) {
                         <Form.Item
                             {...restField}
                             name={[name, 'wallet']}
-                            rules={[{ required: true, message: 'Wallet is required' }]}
+                            validateTrigger="onBlur"
+                            rules={[
+                              { 
+                                required: true,
+                                message: 'Wallet is required'
+                              },
+                              {
+                                message: 'Wallet alreasy exist',
+                                validator: verifyWallet
+                            }
+                            ]}
+
                         >
                             <Input placeholder="Wallet" disabled={i===0}/>
                         </Form.Item>
@@ -231,7 +320,21 @@ function TreasuryStepThird(props) {
                         <Form.Item
                             {...restField}
                             name={[name, 'email']}
-                            rules={[{ required: true, message: 'Email is required' },{ type: 'email', message: 'Email is invalid'}]}
+                            validateTrigger="onBlur"
+                            rules={[
+                              { 
+                                required: true,
+                                message: 'Email is required'
+                              },
+                              { 
+                                type: 'email',
+                                message: 'Email is invalid'
+                              },
+                              { 
+                                message: 'Email alreasy exist',
+                                validator: verifyEmail
+                              }
+                            ]}
                         >
                             <Input placeholder="Email" disabled={i===0}/>
                         </Form.Item>

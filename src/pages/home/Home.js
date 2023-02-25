@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, Link } from "react-router-dom"; 
+import { connect } from 'react-redux';
 
 function Home(props) {
+    const { auth } = props;
     let navigate = useNavigate(); 
     const routeChange = () =>{ 
         let path = `/treasury`; 
         navigate(path);
     }
+    useEffect(() => {
+        if (auth?.id) {
+          return navigate("/dashboard");
+        }
+    }, [auth?.id])
     return (
         <div className='main-sec'>
             <div className='container mx-auto px-4 py-20'>
@@ -58,4 +65,10 @@ function Home(props) {
     );
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };
+};
+
+export default connect(mapStateToProps)(Home);

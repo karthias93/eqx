@@ -47,16 +47,16 @@ function TreasuryStepSecond(props) {
                 if (res?.data?.data.length) {
                     cb(`not a valid email`)
                 } else {
-                    axios.get(
-                        `${process.env.REACT_APP_API_URL}/send_activation_code/${value}`
-                    ).then((res) => {
-                        setMailOtpNote(true);
+                    // axios.get(
+                    //     `${process.env.REACT_APP_API_URL}/send_activation_code/${value}`
+                    // ).then((res) => {
+                    //     setMailOtpNote(true);
+                    //     cb()
+                    // })
+                    // .catch((er) => {
+                    //     console.log(er)
                         cb()
-                    })
-                    .catch((er) => {
-                        console.log(er)
-                        cb()
-                    });
+                    // });
                 }
             })
             .catch((e) => {
@@ -99,7 +99,7 @@ function TreasuryStepSecond(props) {
                                 message: 'Invalid email'
                             },
                             {
-                                message: 'Not a valid email',
+                                message: 'Email alreasy exist',
                                 validator: verifyEmail
                             }
                         ]}

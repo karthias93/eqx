@@ -24,7 +24,7 @@ function DashboardRoutes(props) {
         if (auth && auth.org_id) getOrg(auth.org_id);
     }, [auth]);
     useEffect(() => {
-        message.info(`Do not add any new team member unless any of your proposals are finalized `);
+        // message.info(`Do not add any new team member unless any of your proposals are finalized `);
     }, []);
     useEffect(() => {
         if (!account || !authenticated) {

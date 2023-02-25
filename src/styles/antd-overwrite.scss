@@ -256,3 +256,6 @@ margin-bottom: 16px;
 .ant-form-item .ant-form-item-explain-error{
     font-size: 12px;
 }
+.ant-select .ant-select-selector {
+    padding-left: calc(3rem - 8px) !important;
+  }
