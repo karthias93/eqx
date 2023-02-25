@@ -1,26 +1,40 @@
-import { Button } from 'antd';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import ConfirmModal from "../../../../components/modals/ConfirmModal";
 import { getWeb3 } from "../../../../helpers/currentWalletHelper";
 import multiSigv2Abi from "./../../../../Config/abis/EquinoxMain.json";
+import axios from "axios";
 import store from "../../../../redux/store";
 import { updateSpinner } from "../../../../redux/actions";
+import ConfirmModal from "../../../../components/modals/ConfirmModal";
+import { Button } from 'antd';
 
-function PendingRequest(props) {
-    const { org, auth } = props;
+function SubscriptionPendingRequest(props) {
+    const { auth, org } = props;
     const [currentValues, setCurrentValues] = useState({});
-    const [transferApproveModal, setTransferApproveModal] = useState(false);
-    const [transferDissApproveModal, setTransferDissApproveModal] = useState(false);
-    const [transferFinalizeModal, setTransferFinalizeModal] = useState(false);
+    const [icoApproveModal, setIcoApproveModal] = useState(false);
+    const [message, setMessage] = useState("Vote has been registered");
+    const [action, setAction] = useState(false);
+    const [errPopup, setErrPopup] = useState(false);
+    const [proposals, setProposals] = useState([]);
+    const [icoDissApproveModal, setIcoDissApproveModal] = useState(false);
+    const [icoFinalizeModal, setIcoFinalizeModal] = useState(false);
     const [view, setView] = useState(false);
     const [voters, setVoter] = useState([]);
     const [votingLoading, setVotingLoading] = useState(false);
-    const [message, setMessage] = useState("Vote has been registered");
-    const [errPopup, setErrPopup] = useState(false);
-    const [action, setAction] = useState(false);
-    const [proposals, setProposals] = useState([]);
+
+    const getProposals = async () => {
+        let web3 = await getWeb3();
+        let multiSigAddr = org?.org?.multisig_address;
+        let accounts = await web3.eth.getAccounts();
+        let account = accounts[0];
+        const contract = await new web3.eth.Contract(
+          multiSigv2Abi.abi,
+          multiSigAddr
+        );
+        const returnvalue = await contract.methods.listProposals().call();
+        // console.log("LIST OF PROPOSALS", returnvalue);
+        setProposals(returnvalue);
+    };
     const getVotingList = async (pro, type) => {
         if (org && org?.members?.length > 0) {
           setVotingLoading(true);
@@ -67,64 +81,35 @@ function PendingRequest(props) {
           setView(true);
         }
     };
-    const getProposals = async () => {
+
+    const approveIco = async (values) => {
         let web3 = await getWeb3();
-        let multiSigAddr = org?.org?.multisig_address;
         let accounts = await web3.eth.getAccounts();
         let account = accounts[0];
+        let multiSigAddr = org?.org?.multisig_address;
         const contract = await new web3.eth.Contract(
           multiSigv2Abi.abi,
           multiSigAddr
         );
-        const returnvalue = await contract.methods.listProposals().call();
-        // console.log("LIST OF PROPOSALS", returnvalue);
-        setProposals(returnvalue);
-    };
-    const transferApproveHandler = (values) => {
-        console.log(values);
-        setTransferApproveModal(false);
-        approve(values.to_wallet, values.id);
-    };
     
-    const transferDissApproveHandler = (values) => {
-        console.log(values);
-        setTransferDissApproveModal(false);
-        disApprove(values.to_wallet, values.id);
-    };
-    const transferFinalizeHandler = (values) => {
-        console.log(values);
-        setTransferFinalizeModal(false);
-        finalize(values.to_wallet, values.tokenAddress, values.id);
-    };
-    const approve = async (to, id) => {
-        let web3 = await getWeb3();
-        let accounts = await web3.eth.getAccounts();
-        let account = accounts[0];
-        let multiSigAddr = org?.org?.multisig_address;
-        const contract = await new web3.eth.Contract(
-          multiSigv2Abi.abi,
-          multiSigAddr
-        );
         const {
-          data: { response: indexListOftransferProposal },
+          data: { response: indexOfProposal },
         } = await axios.post(`${process.env.REACT_APP_API_URL}/get_index_list`, {
           org_id: org?.org?.id,
-          type: "transfer_proposal",
+          type: "ico_proposal",
         });
-        console.log(indexListOftransferProposal);
-    
         const propIndex =
-          indexListOftransferProposal?.filter(
-            (val) => Number(val.data) === id
-          )[0].index_number - 1;
+          (await indexOfProposal.filter(
+            (val) => Number(val.data) === values.id
+          )[0].index_number) - 1;
         console.log(propIndex);
     
-        const isSigned = await contract.methods
-          .isTransferProposalSigned(propIndex, account)
-          .call();
+        // return;
+        // const propIndex = 0;
+        const isSigned = await contract.methods.isSigned(propIndex, account).call();
         console.log(isSigned);
         const isDisapprovedSigned = await contract.methods
-          .isTransferProposalDisapproved(propIndex, account)
+          .isProposalDisapproved(propIndex, account)
           .call();
         if (isDisapprovedSigned) {
           alert("Proposal has been disapproved by one of the team member");
@@ -133,7 +118,7 @@ function PendingRequest(props) {
             store.dispatch(updateSpinner(true));
     
             await contract.methods
-              .signTransferProposal(propIndex)
+              .sign(propIndex)
               .send({ from: account })
               .on("error", (error) => {
                 console.log(error);
@@ -145,16 +130,15 @@ function PendingRequest(props) {
                   {
                     member_id: auth.id,
                     org_id: org?.org?.id,
-                    proposal_id: id,
-                    proposal_type: 4,
+                    proposal_id: values.id,
+                    proposal_type: 5,
                     vote: 1,
                   }
                 );
                 console.log("Vote Done", response);
-    
                 console.log(result);
                 store.dispatch(updateSpinner(false));
-                setMessage("Your Vote has been registered");
+                setMessage("Vote has been registered");
                 setAction(true);
                 setTimeout(() => {
                   setAction(false);
@@ -165,7 +149,8 @@ function PendingRequest(props) {
           }
         }
       };
-      const disApprove = async (to, id) => {
+    
+      const disApproveIco = async (values) => {
         let web3 = await getWeb3();
         let accounts = await web3.eth.getAccounts();
         let account = accounts[0];
@@ -175,24 +160,21 @@ function PendingRequest(props) {
           multiSigAddr
         );
         const {
-          data: { response: indexListOftransferProposal },
+          data: { response: indexOfProposal },
         } = await axios.post(`${process.env.REACT_APP_API_URL}/get_index_list`, {
           org_id: org?.org?.id,
-          type: "transfer_proposal",
+          type: "ico_proposal",
         });
-        console.log(indexListOftransferProposal);
-    
         const propIndex =
-          indexListOftransferProposal?.filter(
-            (val) => Number(val.data) === id
-          )[0].index_number - 1;
-    
+          (await indexOfProposal.filter(
+            (val) => Number(val.data) === values.id
+          )[0].index_number) - 1;
         console.log(propIndex);
         const isAprroved = await contract.methods
-          .isTransferProposalSigned(propIndex, account)
+          .isSigned(propIndex, account)
           .call();
         const isSigned = await contract.methods
-          .isTransferProposalDisapproved(propIndex, account)
+          .isProposalDisapproved(propIndex, account)
           .call();
         console.log(isSigned);
         if (isAprroved) {
@@ -202,7 +184,7 @@ function PendingRequest(props) {
             store.dispatch(updateSpinner(true));
     
             await contract.methods
-              .disapproveTransferProposal(propIndex)
+              .disapproveProposal(propIndex)
               .send({ from: account })
               .on("error", (error) => {
                 console.log(error);
@@ -214,15 +196,25 @@ function PendingRequest(props) {
                   {
                     member_id: auth.id,
                     org_id: org?.org?.id,
-                    proposal_id: id,
-                    proposal_type: 4,
+                    proposal_id: values.id,
+                    proposal_type: 5,
                     vote: 0,
                   }
                 );
+    
+                axios
+                  .post(`${process.env.REACT_APP_API_URL}/update_reached`, {
+                    id: values.id,
+                    status: 1,
+                  })
+                  .then((res) => {
+                    console.log(res);
+                    // store.dispatch(updateSpinner(false));
+                  });
                 console.log("Vote Done", response);
                 console.log(result);
                 store.dispatch(updateSpinner(false));
-                setMessage("Your Vote has been registered");
+                setMessage("Vote has been registered");
                 setAction(true);
                 setTimeout(() => {
                   setAction(false);
@@ -234,7 +226,7 @@ function PendingRequest(props) {
         }
       };
     
-      const finalize = async (to, tokenAddress, id) => {
+      const finalizeIco = async (values) => {
         let web3 = await getWeb3();
         let accounts = await web3.eth.getAccounts();
         let account = accounts[0];
@@ -244,34 +236,33 @@ function PendingRequest(props) {
           multiSigAddr
         );
         const {
-          data: { response: indexListOftransferProposal },
+          data: { response: indexOfProposal },
         } = await axios.post(`${process.env.REACT_APP_API_URL}/get_index_list`, {
           org_id: org?.org?.id,
-          type: "transfer_proposal",
+          type: "ico_proposal",
         });
-        console.log(indexListOftransferProposal);
-    
         const propIndex =
-          indexListOftransferProposal?.filter(
-            (val) => Number(val.data) === id
-          )[0].index_number - 1;
+          (await indexOfProposal.filter(
+            (val) => Number(val.data) === values.id
+          )[0].index_number) - 1;
         console.log(propIndex);
         const isFullySigned = await contract.methods
-          .transferProposalSignerRequirementMet(propIndex)
+          .signerRequirementMet(propIndex)
           .call();
         console.log(isFullySigned);
         const isDisapprovedSigned = await contract.methods
-          .isTransferProposalDisapproved(propIndex, account)
+          .isProposalDisapproved(propIndex, account)
           .call();
         if (isDisapprovedSigned) {
           alert("Proposal has been disapproved");
         } else {
           if (isFullySigned) {
-            console.log(to);
+            // console.log(account, values);
+            // return;
             store.dispatch(updateSpinner(true));
     
             await contract.methods
-              .finalizeTransferProposal(propIndex)
+              .finalizeProposal(propIndex, values.ico_address)
               .send({ from: account })
               .on("error", (error) => {
                 store.dispatch(updateSpinner(false));
@@ -281,10 +272,9 @@ function PendingRequest(props) {
               .then((result) => {
                 console.log(result);
                 axios
-                  .post(`${process.env.REACT_APP_API_URL}/finalize_fund_transfer`, {
-                    id: id,
-                    status: 1,
-                  })
+                  .get(
+                    `${process.env.REACT_APP_API_URL}/finalize_ico/${values.ico_address}/1`
+                  )
                   .then((res) => {
                     console.log(res);
                     store.dispatch(updateSpinner(false));
@@ -292,109 +282,115 @@ function PendingRequest(props) {
                     setAction(true);
                     setTimeout(() => {
                       setAction(false);
-                      window.location.reload();
                     }, 500);
                   });
                 getProposals();
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
               });
           } else {
             alert("All members have not approved this transaction");
           }
         }
       };
+
+    const icoApproveHandler = (values) => {
+        console.log(values);
+        setIcoApproveModal(false);
+        approveIco(values);
+    };
+    const icoDissApproveHandler = (values) => {
+        console.log(values);
+        setIcoDissApproveModal(false);
+        disApproveIco(values);
+    };
+    
+    const icoFinalizeHandler = (values) => {
+        console.log(values);
+        setIcoFinalizeModal(false);
+        finalizeIco(values);
+    };
     return (
         <div>
             {org &&
-                org.fund_transfer.length > 0 &&
-                org.fund_transfer
-                    .filter(
-                        (val) => val.status !== 1 && val.status !== -1
-                    )
-                    .map((pro, index) => {
-                    return (
-                        <div className='welcome-card rounded-lg p-6 mb-6 text-black'>
-                            <div className='flex gap-6 justify-between'>
-                                <div>
-                                    Receiver: {pro.to_wallet}
-                                    <br />
-                                    Descrription: {pro.description}
-                                </div>
-                                <div>
-                                    Amount: {pro.amount} {org.project[0].token_name}
-                                </div>
-                                <div>
-                                {!pro.finalized && (
-                                    <span
-                                    onClick={() => {
+                org?.ico.length > 0 &&
+                org?.ico
+                    .filter((val) => val.finalized !== 1)
+                    .map((pro) => {
+                        return (
+                            <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={pro.id}>
+                                <div className='flex gap-6 justify-between'>
+                                    <div>
+                                        ICO Address: {pro.ico_address}
+                                    </div>
+                                    <div className='self-center'>
+                                        Supply: {pro.supply}
+                                    </div>
+                                    <div className='self-center'>
+                                        <span
+                                            onClick={() => {
+                                                setCurrentValues(pro);
+                                                setIcoApproveModal(true);
+                                            }}
+                                            className="approve"
+                                        >
+                                            Approve
+                                        </span>
+                                    </div>
+                                    <div className='self-center' onClick={() => {
                                         setCurrentValues(pro);
-                                        setTransferApproveModal(true);
-                                    }}
-                                    className="approve"
-                                    >Approve</span>
-                                )}
-                                {pro.finalized && (
-                                     <span
-                                     // onClick={() => approve(index)}
-                                     className="approved"
-                                   >
-                                     Approved
-                                   </span>
-                                )}
-                                </div>
-                                <div onClick={() => {
-                                    setCurrentValues(pro);
-                                    setTransferDissApproveModal(true);
-                                }}>
-                                    Disapprove
-                                </div>
-                                <div>
-                                    3 Days
-                                </div>
-                                <div className='flex gap-3'>
-                                {!pro.finalized && (<Button type='primary' className='grad-btn border-0' onClick={() => {
-                                    setCurrentValues(pro);
-                                    setTransferFinalizeModal(true);
-                                  }}>Finalize</Button>)}
-                                    <Button type='primary' className='grad-btn border-0' onClick={() => {
-                                  setCurrentValues(pro);
-                                  getVotingList(pro, 4);
-                                }}>View</Button>
+                                        setIcoDissApproveModal(true);
+                                        }}>
+                                        Supply: {pro.supply}
+                                    </div>
+                                    <div className='flex gap-3'>
+                                        {!pro.finalized && (
+                                            <Button type='primary' className='grad-btn border-0' onClick={() => {
+                                                setCurrentValues(pro);
+                                                setIcoFinalizeModal(true);
+                                              }}>Finalize</Button>
+                                        )}
+                                        <Button type='primary' className='grad-btn border-0'  onClick={() => {
+                                            setCurrentValues(pro);
+                                            getVotingList(pro, 5);
+                                        }}>View</Button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        )
+                    })
+                }
                 <ConfirmModal
                     title="Are you sure you want to Approve!"
                     // note=""
                     // note_bracket=""
-                    open={transferApproveModal}
-                    setOpen={setTransferApproveModal}
-                    handler={transferApproveHandler}
+                    open={icoApproveModal}
+                    setOpen={setIcoApproveModal}
+                    handler={icoApproveHandler}
                     currentValues={currentValues}
                 />
                 <ConfirmModal
-                    title="Are you sure you want to Disapprove!"
+                    title="Are you sure you want to DissApprove!"
                     // note=""
                     // note_bracket=""
-                    open={transferDissApproveModal}
-                    setOpen={setTransferDissApproveModal}
-                    handler={transferDissApproveHandler}
+                    open={icoDissApproveModal}
+                    setOpen={setIcoDissApproveModal}
+                    handler={icoDissApproveHandler}
                     currentValues={currentValues}
                 />
                 <ConfirmModal
                     title="Are you sure you want to Finalize!"
                     // note=""
                     // note_bracket=""
-                    open={transferFinalizeModal}
-                    setOpen={setTransferFinalizeModal}
-                    handler={transferFinalizeHandler}
+                    open={icoFinalizeModal}
+                    setOpen={setIcoFinalizeModal}
+                    handler={icoFinalizeHandler}
                     currentValues={currentValues}
                 />
         </div>
     );
 }
-
 const mapStateToProps = (state) => {
     return {
       org: state.org,
@@ -402,4 +398,4 @@ const mapStateToProps = (state) => {
     };
   };
   
-  export default connect(mapStateToProps)(PendingRequest);
+  export default connect(mapStateToProps)(SubscriptionPendingRequest);

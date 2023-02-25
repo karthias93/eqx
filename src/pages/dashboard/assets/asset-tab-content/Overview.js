@@ -66,7 +66,7 @@ function Overview(props) {
                       org.project.length &&
                       org.project.map((pro) => {
                         return (
-                            <div className='welcome-card rounded-lg p-6 mb-6'>
+                            <div className='welcome-card rounded-lg p-6 mb-6' key={pro.id}>
                                 <div className='text-sm text-gray-400 mb-3'>
                                     {pro.project_name}
                                 </div>
@@ -143,7 +143,7 @@ function Overview(props) {
                                     {token.balance}
                                 </div>
                                 <div className='text-sm text-pink-500 font-bold truncate'>
-                                    Send/Receive
+                                    Send
                                 </div>
                             </div>
                             );

@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CompleteRequest from './asset-tab-content/CompleteRequest';
 import Overview from './asset-tab-content/Overview';
+import SubscriptionCompleteRequest from './asset-tab-content/SubscriptionCompleteRequest';
+import SubscriptionPendingRequest from './asset-tab-content/SubscriptionPendingRequest';
 import PendingRequest from './asset-tab-content/PendingRequest';
 import { connect } from 'react-redux';
 import { getWeb3 } from "../../../helpers/currentWalletHelper";
@@ -265,12 +267,12 @@ function Assets(props) {
         {
             key: '2',
             label: `Subscription Completed Request`,
-            children: `Content of Tab Pane 2`,
+            children: <SubscriptionCompleteRequest />,
         },
         {
             key: '3',
             label: `Subscription Pending Request`,
-            children: `Content of Tab Pane 3`,
+            children: <SubscriptionPendingRequest />,
         },
         {
             key: '4',

@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-function CompleteRequest(props) {
+function FailedRequest(props) {
     const { org } = props;
     return (
         <div>
             {org &&
-                org?.fund_transfer.length > 0 &&
-                org?.fund_transfer
-                .filter((val) => val.status === 1)
+            org.fund_transfer.length > 0 &&
+            org.fund_transfer
+                .filter((val) => Number(val.status) === -1)
                 .map((pro, index) => {
                     return (
                         <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={index}>
@@ -37,4 +37,4 @@ const mapStateToProps = (state) => {
     };
   };
   
-  export default connect(mapStateToProps)(CompleteRequest);
+  export default connect(mapStateToProps)(FailedRequest);
