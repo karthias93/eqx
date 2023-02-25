@@ -6,7 +6,7 @@ body {
 /* width */
 ::-webkit-scrollbar {
     width: 7px;
-    width: 7px;
+    height: 7px;
 }
 
 /* Track */
@@ -208,29 +208,47 @@ footer {
     color: #3f3f3f;
     font-weight: bold;
 }
-.row-minus{
+
+.row-minus {
     margin: 0px -10px 0px -10px;
 }
 
 
 @media only screen and (max-width: 767px) {
-    .ant-layout-sider{
+    .ant-layout-sider {
         flex: 0 0 0 !important;
         max-width: 0 !important;
         min-width: 0 !important;
         width: 0 !important;
         padding: 0 !important;
+        position: fixed !important;
+        z-index: 99;
     }
-    .mv-block{
+
+    .mv-block {
         display: block !important;
     }
-    .sidebar-open{
-        .ant-layout-sider{
+
+    .sidebar-open {
+        .ant-layout-sider {
             flex: 0 0 200px !important;
             max-width: 200px !important;
             min-width: 200px !important;
             width: 200px !important;
             padding: 15px !important;
-        } 
+        }
+
+        .overlay-div {
+            display: block;
+        }
+
+        .overlay-div {
+            background-color: #00000047;
+            height: 100vh;
+            z-index: 98;
+            position: fixed;
+            right: 0;
+            width: 100%;
+        }
     }
 }

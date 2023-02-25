@@ -583,291 +583,40 @@ function PlaySubscription(props) {
     );
 
     return (
-        <div>
-            <div className="card-container col-md-5 col-12 m-auto">
-                {/* <div className="button-switch desktop buy-ico-toggle">
-            <label className="switch">
-              <input
-                type="checkbox"
-                id="switch-blue"
-                className="switch-input"
-                checked={isBuy ? true : false}
-                // defaultChecked
-                onChange={() => setBuy(!isBuy)}
-              />
-              <span
-                className="switch-label"
-                data-on="Buy"
-                data-off="Swap"
-              ></span>
-              <span className="switch-handle"></span>
-            </label>
-          </div> */}
-                {isBuy && (
-                    <div className="card">
-                        <div className="card-header">
-                            <center>
-                                <h2>Subscribe to Earn</h2>
-                            </center>
-                        </div>
-                        <form className="card-details">
-                            <h3> Project Subscription offer </h3>
-                            <p style={{ fontSize: 12, textAlign: "center" }}>
-                                Subscribe to Projects by acquiring project tokens.
-                            </p>
-                            <p style={{ fontSize: 12, textAlign: "center" }}>
-                                If project subscription offer fails you will get your funds
-                                back.
-                            </p>
-                            {/* {console.log("eqxBalance", eqxBalance)} */}
-                            {/*<h5>1 EQX = $ {price ? price : 0}</h5>*/}
-                            <div className="card-inputs">
-                                <div className="card-input">
-                                    <span className="balance">
-                                        {/* Balance :{" "}
-                      {eqxBalance
-                        ? convertToInternationalCurrencySystem(eqxBalance)
-                        : 0} */}
-                                    </span>
-                                    <label htmlFor="ICO" className="hover-cursor">
-                                        <img src={Image} alt="" />
-                                        <select
-                                            name="icotoken"
-                                            id="icotoken"
-                                            onChange={async (e) => {
-                                                await handleSelectIco(e);
-                                                // console.log("selected--", e.target.value);
-                                            }}
-                                            value={icotoken}
-                                        >
-                                            {ico &&
-                                                ico.length &&
-                                                ico
-                                                    .filter(
-                                                        (val) =>
-                                                            Number(val.finalized) === 1 &&
-                                                            val.reached !== 2 &&
-                                                            val.reached !== 1
-                                                    )
-                                                    .map((i) => {
-                                                        return (
-                                                            <option value={i.ico_address}>
-                                                                {i.token_name}
-                                                            </option>
-                                                        );
-                                                    })}
-                                        </select>
-                                    </label>
-                                    <input
-                                        type="number"
-                                        dir="ltr"
-                                        id="exq"
-                                        placeholder="0"
-                                        onChange={async (e) => convertOutput(e)}
-                                        value={inputAmount ? inputAmount : ""}
-                                    />
-                                </div>
-                                <div className="card-input">
-                                    <span className="balance">
-                                        {/* Balance : 
-                      {currTokenBal && currTokenBal
-                        ? convertToInternationalCurrencySystem(currTokenBal)
-                        : 0} */}
-                                    </span>
-                                    <label htmlFor="BNB" className="hover-cursor">
-                                        <img src={ImgBNB} alt="" />
-                                        <select
-                                            name="query"
-                                            id="query"
-                                            onChange={async (e) => {
-                                                await handleSelect(e);
-                                                // console.log("selected--", e.target.value);
-                                            }}
-                                            value={query}
-                                        >
-                                            {/*<option value="USDT">USDT</option>*/}
-                                            <option value="BNB">BNB</option>
-                                        </select>
-                                    </label>
-
-                                    <input
-                                        type="number"
-                                        dir="ltr"
-                                        id="cvc"
-                                        placeholder="0.00"
-                                        value={outputAmount && outputAmount ? outputAmount : ""}
-                                        disabled={true}
-                                        onChange={async (e) => {
-                                            await handleOutputChange(e);
-                                        }}
-                                    />
-                                </div>
-                                {/*<div className="card-input">
-                  <input
-                    type="text"
-                    id="referBy"
-                    placeholder="Referred By"
-                    className="refered"
-                    value={ref ? ref : 10000}
-                    readOnly
-                  />
-                  </div>*/}
-                                <div className="card-input-btn">
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            props.account ? approveToken() : onConnect();
-                                        }}
-                                    >
-                                        {props.account ? buttonName : "Connect wallet"}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                )}
-                {!isBuy && (
-                    <div className="card">
-                        <div className="card-header">
-                            <h2>Swap ICOs</h2>
-                        </div>
-                        <form className="card-details">
-                            <h3>Swap ICOs Token In An Instant</h3>
-                            <p style={{ fontSize: 12, textAlign: "center" }}>
-                                Gtoken will be sent only after ICO period is over.
-                            </p>
-                            <p style={{ fontSize: 12, textAlign: "center" }}>
-                                If ICO fails you will get your funds back.
-                            </p>
-                            <h5>1 EQX = $ {price ? price : 0}</h5>
-                            <div className="card-inputs">
-                                <div className="card-input">
-                                    <span className="balance">
-                                        {/* Balance :{" "}
-                      {eqxBalance
-                        ? convertToInternationalCurrencySystem(eqxBalance)
-                        : 0} */}
-                                    </span>
-                                    <label htmlFor="ICO" className="hover-cursor">
-                                        <img src={Image} alt="" />
-                                        <select
-                                            name="icotoken"
-                                            id="icotoken"
-                                            onChange={async (e) => {
-                                                await handleSelectIco(e);
-                                            }}
-                                            value={icotoken}
-                                        >
-                                            {ico &&
-                                                ico.length &&
-                                                ico
-                                                    .filter((val) => val.finalized === 1)
-                                                    .map((i) => {
-                                                        return (
-                                                            <option value={i.ico_address}>
-                                                                {i.token_name}
-                                                            </option>
-                                                        );
-                                                    })}
-                                        </select>
-                                    </label>
-                                    <input
-                                        type="number"
-                                        dir="ltr"
-                                        id="exq"
-                                        placeholder="0"
-                                        onChange={async (e) => {
-                                            if (icotoken) {
-                                                setInputAmount(e.target.value);
-                                                let output = await getEquivalentAmount(
-                                                    e.target.value,
-                                                    icotoken
-                                                );
-                                                setOutputAmount(output);
-                                            }
-                                        }}
-                                        value={inputAmount ? inputAmount : ""}
-                                    />
-                                </div>
-                                <div className="card-input">
-                                    <span className="balance">
-                                        {/* Balance : 
-                      {currTokenBal && currTokenBal
-                        ? convertToInternationalCurrencySystem(currTokenBal)
-                        : 0} */}
-                                    </span>
-                                    <label htmlFor="BNB" className="hover-cursor">
-                                        <img src={ImgBNB} alt="" />
-                                        <select
-                                            name="query"
-                                            id="query"
-                                            onChange={async (e) => {
-                                                await handleSelect(e);
-                                                console.log("selected--", e.target.value);
-                                            }}
-                                            value={query}
-                                        >
-                                            {/*<option value="USDT">USDT</option>*/}
-                                            <option value="BNB">BNB</option>
-                                            {/*<option value="BTC">BTC</option>
-                      <option value="ETH">ETH</option>
-                    <option value="BUSD">BUSD</option>*/}
-                                        </select>
-                                    </label>
-
-                                    <input
-                                        type="number"
-                                        dir="ltr"
-                                        id="cvc"
-                                        placeholder="0.00"
-                                        value={outputAmount && outputAmount ? outputAmount : ""}
-                                        disabled={true}
-                                        onChange={async (e) => {
-                                            await handleOutputChange(e);
-                                        }}
-                                    />
-                                </div>
-                                <div className="card-input-btn">
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            props.account ? swapToken() : onConnect();
-                                        }}
-                                    >
-                                        {props.account ? buttonName : "Connect wallet"}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                )}
-                <div className="refer">
-                    <p>
-                        <b>Note:</b>if you claim BNB from ongoing Subscription
-                        you will get back  your BNB after deduction of 3.2% platform fee
-                    </p>
-                </div>
-                <div className="space-60"></div>
-                <hr />
-                <div className="space-60"></div>
+        <div className='p-4'>
+            {/* <div className='mb-8 text-white'>
+                <Breadcrumb>
+                    <Breadcrumb.Item>
+                        <Link to='/dashboard'>Home</Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item className='font-bold text-pink-500'>Play Subscription</Breadcrumb.Item>
+                </Breadcrumb>
+            </div> */}
+            <div className='my-20 mb-4 text-center'>
+                <h1 className='text-2xl font-bold mb-2'>
+                    Subscribe to Earn
+                </h1>
+                <p className='text-base text-gray-800'>
+                    Project Subscription offer <br />
+                    <small>subscribe to projects by acquring project tokens if project subscription offer tails you will get yours funds back </small>
+                </p>
             </div>
-            {isBuy && <>
-                <div className='my-20 mb-4 text-center'>
-                    <h1 className='text-2xl font-bold mb-2'>
-                        Subscribe to Earn
-                    </h1>
-                    <p className='text-base text-gray-800'>
-                        Project Subscription offer <br />
-                        <small>subscribe to projects by acquring project tokens if project subscription offer tails you will get yours funds back </small>
-                    </p>
-                </div>
-                <div className='form w-96 lg:width-full welcome-card rounded-lg p-6 pb-3 mx-auto'>
-                    <Form
-                        name="basic"
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
-                        autoComplete="off"
-                        layout='vertical'
+            <div className='form w-96 max-sm:w-full welcome-card rounded-lg p-6 pb-3 mx-auto'>
+                <Form
+                    name="basic"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                    layout='vertical'
+                >
+                    <Form.Item
+                        name="value"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your username!',
+                            },
+                        ]}
                     >
                         <Form.Item
                             name="value"

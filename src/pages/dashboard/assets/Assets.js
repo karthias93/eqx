@@ -1,7 +1,9 @@
 import { Breadcrumb, Button, Form, Input, Modal, Select, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import CompleteRequest from './asset-tab-content/CompleteRequest';
 import Overview from './asset-tab-content/Overview';
+import PendingRequest from './asset-tab-content/PendingRequest';
 
 function Assets(props) {
     const onFinish = (values) => {
@@ -31,15 +33,15 @@ function Assets(props) {
         {
             key: '4',
             label: `Completed Request`,
-            children: `Content of Tab Pane 3`,
+            children: <CompleteRequest/>,
         },
         {
             key: '5',
             label: `Pending Request`,
-            children: `Content of Tab Pane 3`,
+            children: <PendingRequest />,
         },
         {
-            key: '5',
+            key: '6',
             label: `Failed Request`,
             children: `Content of Tab Pane 3`,
         },

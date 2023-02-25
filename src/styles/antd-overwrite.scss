@@ -22,7 +22,7 @@
         top: 0;
         width: 100%;
         z-index: 999;
-        padding: 7px 30px;
+        padding: 7px 15px;
     }
 
     .ant-layout-footer {
@@ -106,6 +106,7 @@
     thead {
         backdrop-filter: blur(200px);
         color: #000 !important;
+        white-space: nowrap;
     }
 
     table {
@@ -140,6 +141,9 @@
 .ant-table-wrapper .ant-table-tbody>tr.ant-table-row:hover>td,
 .ant-table-wrapper .ant-table-tbody>tr>td.ant-table-cell-row-hover {
     background: #ffffff1f;
+}
+.ant-table-content{
+    overflow-x: auto;
 }
 
 .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
@@ -258,4 +262,10 @@ margin-bottom: 16px;
 }
 .ant-select .ant-select-selector {
     padding-left: calc(3rem - 8px) !important;
-  }
+}
+.ant-drawer-content-wrapper{
+    width: 300px !important;
+}
+.ant-drawer .ant-drawer-body{
+    padding: 0;
+}

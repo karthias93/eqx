@@ -17,15 +17,15 @@ function Home(props) {
     return (
         <div className='main-sec'>
             <div className='container mx-auto px-4 py-20'>
-                <div className=' mb-12'>
-                    <h1 className='text-6xl font-bold mb-4'>
+                <div className=' mb-12 max-lg:text-center'>
+                    <h1 className='text-6xl font-bold mb-4 '>
                         Welcome to the <span className='text-pink-500'>EQ Vault</span>
                     </h1>
                     <p className='text-base text-gray-800'>
                         The most trusted decentralized custody protocol and collective asset management platform.
                     </p>
                 </div>
-                <div className="grid grid-cols-3 max-lg:grid-cols-2 gap-6 max-lg:text-center">
+                <div className="grid grid-cols-3 max-lg:grid-cols-1 gap-6 max-lg:text-center">
                     <div className='p-6 welcome-card rounded-lg '>
                         <div className='mb-3 text-pink-500'>
                             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-plus" width="40" height="40" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">

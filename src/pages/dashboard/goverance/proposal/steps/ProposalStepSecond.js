@@ -184,9 +184,9 @@ function ProposalStepSecond(props) {
                     >
                         <TextArea rows={4} />
                     </Form.Item>
-                    <div className='flex'>
+                    <div className='flex justify-between'>
                         <Button
-                            className='mx-0 flex gap-1 mx-auto bordered border-gray-400 text-gray-400' type="primary"
+                            className='mx-0 flex gap-1 bordered border-gray-400 text-gray-400' type="primary"
                             onClick={() => props.previousStep()}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -197,7 +197,7 @@ function ProposalStepSecond(props) {
                             </svg>
                             Previous
                         </Button>
-                        <Button type="primary" htmlType="submit" className='ml-0 flex gap-1 mx-auto grad-btn border-0 '>
+                        <Button type="primary" htmlType="submit" className='ml-0 flex gap-1 grad-btn border-0 '>
                             Next <svg xmlns="http://www.w3.org/2000/svg" className="self-center icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M5 12l14 0"></path>
