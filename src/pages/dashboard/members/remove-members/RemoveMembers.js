@@ -93,13 +93,14 @@ function RemoveMembers(props) {
             }, 1000);
         });
     };
-    const handleChange = (e) => {
-        form.setFieldValue("member_wallet_address", e.target.value);
+    const handleChange = (value) => {
+        form.setFieldValue("member_wallet_address", value);
         if (org && org.members && org.members.length) {
           const index = org.members.findIndex(
-            (mem) => mem.wallet_address === e.target.value
+            (mem) => mem.wallet_address === value
           );
           if (index >= 0) {
+            
             form.setFieldValue("member_name", org.members[index].member_name);
             form.setFieldValue("member_email", org.members[index].email);
           }
@@ -190,7 +191,7 @@ function RemoveMembers(props) {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input disabled={true}/>
                     </Form.Item>
                     <Form.Item
                         label="Email Address"
@@ -199,15 +200,11 @@ function RemoveMembers(props) {
                             {
                                 type: 'email',
                                 required: true,
-                                message: 'Please input your username!',
+                                message: 'Please input your email!',
                             },
-                            {
-                                message: 'Allready exist',
-                                validator: verifyEmail
-                            }
                         ]}
                     >
-                        <Input />
+                        <Input disabled={true} />
                     </Form.Item>
                     
 

@@ -59,7 +59,7 @@ function IcoStepSecond(props) {
         console.log(
             values,
             icoFormdata,
-            toFixed(icoFormdata.supply * 1000000000 * 1000000000).toLocaleString(
+            toFixed(values.supply * 1000000000 * 1000000000).toLocaleString(
                 "fullwide",
                 {
                     useGrouping: false,
@@ -226,7 +226,7 @@ function IcoStepSecond(props) {
                 >
                     <Form.Item
                         label="Start date"
-                        name="start_dated"
+                        name="start_date"
                         rules={[
                             {
                                 required: true,

@@ -9,6 +9,7 @@ import { getWeb3 } from "../../../../helpers/currentWalletHelper";
 import multiSigv2Abi from "./../../../../Config/abis/EquinoxMain.json";
 import { CommonModal } from "../../../../components/modals";
 import { getMemberVotedList, getOrg } from "../../../../services/dashboard";
+import DetailModal from '../../../../components/DetailModal';
 
 function RemoveMemberRequest(props) {
     const { org, auth } = props;
@@ -27,7 +28,7 @@ function RemoveMemberRequest(props) {
     const [dissApproveRemoveMemberModal, setDissApproveRemoveMemberModal] = useState(false);
     const [finalizeRemoveMemberModal, setFinalizeRemoveMemberModal] = useState(false);
     useEffect(() => {
-        if (org, auth) {
+        if (org?.org, auth) {
           getSigners();
           getMemberVotedList(auth.id);
           getRemoveMembersList(org);
@@ -612,7 +613,7 @@ function RemoveMemberRequest(props) {
            {removeMemberList.length > 0 &&
             removeMemberList.map((pro, index) => {
                 return (
-                    <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={org.id}>
+                    <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={pro.id}>
                         <div className='flex flex-wrap gap-6 justify-between'>
                             <div>
                                 Wallet Address: <b>{pro.wallet_address}</b>
@@ -706,12 +707,21 @@ function RemoveMemberRequest(props) {
                 handler={removeFinalizeHandler}
                 currentValues={currentValues}
             />
+            <DetailModal
+                open={view}
+                setOpen={setView}
+                handleOpen={() => setView(true)}
+                handleClose={() => setView(false)}
+                voters={voters}
+                votingLoading={votingLoading}
+            />
         </div>
     );
 }
 const mapStateToProps = (state) => {
     return {
       org: state.org,
+      auth: state.auth
     };
 };
   

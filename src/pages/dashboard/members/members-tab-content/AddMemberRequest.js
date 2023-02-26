@@ -90,7 +90,7 @@ function AddMemberRequest(props) {
         org_id: org?.org?.id,
         type: "add_member",
         });
-        console.log(indexListOftransferProposal);
+        console.log(indexListOftransferProposal, '----', to);
 
         const propIndex =
         indexListOftransferProposal?.filter(
@@ -108,7 +108,7 @@ function AddMemberRequest(props) {
         const isSigned = await contract.methods
             .isAddMemberProposalDisapproved(propIndex, account)
             .call();
-
+        console.log(isSigned, '-------isSigned------');
         if (isSigned) {
             store.dispatch(updateSpinner(false));
             alert("Member is Disapproved");
@@ -435,6 +435,7 @@ function AddMemberRequest(props) {
 const mapStateToProps = (state) => {
     return {
       org: state.org,
+      auth: state.auth
     };
 };
   

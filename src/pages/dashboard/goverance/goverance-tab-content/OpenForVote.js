@@ -9,6 +9,7 @@ import ConfirmModal from "../../../../components/modals/ConfirmModal";
 import axios from "axios";
 import { getOrg } from "../../../../services/dashboard";
 import { CommonModal } from "../../../../components/modals";
+import DetailModal from '../../../../components/DetailModal';
 
 function OpenForVote(props) {
     const { org, auth } = props;
@@ -486,6 +487,14 @@ function OpenForVote(props) {
                 setOpen={setFinalizeModal}
                 handler={finalizeHandler}
                 currentValues={currentValues}
+            />
+            <DetailModal
+                open={view}
+                setOpen={setView}
+                handleOpen={() => setView(true)}
+                handleClose={() => setView(false)}
+                voters={voters}
+                votingLoading={votingLoading}
             />
         </div>
     );
