@@ -8,9 +8,11 @@ function Completed(props) {
     const { org } = props;
     return (
         <div>
-             {org?.proposal?.Initialized && org?.proposal?.Initialized.length > 0 &&
-                org?.proposal?.Approved
-                    .map((pro, index) => {
+             {org &&
+                    org.proposal.length > 0 &&
+                    org.proposal
+                      .filter((pro) => pro.status === "Approved")
+                      .map((pro, index) => {
                         return (
                         <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={index}>
                             <div className='flex gap-6 justify-between'>

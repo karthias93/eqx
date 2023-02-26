@@ -92,12 +92,16 @@ function DashboardHome(props) {
         {
             title: 'Start Date',
             key: 'proposed_date',
-            render: (text) => text?.substring(0, 10),
+            render: (text) => {
+                return text?.proposed_date?.substring(0, 10);
+            }
         },
         {
             title: 'End Date',
             key: 'finished_date',
-            render: (text) => text?.substring(0, 10),
+            render: (text) => {
+                return text?.finished_date?.substring(0, 10);
+            }
         },
         {
             title: 'Status',
@@ -136,12 +140,16 @@ function DashboardHome(props) {
         {
             title: 'Start Date',
             key: 'start_date',
-            render: (text) => text?.substring(0, 10),
+            render: (text) => {
+                return text?.start_date?.substring(0, 10);
+            }
         },
         {
             title: 'End Date',
             key: 'end_date',
-            render: (text) => text?.substring(0, 10),
+            render: (text) => {
+                return text?.end_date?.substring(0, 10);
+            }
         },
         {
             title: 'Status',

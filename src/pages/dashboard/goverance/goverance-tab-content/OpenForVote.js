@@ -396,9 +396,9 @@ function OpenForVote(props) {
       };
     return (
         <div>
-            {org?.proposal?.Initialized && org?.proposal?.Initialized.length > 0 &&
-                org?.proposal?.Initialized
-                    .map((pro, index) => {
+             {org && org.proposal.length > 0 &&  org.proposal
+                .filter((pro) => pro.status === "Initialized")
+                .map((pro, index) => {
                         return (
                             <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={index}>
                                 <div className='flex gap-6 justify-between'>
