@@ -613,9 +613,9 @@ function RemoveMemberRequest(props) {
             removeMemberList.map((pro, index) => {
                 return (
                     <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={org.id}>
-                        <div className='flex gap-6 justify-between'>
+                        <div className='flex flex-wrap gap-6 justify-between'>
                             <div>
-                                Wallet Address: {pro.wallet_address}
+                                Wallet Address: <b>{pro.wallet_address}</b>
                             </div>
                             <div>
                                 {!pro.finalized && (

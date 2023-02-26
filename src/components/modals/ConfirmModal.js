@@ -32,9 +32,9 @@ const ConfirmModal = ({
         <div className="container">
           <div className="custom-modal-wrapper text-center" ref={modalRef}>
             <div className="mb-2 text-start">
-              <img src={Logo} alt="" className="w-10 logo_icon" />
+              <img src={Logo} alt="" className="w-12 logo_icon" />
             </div>
-            <h4 className="font-semibold text-dark mb-2">{title}</h4>
+            <h4 className="font-semibold text-dark mb-2 text-xl">{title}</h4>
 
             {/* <p className="text-lg text-black md:mx-20  font-medium">
               Please be patient till the transaction completes
@@ -43,15 +43,15 @@ const ConfirmModal = ({
               ( Do not close the tab or refresh the page )
             </p> */}
             <br />
-            <div className="inform-btn">
+            <div className="inform-btn gap-3 flex justify-center">
               <button
-                className="py-2.5 px-12 ok_btn rounded-full bg-blue-500"
+                className="py-2 grad-btn px-12 ok_btn rounded-full text-white"
                 onClick={() => handler(currentValues)}
               >
                 Yes
               </button>
               <button
-                className="py-2.5 px-12 no_btn rounded-full bg-blue-500"
+                className="py-2 px-12 no_btn rounded-full bg-white border"
                 onClick={() => setOpen(false)}
               >
                 No

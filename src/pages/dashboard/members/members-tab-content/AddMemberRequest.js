@@ -344,12 +344,12 @@ function AddMemberRequest(props) {
             .map((pro, index) => {
                 return (
                     <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={pro.id}>
-                        <div className='flex gap-6 justify-between'>
+                        <div className='flex flex-wrap gap-6 justify-between'>
                             <div>
-                                Name: {pro.member_name}
+                                Name: <b>{pro.member_name}</b>
                             </div>
                             <div>
-                                Wallet Address: {pro.wallet_address}
+                                Wallet Address: <b>{pro.wallet_address}</b>
                             </div>
                             <div>
                                 {!pro.finalized && (
