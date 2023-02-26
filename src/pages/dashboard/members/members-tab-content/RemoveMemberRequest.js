@@ -27,12 +27,12 @@ function RemoveMemberRequest(props) {
     const [dissApproveRemoveMemberModal, setDissApproveRemoveMemberModal] = useState(false);
     const [finalizeRemoveMemberModal, setFinalizeRemoveMemberModal] = useState(false);
     useEffect(() => {
-        if (org) {
+        if (org, auth) {
           getSigners();
           getMemberVotedList(auth.id);
           getRemoveMembersList(org);
         }
-    }, [org]);
+    }, [org, auth]);
     const getRemoveMembersList = async (org) => {
         try {
           console.log(org);

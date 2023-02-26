@@ -3,16 +3,21 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import Spinner from '../../../components/Spinner/Spinner';
+import { updateSpinner } from '../../../redux/actions';
 import { getProjects } from '../../../services/dashboard';
 
 function Project(props) {
-    const { org, project = {}, auth } = props;
+    const { org, project = {}, auth, spinner } = props;
     const navigate = useNavigate();
     useEffect(() => {
         if (org && org.project && org.project.length && org.project[0].id) {
             getProjects(org.project[0].id);
         }
     }, [org, auth]);
+    useEffect(() => {
+        props.dispatch(updateSpinner(true))
+    }, [])
     const createProjectHandler = async (e) => {
         e.preventDefault();
         if (auth && auth.org_id) {
@@ -113,9 +118,10 @@ function Project(props) {
                 </div>
             </div>
             </>}
-            {!(org?.project && org.project.length) && (<div className='p-6 welcome-card rounded-lg text-center'>
+            {!spinner && !(org?.project && org.project.length) && (<div className='p-6 welcome-card rounded-lg text-center'>
                 <button className='rounded-lg font-bold px-6 py-3 grad-btn text-white' onClick={createProjectHandler}>LAUNCH PROJECT</button>
             </div>)}
+            {spinner && <Spinner /> }
         </div>
     );
 }
@@ -124,6 +130,7 @@ const mapStateToProps = (state) => {
       org: state.org,
       project: state.project,
       auth: state.auth,
+      spinner: state.spinner
     };
   };
   

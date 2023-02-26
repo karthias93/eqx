@@ -66,7 +66,6 @@ function ProposalStepSecond(props) {
     };
     const addProposal = async (values) => {
         if (props.org) {
-          console.log("hello");
           store.dispatch(updateSpinner(true));
           let web3 = await getWeb3();
           let accounts = await web3.eth.getAccounts();
@@ -106,7 +105,7 @@ function ProposalStepSecond(props) {
               const skipFields = [];
               const formData = new FormData();
               formData.append("org_id", props?.org?.org?.id);
-              formData.append("project_id", props?.org?.org?.id);
+              formData.append("project_id", props?.org?.project[0]?.id);
               const data = {
                 ...props.proposalFormdata,
                 ...values,
@@ -171,12 +170,12 @@ function ProposalStepSecond(props) {
                                 message: 'Required',
                             },
                             {
-                                message: 'Must be exactly 5 characters',
+                                message: 'Min 200 Words, Max 1000 Words',
                                 validator: (_, value, cb) => {
                                     if (value && value.length >= 200 && value.length <= 1000) {
                                         cb()
                                     } else {
-                                        cb('Must be exactly 5 characters')
+                                        cb('Min 200 Words, Max 1000 Words')
                                     }
                                 }
                             }

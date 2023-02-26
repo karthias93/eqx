@@ -1,6 +1,6 @@
 import axios from 'axios';
 import store from "./../redux/store";
-import { loadDetails, loadCategory, loadProject, loadOrg, addProjectFormData, loadIcos, loadVotedList, loadMemberVotedList } from '../redux/actions';
+import { loadDetails, loadCategory, loadProject, loadOrg, addProjectFormData, loadIcos, loadVotedList, loadMemberVotedList, updateSpinner } from '../redux/actions';
 
 const getMe = (wallet_address) => {
   axios.get(`${process.env.REACT_APP_API_URL}/get_details/${wallet_address}`)
@@ -22,10 +22,12 @@ const getCategory = () => {
 }
 
 const getProjects = (id) => {
+  store.dispatch(updateSpinner(true))
   axios.get(`${process.env.REACT_APP_API_URL}/get_project/${id}`)
     .then((res) => {
       store.dispatch(loadProject(res.data.response));
       store.dispatch(addProjectFormData(res.data.response));
+      store.dispatch(updateSpinner(false))
     });
 }
 

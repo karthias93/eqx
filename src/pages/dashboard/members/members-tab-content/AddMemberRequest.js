@@ -9,6 +9,7 @@ import { getWeb3 } from "../../../../helpers/currentWalletHelper";
 import multiSigv2Abi from "./../../../../Config/abis/EquinoxMain.json";
 import { CommonModal } from "../../../../components/modals";
 import { getMemberVotedList, getOrg } from "../../../../services/dashboard";
+import DetailModal from "../../../../components/DetailModal";
 
 function AddMemberRequest(props) {
     const { org, auth } = props;
@@ -22,10 +23,10 @@ function AddMemberRequest(props) {
     const [message, setMessage] = useState("Member has been removed");
     const [open, setOpen] = useState(false);
     useEffect(() => {
-        if (org) {
+        if (org, auth) {
           getMemberVotedList(auth.id);
         }
-      }, [org]);
+      }, [org, auth]);
     const getVotingList = async (pro, type) => {
         if (org && org?.members?.length > 0) {
           setVotingLoading(true);
@@ -419,6 +420,14 @@ function AddMemberRequest(props) {
                 note_bracket=""
                 open={open}
                 setOpen={setOpen}
+            />
+            <DetailModal
+                open={view}
+                setOpen={setView}
+                handleOpen={() => setView(true)}
+                handleClose={() => setView(false)}
+                voters={voters}
+                votingLoading={votingLoading}
             />
         </div>
     );

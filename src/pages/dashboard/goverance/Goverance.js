@@ -2,6 +2,10 @@ import { Breadcrumb, Button, Tabs } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import All from './goverance-tab-content/All';
+import OpenForVote from './goverance-tab-content/OpenForVote';
+import Pending from './goverance-tab-content/Pending';
+import Completed from './goverance-tab-content/Completed';
+import Failed from './goverance-tab-content/Failed';
 
 function Goverance(props) {
     const items = [
@@ -13,22 +17,22 @@ function Goverance(props) {
         {
             key: '2',
             label: `Open for Vote`,
-            children: `Content of Tab Pane 2`,
+            children: <OpenForVote />,
         },
         {
             key: '3',
             label: `Pending`,
-            children: `Content of Tab Pane 3`,
+            children: <Pending />,
         },
         {
             key: '4',
             label: `Completed`,
-            children: `Content of Tab Pane 3`,
+            children: <Completed />,
         },
         {
             key: '5',
             label: `Failed`,
-            children: `Content of Tab Pane 3`,
+            children: <Failed />,
         },
     ];
     return (

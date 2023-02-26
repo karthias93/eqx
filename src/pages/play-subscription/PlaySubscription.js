@@ -1,5 +1,5 @@
 import { Breadcrumb, Button, Form, Input, Select } from 'antd';
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { data } from "../../assets/data";
 import { CaretDownOutlined, UserOutlined } from "@ant-design/icons";
 
@@ -560,6 +560,7 @@ function PlaySubscription(props) {
     };
     const onFinish = (values) => {
         console.log('Success:', values);
+        props.account ? approveToken() : onConnect();
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -568,78 +569,107 @@ function PlaySubscription(props) {
     const selectAfter = (
         <div className='relative'>
             <div className="absolute flex items-center justify-center pt-1"><img src={Image} alt="" className='w-[1rem]'/></div>
-            <Select defaultValue="bnb" suffixIcon={<CaretDownOutlined />}>
-                <Option value="bnb">BNB</Option>
-                <Option value="eqn">EQN</Option>
+            <Select 
+                suffixIcon={<CaretDownOutlined />}
+                onChange={async (e) => {
+                    await handleSelectIco(e);
+                }}
+            >
+                {ico && ico.length && ico
+                    .filter(
+                        (val) =>
+                            Number(val.finalized) === 1 &&
+                            val.reached !== 2 &&
+                            val.reached !== 1
+                        )
+                        .map((i) => {
+                            return (
+                                <Option value={i.ico_address}>
+                                    {i.token_name}
+                                </Option>
+                            );
+                        })}
             </Select>
         </div>
     );
 
     const selectAfter1 = (
-        <Select defaultValue="eqn" suffixIcon={<CaretDownOutlined />}>
-            <Option value="bnb">BNB</Option>
-            <Option value="eqn">EQN</Option>
-        </Select>
+        <div className='relative'>
+            <div className="absolute flex items-center justify-center pt-1"><img src={ImgBNB} alt="" className='w-[1rem]'/></div>
+            <Select 
+                defaultValue="BNB"
+                suffixIcon={<CaretDownOutlined />}
+                onChange={async (e) => {
+                    await handleSelect(e);
+                    // console.log("selected--", e.target.value);
+                }}
+            >
+                <Option value="BNB">BNB</Option>
+            </Select>
+        </div>
     );
 
     return (
-        <div className='p-4'>
-            {/* <div className='mb-8 text-white'>
-                <Breadcrumb>
-                    <Breadcrumb.Item>
-                        <Link to='/dashboard'>Home</Link>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item className='font-bold text-pink-500'>Play Subscription</Breadcrumb.Item>
-                </Breadcrumb>
-            </div> */}
-            <div className='my-20 mb-4 text-center'>
-                <h1 className='text-2xl font-bold mb-2'>
-                    Subscribe to Earn
-                </h1>
-                <p className='text-base text-gray-800'>
-                    Project Subscription offer <br />
-                    <small>subscribe to projects by acquring project tokens if project subscription offer tails you will get yours funds back </small>
+        <Fragment>
+            <div id="buy-eqx" className='p-4'>
+                <div className='my-20 mb-4 text-center'>
+                    <h1 className='text-2xl font-bold mb-2'>
+                        Subscribe to Earn
+                    </h1>
+                    <p className='text-base text-gray-800'>
+                        Project Subscription offer <br />
+                        <small>subscribe to projects by acquring project tokens if project subscription offer tails you will get yours funds back </small>
+                    </p>
+                </div>
+                <div className='form w-96 max-sm:w-full welcome-card rounded-lg p-6 pb-3 mx-auto'>
+                    <Form
+                        name="basic"
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                        autoComplete="off"
+                        layout='vertical'
+                    >
+                        <Form.Item
+                            name="icotoken"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your username!',
+                                },
+                            ]}
+                        >
+                            <Input addonAfter={selectAfter} defaultValue="0" onChange={async (e) => convertOutput(e)} />
+                        </Form.Item>
+                        <Form.Item
+                            name="value1"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your username!',
+                                },
+                            ]}
+                        >
+                            <Input addonAfter={selectAfter1} defaultValue="0.0" disabled={true}
+                    onChange={async (e) => {
+                        await handleOutputChange(e);
+                    }}/>
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" className='w-full font-bold mx-auto grad-btn border-0 '>
+                            {props.account ? buttonName : "Connect wallet"}
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+            </div>
+            <div className="text-center text-xs">
+                <p>
+                    <b>Note:</b>if you claim BNB from ongoing Subscription 
+                    you will get back  your BNB after deduction of 3.2% platform fee
                 </p>
             </div>
-            <div className='form w-96 max-sm:w-full welcome-card rounded-lg p-6 pb-3 mx-auto'>
-                <Form
-                    name="basic"
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                    layout='vertical'
-                >
-                    <Form.Item
-                        name="value"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your username!',
-                            },
-                        ]}
-                    >
-                        <Input addonAfter={selectAfter} defaultValue="0" />
-                    </Form.Item>
-                    <Form.Item
-                        name="value1"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your username!',
-                            },
-                        ]}
-                    >
-                        <Input addonAfter={selectAfter1} defaultValue="0.0" />
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit" className='w-full font-bold mx-auto grad-btn border-0 '>
-                            Connect Wallet
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-        </div>
+        </Fragment>
     );
 }
 const mapStateToProps = (state) => {

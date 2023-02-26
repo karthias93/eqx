@@ -1,17 +1,57 @@
-import { Button, Typography } from 'antd';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import rejectIcon from "../../../../assets/images/rejected.png";
+import progressIcon from "../../../../assets/images/progress.png";
+import checkedImage from "../../../../assets/images/checked.png";
+import { connect } from 'react-redux';
 
 function All(props) {
+    const { org } = props;
     return (
         <div>
-            <div className="grid grid-cols-2 max-lg:grid-cols-3 max-md:grid-cols-2 gap-6 max-lg:text-center">
-                <div className='text-gray-900'>
-                    0
-                </div>
-            </div>
+            {org?.proposal?.length &&
+                org.proposal.map((pro, index) => {
+                    return (
+                        <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={index}>
+                            <div className='flex gap-6 justify-between'>
+                                <div>
+                                    {pro.description.slice(0, 40)} ...
+                                </div>
+                                <div className='self-center'>
+                                    <img
+                                        src={
+                                        pro.status === "Initialized" ||
+                                        pro.status === "Expired"
+                                            ? progressIcon
+                                            : pro.status === "Approved"
+                                            ? checkedImage
+                                            : rejectIcon
+                                        }
+                                        className="w-10 mx-auto mb-2"
+                                        alt=""
+                                    />
+                                    <p>
+                                        {pro.status === "Initialized" ||
+                                        pro.status === "Expired"
+                                        ? "In Progress"
+                                        : pro.status === "Approved"
+                                        ? "Completed"
+                                        : "Rejected"}
+                                    </p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    );
+                })
+            }
         </div>
     );
 }
-
-export default All;
+const mapStateToProps = (state) => {
+    return {
+      org: state.org,
+      auth: state.auth,
+    };
+};
+  
+export default connect(mapStateToProps)(All);
