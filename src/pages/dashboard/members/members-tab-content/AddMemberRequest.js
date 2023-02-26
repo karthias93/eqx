@@ -24,53 +24,53 @@ function AddMemberRequest(props) {
     const [open, setOpen] = useState(false);
     useEffect(() => {
         if (org, auth) {
-          getMemberVotedList(auth.id);
+            getMemberVotedList(auth.id);
         }
-      }, [org, auth]);
+    }, [org, auth]);
     const getVotingList = async (pro, type) => {
         if (org && org?.members?.length > 0) {
-          setVotingLoading(true);
-    
-          setVoter([]);
-          org.members
-            .filter((member) => member.is_active === 1)
-            .forEach(async (element) => {
-              let objectOfMember = {};
-              axios
-                .get(
-                  `${process.env.REACT_APP_API_URL}/get_vote_list_by_type/${type}/${element.id}`
-                )
-                .then(({ data }) => {
-                  console.log(data, pro);
-                  if (data.status === "success") {
-                    const matchedVales = data.response.filter(
-                      (item) => item.proposal_id === pro?.id
-                    );
-                    console.log("Matched", matchedVales);
-                    objectOfMember = element;
-                    if (matchedVales.length > 0) {
-                      objectOfMember.voted = "Yes";
-                    } else {
-                      objectOfMember.voted = "No";
-                    }
-                  }
-                  if (data.status === "error") {
-                    objectOfMember = element;
-                    objectOfMember.voted = "No";
-                  }
-    
-                  setVoter((prev) => [...prev, objectOfMember]);
-                  setVotingLoading(false);
-                })
-                .catch((error) => {
-                  setVotingLoading(false);
-                  console.log(error);
-                  // setLoading(false);
+            setVotingLoading(true);
+
+            setVoter([]);
+            org.members
+                .filter((member) => member.is_active === 1)
+                .forEach(async (element) => {
+                    let objectOfMember = {};
+                    axios
+                        .get(
+                            `${process.env.REACT_APP_API_URL}/get_vote_list_by_type/${type}/${element.id}`
+                        )
+                        .then(({ data }) => {
+                            console.log(data, pro);
+                            if (data.status === "success") {
+                                const matchedVales = data.response.filter(
+                                    (item) => item.proposal_id === pro?.id
+                                );
+                                console.log("Matched", matchedVales);
+                                objectOfMember = element;
+                                if (matchedVales.length > 0) {
+                                    objectOfMember.voted = "Yes";
+                                } else {
+                                    objectOfMember.voted = "No";
+                                }
+                            }
+                            if (data.status === "error") {
+                                objectOfMember = element;
+                                objectOfMember.voted = "No";
+                            }
+
+                            setVoter((prev) => [...prev, objectOfMember]);
+                            setVotingLoading(false);
+                        })
+                        .catch((error) => {
+                            setVotingLoading(false);
+                            console.log(error);
+                            // setLoading(false);
+                        });
                 });
-            });
-          console.log("calling");
-          // setLoading(false);
-          setView(true);
+            console.log("calling");
+            // setLoading(false);
+            setView(true);
         }
     };
     //ADD MEMBER _FUNCTIONS
@@ -81,21 +81,21 @@ function AddMemberRequest(props) {
         let account = accounts[0];
         let multiSigAddr = org?.org?.multisig_address;
         const contract = await new web3.eth.Contract(
-        multiSigv2Abi.abi,
-        multiSigAddr
+            multiSigv2Abi.abi,
+            multiSigAddr
         );
         const {
-        data: { response: indexListOftransferProposal },
+            data: { response: indexListOftransferProposal },
         } = await axios.post(`${process.env.REACT_APP_API_URL}/get_index_list`, {
-        org_id: org?.org?.id,
-        type: "add_member",
+            org_id: org?.org?.id,
+            type: "add_member",
         });
         console.log(indexListOftransferProposal, '----', to);
 
         const propIndex =
-        indexListOftransferProposal?.filter(
-            (val) => val.data.toLowerCase() === to.toLowerCase()
-        )[0].index_number - 1;
+            indexListOftransferProposal?.filter(
+                (val) => val.data.toLowerCase() === to.toLowerCase()
+            )[0].index_number - 1;
 
         // const propIndex = Number(org?.org?.add_member_index) - 1;
         console.log("INdex", propIndex);
@@ -322,13 +322,13 @@ function AddMemberRequest(props) {
         setApproveModal(false);
         approve(values.id, values.wallet_address);
     };
-    
+
     const dissApproveHandler = (values) => {
         console.log(values);
         setDissApproveModal(false);
         disApprove(values.id, values.wallet_address);
     };
-    
+
     const finalizeHandler = (values) => {
         console.log(values);
         setFinalizeModal(false);
@@ -337,61 +337,68 @@ function AddMemberRequest(props) {
     return (
         <div>
             {org &&
-            org.members &&
-            org.members.length > 0 &&
-            org.members
-            .filter((val) => !val.is_active)
-            .map((pro, index) => {
-                return (
-                    <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={pro.id}>
-                        <div className='flex flex-wrap gap-6 justify-between'>
-                            <div>
-                                Name: <b>{pro.member_name}</b>
+                org.members &&
+                org.members.length > 0 &&
+                org.members
+                    .filter((val) => !val.is_active)
+                    .map((pro, index) => {
+                        return (
+                            <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={pro.id}>
+                                <div className='flex flex-wrap gap-6 justify-between'>
+                                    <div>
+                                        Name: <b>{pro.member_name}</b>
+                                    </div>
+                                    <div>
+                                        Wallet Address: <b>{pro.wallet_address}</b>
+                                    </div>
+                                    <div>
+                                        {!pro.finalized && (
+                                            <span
+                                                onClick={() => {
+                                                    setCurrentValues(pro);
+                                                    setApproveModal(true);
+                                                }}
+                                                className="approve cursor-pointer"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="text-green-600 icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M5 12l5 5l10 -10"></path>
+                                                </svg>
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div>
+                                        {!pro.finalized && (
+                                            <span
+                                                onClick={() => {
+                                                    setCurrentValues(pro);
+                                                    setDissApproveModal(true);
+                                                }}
+                                                className="approve cursor-pointer"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="text-red-500 icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M18 6l-12 12"></path>
+                                                    <path d="M6 6l12 12"></path>
+                                                </svg>
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className='flex gap-3'>
+                                        {!pro.finalized && (<Button type='primary' className='grad-btn border-0' onClick={() => {
+                                            setCurrentValues(pro);
+                                            setFinalizeModal(true);
+                                        }}>Finalize</Button>)}
+                                        <Button type='primary' className='grad-btn border-0' onClick={() => {
+                                            setCurrentValues(pro);
+                                            getVotingList(pro, 2);
+                                            // setFinalizeModal(true);
+                                        }}>View</Button>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                Wallet Address: <b>{pro.wallet_address}</b>
-                            </div>
-                            <div>
-                                {!pro.finalized && (
-                                  <span
-                                    onClick={() => {
-                                      setCurrentValues(pro);
-                                      setApproveModal(true);
-                                    }}
-                                    className="approve"
-                                  >
-                                    Approve
-                                  </span>
-                                )}
-                            </div>
-                            <div>
-                                {!pro.finalized && (
-                                  <span
-                                    onClick={() => {
-                                      setCurrentValues(pro);
-                                      setDissApproveModal(true);
-                                    }}
-                                    className="approve"
-                                  >
-                                    Disapprove
-                                  </span>
-                                )}
-                            </div>
-                            <div className='flex gap-3'>
-                                {!pro.finalized && (<Button type='primary' className='grad-btn border-0'  onClick={() => {
-                                      setCurrentValues(pro);
-                                      setFinalizeModal(true);
-                                }}>Finalize</Button>)}
-                                <Button type='primary' className='grad-btn border-0'  onClick={() => {
-                                    setCurrentValues(pro);
-                                    getVotingList(pro, 2);
-                                    // setFinalizeModal(true);
-                                }}>View</Button>
-                            </div>
-                        </div>
-                    </div>
-                )
-            })
+                        )
+                    })
             }
             <ConfirmModal
                 title="Are you sure you want to Approve!"
@@ -434,9 +441,9 @@ function AddMemberRequest(props) {
 }
 const mapStateToProps = (state) => {
     return {
-      org: state.org,
-      auth: state.auth
+        org: state.org,
+        auth: state.auth
     };
 };
-  
+
 export default connect(mapStateToProps)(AddMemberRequest);
