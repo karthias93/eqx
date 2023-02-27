@@ -14,7 +14,7 @@ function All(props) {
                         <div className='welcome-card rounded-lg p-6 mb-6 text-black' key={index}>
                             <div className='flex gap-6 justify-between'>
                                 <div>
-                                    {pro.description.slice(0, 40)} ...
+                                    {pro.description} ...
                                 </div>
                                 <div className='self-center'>
                                     <img

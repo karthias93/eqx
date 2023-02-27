@@ -26,7 +26,71 @@ function AddMemberRequest(props) {
         if (org, auth) {
           getMemberVotedList(auth.id);
         }
-      }, [org, auth]);
+    }, [org, auth]);
+    useEffect(() => {
+        //ADD MEMBER DISSAPPROVED CHECK
+        const checkIfDissapproved = async () => {
+          if (org && org.members.length > 0) {
+            let web3 = await getWeb3();
+            let accounts = await web3.eth.getAccounts();
+            let account = accounts[0];
+            let multiSigAddr = org?.org?.multisig_address;
+            const contract = await new web3.eth.Contract(
+              multiSigv2Abi.abi,
+              multiSigAddr
+            );
+    
+            org &&
+              org.members &&
+              org.members.length &&
+              org.members
+                .filter((val) => val.is_active === 0)
+                .forEach(async (element) => {
+                  console.log(element);
+    
+                  const {
+                    data: { response: indexListOftransferProposal },
+                  } = await axios.post(
+                    `${process.env.REACT_APP_API_URL}/get_index_list`,
+                    {
+                      org_id: org?.org?.id,
+                      type: "add_member",
+                    }
+                  );
+                  console.log(indexListOftransferProposal, element.wallet_address);
+    
+                  const currentIndex =
+                    indexListOftransferProposal?.filter(
+                      (val) =>
+                        val.data.toLowerCase() ===
+                        element.wallet_address.toLowerCase()
+                    )[0].index_number - 1;
+                  if (contract) {
+                    const resFromBlock = await contract.methods
+                      .isFinalAddmemberProposal(currentIndex)
+                      .call();
+                    console.log(currentIndex, resFromBlock);
+                    if (resFromBlock === false) {
+                      // if (false) {
+                      axios
+                        .get(
+                          `${process.env.REACT_APP_API_URL}/approve_member/${element.wallet_address}/-1`
+                        )
+                        .then((res) => {
+                          console.log(res.data.status);
+                          if (res.data.status === "error") {
+                            console.log(res.data.status);
+                          }
+    
+                          if (auth && auth.org_id) getOrg(auth.org_id);
+                        });
+                    }
+                  }
+                });
+          }
+        };
+        checkIfDissapproved();
+    }, [auth, org]);
     const getVotingList = async (pro, type) => {
         if (org && org?.members?.length > 0) {
           setVotingLoading(true);

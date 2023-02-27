@@ -28,6 +28,9 @@ const getProjects = (id) => {
       store.dispatch(loadProject(res.data.response));
       store.dispatch(addProjectFormData(res.data.response));
       store.dispatch(updateSpinner(false))
+    })
+    .catch(e=>{
+      store.dispatch(updateSpinner(false))
     });
 }
 

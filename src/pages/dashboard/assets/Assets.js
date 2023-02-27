@@ -1,6 +1,6 @@
 import { Breadcrumb, Button, Form, Input, message, Modal, Select, Tabs } from 'antd';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import CompleteRequest from './asset-tab-content/CompleteRequest';
 import Overview from './asset-tab-content/Overview';
 import SubscriptionCompleteRequest from './asset-tab-content/SubscriptionCompleteRequest';
@@ -33,6 +33,8 @@ import {
 //TOKEN CONTRACTS END
 
 function Assets(props) {
+    const [searchParams] = useSearchParams();
+    const createReq = searchParams.get('createReq');
     const onFinish = async (values) => {
         console.log('Success:', values);
         await new Promise((r) => setTimeout(r, 500));
@@ -41,6 +43,10 @@ function Assets(props) {
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
+    useEffect(()=>{
+        console.log(createReq, '----r----')
+        setModal2Open(createReq)
+    }, [createReq])
     const { org, auth, history } = props;
     const [form] = Form.useForm();
     const { Option } = Select;
@@ -96,8 +102,7 @@ function Assets(props) {
         }
     };
 
-    const handleChange = async (e) => {
-        const value = e.target.value;
+    const handleChange = async (value) => {
         if (value === "gtoken") {
             if (!gTokenAddr) {
                 alert("Please select a valid token");
@@ -262,7 +267,7 @@ function Assets(props) {
         {
             key: '1',
             label: `Overview`,
-            children: <Overview />,
+            children: <Overview setModal2Open={setModal2Open}/>,
         },
         {
             key: '2',

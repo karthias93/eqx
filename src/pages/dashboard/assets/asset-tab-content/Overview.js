@@ -9,7 +9,7 @@ import BUSDD from "../../../../assets/images/BUSD.png";
 import BTCC from "../../../../assets/images/btc.svg";
 
 function Overview(props) {
-    const { org, auth } = props;
+    const { org, auth, setModal2Open } = props;
     const [available, setAvailable] = useState(0);
     const [ICOAvailable, setICOAvailable] = useState(0);
     const [icoDetails, setIcoDetails] = useState([]);
@@ -142,7 +142,7 @@ function Overview(props) {
                                 <div className='text-xl text-gray-700 font-bold truncate'>
                                     {token.balance}
                                 </div>
-                                <div className='text-sm text-pink-500 font-bold truncate'>
+                                <div className='text-sm text-pink-500 font-bold truncate cursor-pointer' onClick={()=>setModal2Open(true)}>
                                     Send
                                 </div>
                             </div>

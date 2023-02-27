@@ -241,9 +241,11 @@ function DashboardHome(props) {
                                 </div>
                             </div>
                             <div>
-                                <div className='text-xl font-bold'>
-                                    Send
-                                </div>
+                                <Link to={'/dashboard/assets?createReq=1'}>
+                                    <div className='text-xl font-bold cursor-pointer'>
+                                        Send
+                                    </div>
+                                </Link>
                                 <div className='text-sm text-gray-400'>
                                     Initiate transaction
                                 </div>
@@ -257,36 +259,36 @@ function DashboardHome(props) {
                 <div className='flex-none max-lg:w-full w-5/12 px-3'>
                     <div className='welcome-card rounded-lg p-6 mb-6'>
                         <div className='text-sm text-gray-400 mb-3'>
-                            VAULT OVERVIEW
+                            PROJECT OVERVIEW
                         </div>
                         <div className="flex gap-3 row-minus mb-6">
                             <div className='w-3/5 px-3  mb-6'>
                                 <div className='text-2xl font-bold'>
-                                    EQ Vault
+                                    {org?.project && org.project.length ? org.project[0]?.project_name : ''}
                                 </div>
                                 <div className='text-sm text-gray-400'>
-                                    30.02.2023
+                                    {org?.project && org.project.length ? org.project[0]?.project_email : ''}
                                 </div>
-                                <div className='text-sm'>
+                                {/* <div className='text-sm'>
                                     Name
-                                </div>
+                                </div> */}
                             </div>
                             <div className='w-2/5 px-3 mb-6'>
-                                <div className='font-bold'>
+                                {/* <div className='font-bold'>
                                     ----
-                                </div>
+                                </div> */}
                                 <div className='text-sm text-gray-400'>
-                                    BEP20
+                                    Token Name
                                 </div>
                                 <div className='text-sm'>
-                                    Total Value
+                                {org?.project && org.project.length ? org.project[0]?.token_name : ''}  
                                 </div>
                             </div>
                         </div>
                         <div className="flex gap-3 row-minus mb-3">
                             <div className='w-3/5 px-3  mb-6'>
                                 <div className='text-2xl font-bold'>
-                                    {org?.org?.multisig_address ? shortAddress(org.org.multisig_address) : ''}
+                                    {org?.project && org.project.length ? shortAddress(org.project[0]?.gtoken_address) : ''}
                                 </div>
                                 <div className='text-sm text-gray-400'>
                                     BNB Chain
@@ -297,7 +299,7 @@ function DashboardHome(props) {
                             </div>
                             <div className='w-2/5 px-3 mb-6'>
                                 <div className='font-bold'>
-                                    0
+                                    {org?.project && org.project.length ? shortAddress(org.project[0]?.fixed_supply) : ''}
                                 </div>
                                 <div className='text-sm text-gray-400'>
                                     Fixed
@@ -308,16 +310,8 @@ function DashboardHome(props) {
                             </div>
                         </div>
                         <div className="flex gap-3 row-minus mb-6">
-                            <div className='w-3/5 px-3  mb-6'>
-                                <div className='text-2xl font-bold'>
-                                    Send
-                                </div>
-                                <div className='text-sm text-gray-400'>
-                                    30.02.2023
-                                </div>
-                                <div className='text-sm'>
-                                    Name
-                                </div>
+                            <div className='w-full px-3  mb-6'>
+                                {org?.project && org.project.length ? org.project[0]?.project_description : ''}
                             </div>
                         </div>
                     </div>
@@ -327,19 +321,19 @@ function DashboardHome(props) {
                         <div className='w-3/5 px-3 max-sm:w-full mb-6'>
                             <div className='welcome-card rounded-lg p-6 mb-6'>
                                 <div className='text-sm text-gray-400 mb-3'>
-                                    VAULT OVERVIEW
+                                    SUBSCRIPTION OVERVIEW
                                 </div>
                                 <div className="flex gap-3 row-minus mb-6">
                                     <div className='w-3/5 px-3  mb-6'>
                                         <div className='text-2xl font-bold'>
-                                            EQ Vault
+                                            {org?.ico && org.ico.length ? org.ico[0]?.project_id : ''}
                                         </div>
                                         <div className='text-sm text-gray-400'>
-                                            30.02.2023
+                                            {org?.ico && org.ico.length ? org.ico[0]?.start_date : ''} - {org?.ico && org.ico.length ? org.ico[0]?.end_date : ''}
                                         </div>
-                                        <div className='text-sm'>
+                                        {/* <div className='text-sm'>
                                             Name
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className='w-2/5 px-3 mb-6'>
                                         <div className='font-bold'>
@@ -356,7 +350,7 @@ function DashboardHome(props) {
                                 <div className="flex gap-3 row-minus mb-3">
                                     <div className='w-3/5 px-3  mb-6'>
                                         <div className='text-2xl font-bold truncate'>
-                                            0xE0c...c7C374c
+                                            {org?.ico && org.ico.length ? shortAddress(org.ico[0]?.ico_address) : ''}
                                         </div>
                                         <div className='text-sm text-gray-400'>
                                             BNB Chain
@@ -367,7 +361,7 @@ function DashboardHome(props) {
                                     </div>
                                     <div className='w-2/5 px-3 mb-6'>
                                         <div className='font-bold'>
-                                            100 million
+                                            {org?.ico && org.ico.length ? org.ico[0]?.supply : ''}
                                         </div>
                                         <div className='text-sm text-gray-400'>
                                             Fixed
@@ -377,7 +371,7 @@ function DashboardHome(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex gap-3 row-minus mb-6">
+                                {/* <div className="flex gap-3 row-minus mb-6">
                                     <div className='w-3/5 px-3  mb-6'>
                                         <div className='text-2xl font-bold'>
                                             Send
@@ -400,7 +394,7 @@ function DashboardHome(props) {
                                             Token supply
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div className='w-2/5 max-sm:w-full px-3  mb-6'>
@@ -409,7 +403,7 @@ function DashboardHome(props) {
                                     Members <br/>Overview
                                 </div>
                                 <div className='text-2xl font-bold text-yellow-500'>
-                                    {org?.members ? org.members.length : 0}
+                                    {org?.members ? org.members.filter(m=>m.is_active).length : 0}
                                 </div>
                                 <div className='text-sm text-gray-400'>
                                     Active
