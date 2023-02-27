@@ -9,17 +9,21 @@ import axios from "axios";
 import { shortAddress } from '../../../helpers';
 import MultiSig from "../../../Config/abis/EquinoxMain.json";
 import { getWeb3 } from '../../../helpers/currentWalletHelper';
+import Web3 from 'web3';
 
 function DashboardHome(props) {
     const { org, auth, history } = props;
     const [eqVaultBalance, setEqVaultBalance] = useState(0);
     const getBalance = async (address) => {
         let web3 = await getWeb3();
-        let contract = new web3.eth.Contract(MultiSig.abi);
-        let balance = await contract.methods
-          .balanceOf(address)
-          .call();
-        setEqVaultBalance(balance);
+        const contract = await new web3.eth.Contract(
+            MultiSig.abi,
+            address
+        );
+        const balance = await contract.methods
+            .balance()
+            .call();
+        setEqVaultBalance(balance/Web3.utils.toBN(10 ** 18));
     }
     useEffect(()=>{
         if (org?.org?.multisig_address) {
@@ -264,7 +268,7 @@ function DashboardHome(props) {
                         <div className="flex gap-3 row-minus mb-6">
                             <div className='w-3/5 px-3  mb-6'>
                                 <div className='text-2xl font-bold'>
-                                    {org?.project && org.project.length ? org.project[0]?.project_name : ''}
+                                    {org?.project && org.project.length ? org.project[0]?.project_name : '---'}
                                 </div>
                                 <div className='text-sm text-gray-400'>
                                     {org?.project && org.project.length ? org.project[0]?.project_email : ''}
@@ -403,7 +407,7 @@ function DashboardHome(props) {
                                     Members <br/>Overview
                                 </div>
                                 <div className='text-2xl font-bold text-yellow-500'>
-                                    {org?.members ? org.members.filter(m=>m.is_active).length : 0}
+                                    {org?.members ? org.members.filter(m=>m.is_active===1).length : 0}
                                 </div>
                                 <div className='text-sm text-gray-400'>
                                     Active

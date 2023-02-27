@@ -8,7 +8,7 @@ import CreateProject from '../pages/dashboard/project/create';
 import CreateProposal from '../pages/dashboard/goverance/proposal';
 import RemoveMembers from '../pages/dashboard/members/remove-members/RemoveMembers';
 import Project from '../pages/dashboard/project/Project';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
 import { getOrg } from '../services/dashboard';
 import { message } from 'antd';
@@ -20,9 +20,10 @@ function DashboardRoutes(props) {
     const authenticated = localStorage.getItem("authenticated");
     const account = sessionStorage.getItem("selected_account");
     let navigate = useNavigate();
+    let location = useLocation();
     useEffect(() => {
         if (auth && auth.org_id) getOrg(auth.org_id);
-    }, [auth]);
+    }, [auth, location]);
     useEffect(() => {
         // message.info(`Do not add any new team member unless any of your proposals are finalized `);
     }, []);
