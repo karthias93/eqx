@@ -13,6 +13,8 @@ function Project(props) {
     useEffect(() => {
         if (org && org.project && org.project.length && org.project[0].id) {
             getProjects(org.project[0].id);
+        } else if (org?.org?.id) {
+            props.dispatch(updateSpinner(false))
         }
     }, [org, auth]);
     useEffect(() => {

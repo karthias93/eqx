@@ -251,7 +251,7 @@ function TreasuryStepThird(props) {
         });
     };
     return (
-        <div>
+        <div className='mt-5 flex flex-col items-center justify-center'>
             <div className=' mb-12'>
                 <h1 className='text-2xl font-bold mb-4'>
                     STEP 3
