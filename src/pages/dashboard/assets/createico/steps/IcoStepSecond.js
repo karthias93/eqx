@@ -54,7 +54,7 @@ function IcoStepSecond(props) {
         const hardCap = values.hard_cap;
         multiSigAddr = org?.org?.multisig_address;
         let icoContract = await new web3.eth.Contract(Ico.abi);
-        const productowner = "0x9c333A1A1dcC8C0d517EB5BEC014c0EDd5d76c2f";
+        const productowner = process.env.REACT_APP_OWNER_ADDRESS;
         const dexAdd = "0x10ED43C718714eb63d5aA57B78B54704E256024E"; // fetch this address (in this file and in org.jsx file) form pages/Config/contracts.js
         console.log(
             values,
