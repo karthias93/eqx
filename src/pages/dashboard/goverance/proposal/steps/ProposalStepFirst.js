@@ -42,8 +42,8 @@ function ProposalStepFirst(props) {
     }, []);
 
     return (
-        <div className=''>
-            <div className=' mb-12'>
+        <div className='mt-5 flex flex-col items-center justify-center'>
+            <div className=' mb-12 text-center'>
                 <h2 className='font-bold'>CREATE PROPOSAL</h2>
                 <p className='text-base text-gray-800'>
                     Proposals are decisions taken by team and are open for vote in a time bound manner by G-Token holders of the Project.

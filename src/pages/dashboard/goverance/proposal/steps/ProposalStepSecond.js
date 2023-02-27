@@ -139,8 +139,8 @@ function ProposalStepSecond(props) {
         }
       };
     return (
-        <div>
-            <div className=' mb-12'>
+        <div className='mt-5 flex flex-col items-center justify-center'>
+            <div className='text-center mb-12'>
                 <h1 className='text-2xl font-bold mb-4'>
                     STEP 2
                 </h1>
