@@ -241,7 +241,7 @@ function DashboardHome(props) {
                                     0 BNB value
                                 </div>
                                 <div className='text-sm'>
-                                    total value
+                                    Total Value
                                 </div>
                             </div>
                             <div>
@@ -251,10 +251,10 @@ function DashboardHome(props) {
                                     </div>
                                 </Link>
                                 <div className='text-sm text-gray-400'>
-                                    Initiate transaction
+                                    Initiate Transaction
                                 </div>
                                 <div className='text-sm'>
-                                    BEP
+                                    BEP20 Tokens Only
                                 </div>
                             </div>
                         </div>
@@ -309,7 +309,7 @@ function DashboardHome(props) {
                                     Fixed
                                 </div>
                                 <div className='text-sm'>
-                                    Token supply
+                                    Token Supply
                                 </div>
                             </div>
                         </div>
@@ -371,7 +371,7 @@ function DashboardHome(props) {
                                             Fixed
                                         </div>
                                         <div className='text-sm'>
-                                            Token supply
+                                            Token Supply
                                         </div>
                                     </div>
                                 </div>
