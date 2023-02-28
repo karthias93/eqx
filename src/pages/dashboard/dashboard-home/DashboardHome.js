@@ -238,7 +238,7 @@ function DashboardHome(props) {
                                     {eqVaultBalance}
                                 </div>
                                 <div className='text-sm text-gray-400'>
-                                    0 BNB value
+                                    {eqVaultBalance} BNB value
                                 </div>
                                 <div className='text-sm'>
                                     Total Value
