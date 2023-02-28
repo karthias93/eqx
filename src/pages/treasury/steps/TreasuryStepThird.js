@@ -260,7 +260,7 @@ function TreasuryStepThird(props) {
                     Deployer KYC
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6'>
+            <div className='form w-full lg:w-1/2 welcome-card rounded-lg p-6'>
             <Form
                 name="dynamic_form_nest_item"
                 onFinish={onFinish}

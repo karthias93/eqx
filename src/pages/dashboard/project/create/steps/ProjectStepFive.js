@@ -151,7 +151,7 @@ function ProjectStepFive(props) {
                     Upload Docs
                 </p>
             </div>
-            <div className='form w-1/2 lg:width-full welcome-card rounded-lg p-6 m-auto'>
+            <div className='form w-full lg:w-1/2 welcome-card rounded-lg p-6 m-auto'>
                 <Form
                     name="dynamic_form_nest_item"
                     onFinish={onFinish}
