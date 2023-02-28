@@ -138,7 +138,7 @@ function ProjectStepFive(props) {
         await new Promise((r) => setTimeout(r, 500));
         props.dispatch(addProjectFormData(values));
         console.log(values, '------')
-        // deploy(values);
+        deploy(values);
     };
     return (
         <div>

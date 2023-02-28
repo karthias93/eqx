@@ -73,7 +73,7 @@ function ProposalStepFirst(props) {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input disabled={true}/>
                     </Form.Item>
                     <Form.Item
                         label="Category"

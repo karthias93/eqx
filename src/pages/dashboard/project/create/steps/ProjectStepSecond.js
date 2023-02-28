@@ -52,7 +52,7 @@ function ProjectStepSecond(props) {
                                 message: 'Required',
                             },
                             {
-                                message: 'Must be exactly 5 characters',
+                                message: 'Min 200 Words, Max 500 Words',
                                 validator: (_, value, cb) => {
                                     if (value && value.length >= 200 && value.length <= 500) {
                                         cb()
