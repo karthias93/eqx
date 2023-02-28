@@ -59,7 +59,7 @@ function TreasuryStepFirst(props) {
                         <Input disabled={true} />
                     </Form.Item>
                     <Form.Item
-                        label="EQX Balance"
+                        label="EQ Balance"
                         name="eqxBln"
                         rules={[
                             {
