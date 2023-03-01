@@ -110,13 +110,14 @@ function DashboardHome(props) {
         {
             title: 'Status',
             key: 'status',
-            render: (val, record) => (
+            render: (val, record) => {
+                return (
                 <p className="font-medium text-xs mb-0  text-center">
-                    {val == 0 ? (
+                    {record.status == 0 ? (
                         <span className="bg-yellow-400 py-1 px-2 text-white font-bold rounded-md">
                         In Progress
                         </span>
-                    ) : val == 1 ? (
+                    ) : record.status == 1 ? (
                         <span className="bg-green-400 py-1 px-2 text-white font-bold rounded-md">
                         Completed
                         </span>
@@ -126,7 +127,8 @@ function DashboardHome(props) {
                         </span>
                     )}
                 </p>
-            ),
+            )
+            },
         }
     ];
     const transData = org?.fund_transfer ? org.fund_transfer : [];
@@ -160,12 +162,12 @@ function DashboardHome(props) {
             key: 'status',
             render: (val, record) => (
                 <p className="font-medium text-xs mb-0  text-center">
-                    {val === "Initialized" ||
-                    val === "Expired" ? (
+                    {record.status === "Initialized" ||
+                    record.status === "Expired" ? (
                         <span className="bg-yellow-400 py-1 px-2 text-white font-bold rounded-md">
                         In Progress
                         </span>
-                    ) : val === "Approved" ? (
+                    ) : record.status === "Approved" ? (
                         <span className="bg-green-400 py-1 px-2 text-white font-bold rounded-md">
                         Completed
                         </span>
