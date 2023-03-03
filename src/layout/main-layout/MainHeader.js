@@ -37,6 +37,11 @@ function MainHeader() {
             key: 'play-subscription',
             target: '/play-subscription'
         },
+        {
+            label: 'Projects',
+            key: 'icos',
+            target: '/icos'
+        },
         // {
         //     label: 'Create Treasury',
         //     key: 'create-treasury',
