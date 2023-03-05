@@ -7,8 +7,7 @@ import { shortAddress } from "../../helpers";
 import axios from "axios";
 import pdfImage from "../../assets/images/pdf.png";
 import { GlobalOutlined, ExportOutlined, FacebookOutlined, TwitterOutlined, ShareAltOutlined, MailOutlined } from "@ant-design/icons";
-import ToggleButton from "react-toggle-button";
-import { message, Tooltip } from "antd";
+import { message, Tooltip, Switch } from "antd";
 import equinoxIcoAbi from "../../Config/abis/subscriptionMain.json";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -111,21 +110,15 @@ const Icos = (props) => {
             <p className="mr-1 font-bold mb-0">
               ACTIVE PROJECT SUBSCRIPTION OFFERS
             </p>
-            <ToggleButton
-              value={selected}
-              onToggle={() => {
+            <Switch checked={selected} onChange={() => {
                 setSelected((prev) => !prev);
-              }}
-            />
+              }} />
           </div>
           <div className="flex items-center">
             <p className="mr-1 font-bold mb-0">LISTED</p>
-            <ToggleButton
-              value={selected2}
-              onToggle={() => {
+            <Switch checked={selected2} onChange={() => {
                 setSelected2((prev) => !prev);
-              }}
-            />
+              }} />
           </div>
         </div>
         <div className="">
