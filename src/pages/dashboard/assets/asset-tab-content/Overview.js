@@ -1,4 +1,4 @@
-import { Button, Typography } from 'antd';
+import { Button, message, Tooltip } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import BTCC from "../../../../assets/images/btc.svg";
 import { getWeb3 } from "../../../../helpers/currentWalletHelper";
 import Web3 from "web3";
 import minABI from "./../../../../Config/abis/BalanceOf.json";
+import equinoxIcoAbi from "../../../../Config/abis/subscriptionMain.json";
 // TOKEN CONTRACTS START
 import BNBContract from "../../../../Config/abis2/BNB.json";
 
@@ -219,6 +220,70 @@ function Overview(props) {
           console.log(e);
         }
       };
+    const endSale = async () => {
+        let web3 = await getWeb3();
+        const address = org.ico[org?.ico.length - 1].ico_address;
+    
+        let eqxContract = new web3.eth.Contract(equinoxIcoAbi.abi, address);
+        console.log(eqxContract);
+        let accounts = await web3.eth.getAccounts();
+        if (eqxContract) {
+          // const balance = await web3.eth.getBalance(address);
+          // const convertedBalance = web3.utils.fromWei(`${balance}`, "ether");
+          // const amountToPay = web3.utils.toWei(
+          //   (Number(convertedBalance) * 3.2) / 100,
+          //   "ether"
+          // );
+    
+          // const tnx = await web3.eth.sendTransaction({
+          //   from: accounts[0],
+          //   to: process.env.REACT_APP_OWNER_ADDRESS,
+          //   value: amountToPay,
+          // });
+          // console.log(tnx);
+          // if (!tnx) return;
+    
+          await eqxContract.methods
+            .end()
+            .send({ from: accounts[0] })
+            .on("error", (error) => console.log(error))
+            .then((result) => {
+              message.success("Transaction successful");
+            });
+        }
+    };
+    const withdrawLocked = async () => {
+        let web3 = await getWeb3();
+        const address = org.ico[org?.ico.length - 1].ico_address;
+    
+        let eqxContract = new web3.eth.Contract(equinoxIcoAbi.abi, address);
+        console.log(eqxContract);
+        let accounts = await web3.eth.getAccounts();
+        if (eqxContract) {
+          // const balance = await web3.eth.getBalance(address);
+          // const convertedBalance = web3.utils.fromWei(`${balance}`, "ether");
+          // const amountToPay = web3.utils.toWei(
+          //   (Number(convertedBalance) * 3.2) / 100,
+          //   "ether"
+          // );
+    
+          // const tnx = await web3.eth.sendTransaction({
+          //   from: accounts[0],
+          //   to: process.env.REACT_APP_OWNER_ADDRESS,
+          //   value: amountToPay,
+          // });
+          // console.log(tnx);
+          // if (!tnx) return;
+    
+          await eqxContract.methods
+            .withdrawLockedFundsIfICOFailed()
+            .send({ from: accounts[0] })
+            .on("error", (error) => console.log(error))
+            .then((result) => {
+              message.success("Transaction successful");
+            });
+        }
+    };
     return (
         <div>
             <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-6">
@@ -250,7 +315,35 @@ function Overview(props) {
                                     </div>
                                 </div>
                                 <div>
-                                    <Link to='/dashboard/assets/createico'> <Button type='primary' className='grad-btn border-0'>Create manage Subscription</Button></Link>
+                                    <Link to='/dashboard/assets/createico'>
+                                      <Button type='primary' className='grad-btn border-0'>Create manage Subscription</Button>
+                                    </Link>
+                                    <div className="grid grid-flow-col gap-2 ">
+                                      <Tooltip
+                                        title=" Claim Raised BNB and Unsold tokens from Subscription."
+                                        placement="top"
+                                      >
+                                        <Button type='primary' className='grad-btn border-0'
+                                          onClick={endSale}
+                                        >
+                                          End Sale
+                                        </Button>
+                                      </Tooltip>
+
+                                    
+                                      <>
+                                      <Tooltip
+                                        title="Withdraw Tokens from Subscription if Subscription gets failed"
+                                        placement="top"
+                                      >
+                                        <Button type='primary' className='grad-btn border-0'
+                                          onClick={withdrawLocked}
+                                        >
+                                          Withdraw Tokens
+                                        </Button>
+                                        </Tooltip>
+                                      </>
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -312,6 +405,12 @@ function Overview(props) {
                             );
                         })
                     }
+                    <Tooltip
+                      title=" This feature is coming soon."
+                      placement="top"
+                    >
+                      <Button type='primary' className='grad-btn border-0' onClick={() => message("This feature is coming soon!")}>Import Token</Button>
+                    </Tooltip>
                 </div>
             </div>
         </div>
