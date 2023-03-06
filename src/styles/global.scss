@@ -33,7 +33,9 @@ body {
         height: 50px;
     }
 }
-
+.twhite{
+    color: #fff !important;
+}
 footer {
     bottom: 0;
 }
@@ -60,6 +62,7 @@ footer {
 
 .grad-btn {
     background: linear-gradient(45deg, #d412a3, #057dd3);
+    color: #fff;
 }
 
 .menu-height {

@@ -128,7 +128,7 @@ const Icos = (props) => {
             role="tabpanel"
             aria-labelledby="all-tab"
           >
-            <div className=" grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className=" container mx-auto px-6">
               {ico &&
                 ico.length &&
                 ico
@@ -145,7 +145,7 @@ const Icos = (props) => {
                     );
                     console.log("MULTISIG", multiSigData);
                     return (
-                      <div className="bg-dark-400 text-white p-8 rounded-lg text-sm w-full overflow-auto">
+                      <div className="welcome-card rounded-lg p-6 mb-6 p-8 rounded-lg text-sm w-full overflow-auto">
                         <div className="min-w-[450px]">
                           <div className=" flex justify-between items-center ">
                             <div className="grid grid-flow-col gap-x-2 justify-start items-center ">
@@ -154,13 +154,13 @@ const Icos = (props) => {
                                 {i.project_name}
                               </p>
                             </div>
-                            <div className="flex-1 flex justify-between items-center ml-6">
-                              <div className="flex items-center">
+                            <div className="flex-1 flex-wrap flex justify-between items-center ml-6">
+                              <div className="flex flex-wrap items-center">
                                 <a
                                   href={`https://bscscan.com/address/${multiSigData[0]?.org?.multisig_address}`}
                                   className="text-white uppercase border-2 border-white flex items-center max-w-max "
                                 >
-                                  <span className="inline-block p-1.5 border-r text-xs ">
+                                  <span className="inline-block p-1.5 border-r text-xs grad-btn ">
                                     Multisig
                                   </span>
                                   <span className="inline-block p-1">
@@ -176,7 +176,7 @@ const Icos = (props) => {
                                   href={`https://bscscan.com/address/${multiSigData[0]?.project[0]?.gtoken_address}`}
                                   className="ml-4 text-white uppercase border-2 border-white flex items-center max-w-max "
                                 >
-                                  <span className="inline-block p-1.5 border-r text-xs ">
+                                  <span className="inline-block p-1.5 border-r text-xs grad-btn">
                                     GTOKEN
                                   </span>
                                   <span className="inline-block p-1">
@@ -208,7 +208,7 @@ const Icos = (props) => {
                               </a>
                             </div>
                           </div>
-                          <div className="mt-4  grid grid-cols-6  gap-x-2 justify-start items-center">
+                          <div className="mt-4  grid grid-cols-6 max-lg:grid-cols-3  gap-x-2 justify-start items-center">
                             <div>
                               <p className={`${text1class}`}>
                                 {convertPrice(i.fixed_supply)}
@@ -430,10 +430,10 @@ const Icos = (props) => {
                               href={multiSigData[0]?.project[0]?.whitepaper}
                               className="text-white uppercase border-2 border-white flex items-center max-w-max "
                             >
-                              <span className="inline-block p-1.5 border-r text-xs ">
+                              <span className="inline-block p-1.5 border-r text-xs grad-btn border-0 mt-3">
                                 WhitePaper
                               </span>
-                              <span className="inline-block p-1">
+                              <span className="inline-block p-1 mt-3">
                                 {" "}
                                 <img src={pdfImage} alt="" />{" "}
                               </span>
@@ -497,7 +497,7 @@ const Icos = (props) => {
                                       i.reached === 2
                                         ? " pointer-events-none bg-gray-600 "
                                         : " bg-blue-500 "
-                                    }  p-2 rounded-md px-4"`}
+                                    }  p-2 rounded-md px-4 grad-btn border-0  mt-3 twhite"`}
                                     onClick={() => claimBNB(i.ico_address)}
                                   >
                                     Claim BNB
@@ -512,7 +512,7 @@ const Icos = (props) => {
                                       i.reached === 1
                                         ? " pointer-events-none bg-gray-600 "
                                         : " bg-blue-500 "
-                                    }  p-2 rounded-md px-4"`}
+                                    }  p-2 rounded-md px-4 grad-btn border-0  mt-3 twhite"`}
                                     onClick={() => claimToken(i.ico_address)}
                                   >
                                     Claim Token
