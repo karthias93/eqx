@@ -29,9 +29,14 @@ const Icos = (props) => {
     if (ico) {
       ico.forEach(async (val) => {
         const {
+          data: { response: projectDetails },
+        } = await axios.get(
+          `https://app.eqnetwork.io/api/get_project/${val.project_id}`
+        );
+        const {
           data: { response },
         } = await axios.get(
-          `https://app.equinox.business/api/get_org/${val.id}`
+          `https://app.eqnetwork.io/api/get_org/${projectDetails.org_id}`
         );
         // console.log(project[0]);
         setOrgDatas((prev) => [...prev, response]);
@@ -145,7 +150,7 @@ const Icos = (props) => {
                     );
                     console.log("MULTISIG", multiSigData);
                     return (
-                      <div className="welcome-card rounded-lg p-6 mb-6 p-8 rounded-lg text-sm w-full overflow-auto">
+                      <div className="welcome-card rounded-lg p-6 mb-6 p-8 rounded-lg text-sm w-full overflow-auto" key={i.id}>
                         <div className="min-w-[450px]">
                           <div className=" flex justify-between items-center ">
                             <div className="grid grid-flow-col gap-x-2 justify-start items-center ">
@@ -203,8 +208,8 @@ const Icos = (props) => {
                                   </p>
                                 </div> */}
                               </div>
-                              <a href="send:" className={`${link}`}>
-                                <ShareAltOutlined />
+                              <a href="/play-subscription" className={`${link}`}>
+                                <ShareAltOutlined style={{color: 'black'}}/>
                               </a>
                             </div>
                           </div>
@@ -316,7 +321,7 @@ const Icos = (props) => {
                               <p>Contract</p>
                             </a>
                             <Link
-                              to="/subscribe"
+                              to="/play-subscription"
                               className={`${
                                 Number(i.finalized) === 1 &&
                                 Number(i.reached) === 0
