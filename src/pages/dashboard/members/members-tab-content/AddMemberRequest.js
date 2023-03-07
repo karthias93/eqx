@@ -222,6 +222,7 @@ function AddMemberRequest(props) {
                         if (auth && auth.org_id) getOrg(auth.org_id);
                     });
             } else {
+                store.dispatch(updateSpinner(false));
                 alert("Your vote has already been registered.");
             }
         }
@@ -291,6 +292,7 @@ function AddMemberRequest(props) {
                             });
                     });
             } else {
+                store.dispatch(updateSpinner(false));
                 alert("This Proposal hasn't reached minimum votes required to Finalize.");
             }
         }
