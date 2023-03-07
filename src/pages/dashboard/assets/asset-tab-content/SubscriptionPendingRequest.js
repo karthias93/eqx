@@ -7,6 +7,7 @@ import store from "../../../../redux/store";
 import { updateSpinner } from "../../../../redux/actions";
 import ConfirmModal from "../../../../components/modals/ConfirmModal";
 import { Button } from 'antd';
+import DetailModal from '../../../../components/DetailModal';
 
 function SubscriptionPendingRequest(props) {
     const { auth, org } = props;
@@ -390,6 +391,14 @@ function SubscriptionPendingRequest(props) {
                     setOpen={setIcoFinalizeModal}
                     handler={icoFinalizeHandler}
                     currentValues={currentValues}
+                />
+                <DetailModal
+                  open={view}
+                  setOpen={setView}
+                  handleOpen={() => setView(true)}
+                  handleClose={() => setView(false)}
+                  voters={voters}
+                  votingLoading={votingLoading}
                 />
         </div>
     );

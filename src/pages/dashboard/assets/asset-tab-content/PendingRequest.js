@@ -7,6 +7,7 @@ import { getWeb3 } from "../../../../helpers/currentWalletHelper";
 import multiSigv2Abi from "./../../../../Config/abis/EquinoxMain.json";
 import store from "../../../../redux/store";
 import { updateSpinner } from "../../../../redux/actions";
+import DetailModal from '../../../../components/DetailModal';
 
 function PendingRequest(props) {
     const { org, auth } = props;
@@ -399,6 +400,14 @@ function PendingRequest(props) {
                     setOpen={setTransferFinalizeModal}
                     handler={transferFinalizeHandler}
                     currentValues={currentValues}
+                />
+                <DetailModal
+                  open={view}
+                  setOpen={setView}
+                  handleOpen={() => setView(true)}
+                  handleClose={() => setView(false)}
+                  voters={voters}
+                  votingLoading={votingLoading}
                 />
         </div>
     );
