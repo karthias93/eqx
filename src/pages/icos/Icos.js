@@ -366,19 +366,19 @@ const Icos = (props) => {
                                 <p>365 Days return</p>
                               </div>
                               <div>
-                                <Link
+                                {/* <Link
                                   to="/enterprice-dex"
                                 // className={`${
                                 //   Number(i.finalized) === 1
                                 //     ? "text-white"
                                 //     : "text-gray-500 pointer-events-none"
                                 // } `}
-                                >
+                                > */}
                                   <p className={`${text1class}`}>
                                     <ExportOutlined />
                                   </p>
                                   <p>Participate</p>
-                                </Link>
+                                {/* </Link> */}
                               </div>
                               {/* <div>
                           <p className={`${text1class} text-green-500`}>
@@ -410,7 +410,8 @@ const Icos = (props) => {
                               </div>
                               <div>
                                 <Link
-                                  to="/projects"
+                                  to="/dashboard/project"
+                                  target="_blank"
                                 // className={`${
                                 //   Number(i.finalized) === 1
                                 //     ? "text-white"
@@ -434,6 +435,7 @@ const Icos = (props) => {
                             <div className="grid grid-flow-col justify-start  gap-x-6 items-center">
                               <a
                                 href={multiSigData[0]?.project[0]?.whitepaper}
+                                target="_blank"
                                 className="uppercase border-2 border-white flex items-center max-w-max "
                               >
                                 <span className="inline-block p-1.5 border-r text-xs grad-btn border-0 mt-3">
